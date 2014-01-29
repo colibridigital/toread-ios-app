@@ -16,5 +16,10 @@
 @property (strong, nonatomic) NSArray *bookUniversityImages;
 
 @property (weak, nonatomic) IBOutlet BookCollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet BookCollectionView *suggestedBooksView;
+@property (weak, nonatomic) IBOutlet BookCollectionView *collectionView1;
+
+
+
 
 @end
