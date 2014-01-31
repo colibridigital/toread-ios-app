@@ -47,6 +47,7 @@
         BookCollectionViewCell* cell =[self cellForItemAtIndexPath:indexPath];
         // do stuff with the cell
         
+        
         NSLog(@"getting cell %@", indexPath);
     }
 }

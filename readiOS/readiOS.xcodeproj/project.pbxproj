@@ -117,6 +117,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		152FF0301899B6ED00E824E9 /* BookDetailsView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = BookDetailsView;
+			sourceTree = "<group>";
+		};
 		15B08CC418783CD000FE1C17 = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +157,7 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				152FF0301899B6ED00E824E9 /* BookDetailsView */,
 				15B08D1A1878424500FE1C17 /* resources */,
 				15B08D0E1878405600FE1C17 /* BookCollectionView */,
 				15B08D0818783E0200FE1C17 /* BookCollectionViewCell */,
@@ -570,6 +578,7 @@
 				15B08D0418783CD000FE1C17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		15B08D0518783CD000FE1C17 /* Build configuration list for PBXNativeTarget "readiOSTests" */ = {
 			isa = XCConfigurationList;
@@ -578,6 +587,7 @@
 				15B08D0718783CD000FE1C17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
