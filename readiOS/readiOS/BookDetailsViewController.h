@@ -10,4 +10,6 @@
 
 @interface BookDetailsViewController : UIViewController
 
+- (IBAction)dismissDetailsView:(id)sender;
+
 @end

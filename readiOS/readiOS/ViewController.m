@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "BookCollectionViewCell.h"
+#import "BookDetailsViewController.h"
+
 
 @interface ViewController ()
 
@@ -27,15 +29,46 @@
     [super viewDidLoad];
     
     [self.collectionView registerNibAndCell];
-    [self.collectionView addGestureRecognizer];
-    
     [self.collectionView1 registerNibAndCell];
-    [self.collectionView1 addGestureRecognizer];
-    
     [self.suggestedBooksView registerNibAndCell];
-    [self.suggestedBooksView addGestureRecognizer];
     
     [self initializeCollectionViewData];
+    
+    [self addGestureRecognizer:self.suggestedBooksView];
+    [self addGestureRecognizer:self.collectionView];
+    [self addGestureRecognizer:self.collectionView1];
+}
+
+- (void)addGestureRecognizer:(BookCollectionView*)collView
+{
+    UILongPressGestureRecognizer *lpgr
+    = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = .5; //seconds
+    lpgr.delaysTouchesBegan = YES;
+    lpgr.delegate = self;
+    [collView addGestureRecognizer:lpgr];
+  }
+
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state != UIGestureRecognizerStateEnded) {
+        return;
+    }
+    NSLog(@"in here");
+   // CGPoint p = [gestureRecognizer locationInView:self.suggestedBooksView];
+    
+   // NSIndexPath *indexPath = [self.suggestedBooksView indexPathForItemAtPoint:p];
+  //  if (indexPath == nil){
+ //       NSLog(@"couldn't find index path");
+ //   } else {
+        // get the cell at indexPath (the one you long pressed)
+        // BookCollectionViewCell* cell =[self cellForItemAtIndexPath:indexPath];
+        // do stuff with the cell
+        BookDetailsViewController *bookDetails = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+        
+        [self presentViewController:bookDetails animated:YES completion:nil];
+        
+      //  NSLog(@"getting cell %@", indexPath);
+  //  }
 }
 
 - (void)didReceiveMemoryWarning

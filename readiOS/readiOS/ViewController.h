@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BookCollectionView.h"
 
-@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) NSArray *bookFavoriteImages;
 @property (strong, nonatomic) NSArray *bookSuggestedImages;

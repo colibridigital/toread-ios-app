@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152FF0321899B75D00E824E9 /* BookDetailsViewController.m */; };
+		152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */; };
 		15B08CD118783CD000FE1C17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD018783CD000FE1C17 /* Foundation.framework */; };
 		15B08CD318783CD000FE1C17 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD218783CD000FE1C17 /* CoreGraphics.framework */; };
 		15B08CD518783CD000FE1C17 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD418783CD000FE1C17 /* UIKit.framework */; };
@@ -52,6 +54,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		152FF0311899B75D00E824E9 /* BookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailsViewController.h; sourceTree = "<group>"; };
+		152FF0321899B75D00E824E9 /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
+		152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookDetailsViewController.xib; sourceTree = "<group>"; };
 		15B08CCD18783CD000FE1C17 /* readiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = readiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15B08CD018783CD000FE1C17 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		15B08CD218783CD000FE1C17 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -117,16 +122,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		152FF0301899B6ED00E824E9 /* BookDetailsView */ = {
+		152FF0301899B6ED00E824E9 /* BookDetailsViewController */ = {
 			isa = PBXGroup;
 			children = (
+				152FF0311899B75D00E824E9 /* BookDetailsViewController.h */,
+				152FF0321899B75D00E824E9 /* BookDetailsViewController.m */,
+				152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */,
 			);
-			name = BookDetailsView;
+			name = BookDetailsViewController;
 			sourceTree = "<group>";
 		};
 		15B08CC418783CD000FE1C17 = {
 			isa = PBXGroup;
 			children = (
+				15B08D1A1878424500FE1C17 /* resources */,
 				15B08CD618783CD000FE1C17 /* readiOS */,
 				15B08CF818783CD000FE1C17 /* readiOSTests */,
 				15B08CCF18783CD000FE1C17 /* Frameworks */,
@@ -157,8 +166,7 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
-				152FF0301899B6ED00E824E9 /* BookDetailsView */,
-				15B08D1A1878424500FE1C17 /* resources */,
+				152FF0301899B6ED00E824E9 /* BookDetailsViewController */,
 				15B08D0E1878405600FE1C17 /* BookCollectionView */,
 				15B08D0818783E0200FE1C17 /* BookCollectionViewCell */,
 				15B08CDF18783CD000FE1C17 /* AppDelegate.h */,
@@ -240,6 +248,7 @@
 				15B08D151878423F00FE1C17 /* two.jpg */,
 			);
 			name = resources;
+			path = readiOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,6 +337,7 @@
 				15B08D30188B1D0A00FE1C17 /* math.jpg in Resources */,
 				15B08D25188B184900FE1C17 /* 3.jpg in Resources */,
 				15B08D161878423F00FE1C17 /* four.jpg in Resources */,
+				152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */,
 				15B08CEC18783CD000FE1C17 /* Images.xcassets in Resources */,
 				15B08D24188B184900FE1C17 /* 2.jpg in Resources */,
 				15B08D26188B184900FE1C17 /* 4.jpg in Resources */,
@@ -359,6 +369,7 @@
 				15B08D0B18783E7900FE1C17 /* BookCollectionViewCell.m in Sources */,
 				15B08CE118783CD000FE1C17 /* AppDelegate.m in Sources */,
 				15B08D111878408200FE1C17 /* BookCollectionView.m in Sources */,
+				152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */,
 				15B08CDD18783CD000FE1C17 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

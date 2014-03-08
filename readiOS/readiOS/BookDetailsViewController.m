@@ -19,6 +19,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        NSLog(@"initialize");
+        self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     }
     return self;
 }
@@ -26,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"show view");
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -35,4 +38,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)dismissDetailsView:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end

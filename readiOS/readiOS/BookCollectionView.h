@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BookCollectionView : UICollectionView<UIGestureRecognizerDelegate>
+@interface BookCollectionView : UICollectionView
 
-- (void)addGestureRecognizer;
-- (void)registerNibAndCell;
+-(void)registerNibAndCell;
+
 @end
