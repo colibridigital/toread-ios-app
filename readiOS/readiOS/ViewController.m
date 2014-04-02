@@ -181,7 +181,7 @@
     float xPoint = screenWidth / 2 - pickerWidth / 2;
     
     // Set the picker's frame. We set the y coordinate to 50px.
-    [self.pickerView setFrame: CGRectMake(xPoint, 50.0f, pickerWidth, 200.0f)];
+    [self.pickerView setFrame: CGRectMake(xPoint, 245.0f, pickerWidth, 130.0f)];
     
     [self.pickerView setDataSource:self];
     [self.pickerView setDelegate:self];
