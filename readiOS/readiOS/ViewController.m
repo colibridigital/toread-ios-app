@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "BookCollectionViewCell.h"
 #import "BookDetailsViewController.h"
+#import "CustomBookListView.h"
 
 
 @interface ViewController ()
@@ -25,7 +26,7 @@
     self.bookMathsImages = @[@"maths1.jpg", @"maths2.jpg"];
     self.bookRandomImages = @[@"4.jpg", @"four.jpg", @"ai.jpg"];
     
-    self.pickerViewData = @[@"University", @"Mathematics", @"Random"];
+    self.pickerViewData = @[@"University", @"Mathematics", @"Random", @"Create New Book List"];
     
     self.customCollectionImages = self.bookUniversityImages;
     [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
@@ -146,7 +147,15 @@
     //here we need to get the specific list from the cache-database...
     //atm we keep it dummy:
     
-    if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Mathematics"]) {
+    if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Create New Book List"]) {
+       
+        NSLog(@"here");
+        
+        CustomBookListView *customBookListView = [[CustomBookListView alloc] initWithNibName:@"CustomBookListView" bundle:nil];
+        [customBookListView setParentViewController:self];
+        [self presentViewController:customBookListView animated:YES completion:nil];//mockup now to see ui works
+        
+    } else if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Mathematics"]) {
         self.customCollectionImages = self.bookMathsImages;
         [self.customListButton setTitle:@"Mathematics" forState:UIControlStateNormal];
         NSLog(@"changed to maths");
@@ -168,6 +177,7 @@
 
 }
 
+
 - (IBAction)customListSelector:(id)sender {
     
     
@@ -187,6 +197,7 @@
     [self.pickerView setDelegate:self];
     self.pickerView.showsSelectionIndicator = YES;
     self.pickerView.backgroundColor = [UIColor whiteColor];
+    
     [self.pickerView selectRow:0 inComponent:0 animated:YES];
     
     [self.view addSubview:self.pickerView];

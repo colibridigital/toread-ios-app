@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1501B3F818EC4C13007DD020 /* maths1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1501B3F618EC4C13007DD020 /* maths1.jpg */; };
 		1501B3F918EC4C13007DD020 /* maths2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1501B3F718EC4C13007DD020 /* maths2.jpg */; };
+		1501B40018EC74A9007DD020 /* CustomBookListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1501B3FE18EC74A9007DD020 /* CustomBookListView.m */; };
+		1501B40118EC74A9007DD020 /* CustomBookListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1501B3FF18EC74A9007DD020 /* CustomBookListView.xib */; };
 		152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152FF0321899B75D00E824E9 /* BookDetailsViewController.m */; };
 		152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */; };
 		15B08CD118783CD000FE1C17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD018783CD000FE1C17 /* Foundation.framework */; };
@@ -58,6 +60,9 @@
 /* Begin PBXFileReference section */
 		1501B3F618EC4C13007DD020 /* maths1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = maths1.jpg; sourceTree = "<group>"; };
 		1501B3F718EC4C13007DD020 /* maths2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = maths2.jpg; sourceTree = "<group>"; };
+		1501B3FD18EC74A9007DD020 /* CustomBookListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBookListView.h; sourceTree = "<group>"; };
+		1501B3FE18EC74A9007DD020 /* CustomBookListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBookListView.m; sourceTree = "<group>"; };
+		1501B3FF18EC74A9007DD020 /* CustomBookListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomBookListView.xib; sourceTree = "<group>"; };
 		152FF0311899B75D00E824E9 /* BookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailsViewController.h; sourceTree = "<group>"; };
 		152FF0321899B75D00E824E9 /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
 		152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookDetailsViewController.xib; sourceTree = "<group>"; };
@@ -126,6 +131,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1501B40218EC78E8007DD020 /* CustomBookListView */ = {
+			isa = PBXGroup;
+			children = (
+				1501B3FD18EC74A9007DD020 /* CustomBookListView.h */,
+				1501B3FE18EC74A9007DD020 /* CustomBookListView.m */,
+				1501B3FF18EC74A9007DD020 /* CustomBookListView.xib */,
+			);
+			name = CustomBookListView;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		152FF0301899B6ED00E824E9 /* BookDetailsViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +186,7 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				1501B40218EC78E8007DD020 /* CustomBookListView */,
 				152FF0301899B6ED00E824E9 /* BookDetailsViewController */,
 				15B08D0E1878405600FE1C17 /* BookCollectionView */,
 				15B08D0818783E0200FE1C17 /* BookCollectionViewCell */,
@@ -337,6 +354,7 @@
 				15B08D191878423F00FE1C17 /* two.jpg in Resources */,
 				15B08D2E188B1D0A00FE1C17 /* java.jpg in Resources */,
 				15B08D181878423F00FE1C17 /* three.jpg in Resources */,
+				1501B40118EC74A9007DD020 /* CustomBookListView.xib in Resources */,
 				15B08D2F188B1D0A00FE1C17 /* logic.jpg in Resources */,
 				15B08D2D188B1D0A00FE1C17 /* design.jpg in Resources */,
 				15B08CE718783CD000FE1C17 /* Main_iPad.storyboard in Resources */,
@@ -376,6 +394,7 @@
 				15B08CEA18783CD000FE1C17 /* ViewController.m in Sources */,
 				15B08D0B18783E7900FE1C17 /* BookCollectionViewCell.m in Sources */,
 				15B08CE118783CD000FE1C17 /* AppDelegate.m in Sources */,
+				1501B40018EC74A9007DD020 /* CustomBookListView.m in Sources */,
 				15B08D111878408200FE1C17 /* BookCollectionView.m in Sources */,
 				152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */,
 				15B08CDD18783CD000FE1C17 /* main.m in Sources */,
