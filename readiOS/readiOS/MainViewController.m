@@ -6,29 +6,23 @@
 //  Copyright (c) 2014 colibri. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "MainViewController.h"
 #import "BookCollectionViewCell.h"
 #import "BookDetailsViewController.h"
+#import "TWTSideMenuViewController.h"
 
 
-@interface ViewController ()
+@interface MainViewController ()
 
 @end
 
-@implementation ViewController
+@implementation MainViewController
 
 - (void)initializeCollectionViewData
 {
     self.bookFavoriteImages = @[@"one.jpg",@"two.jpg",@"three.jpg",@"four.jpg"];
     self.bookSuggestedImages = @[@"1.jpg", @"2.jpg", @"3.jpg", @"4.jpg"];
     self.bookUniversityImages = @[@"math.jpg", @"design.jpg", @"java.jpg", @"ai.jpg", @"logic.jpg"];
-    self.bookMathsImages = @[@"maths1.jpg", @"maths2.jpg"];
-    self.bookRandomImages = @[@"4.jpg", @"four.jpg", @"ai.jpg"];
-    
-    self.pickerViewData = @[@"University", @"Mathematics", @"Random"];
-    
-    self.customCollectionImages = self.bookUniversityImages;
-    [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
 }
 
 - (void)viewDidLoad
@@ -36,15 +30,17 @@
     [super viewDidLoad];
     
     [self.collectionView registerNibAndCell];
-    [self.customCollectionView registerNibAndCell];
+    [self.collectionView1 registerNibAndCell];
     [self.suggestedBooksView registerNibAndCell];
     
     [self initializeCollectionViewData];
     
     [self addGestureRecognizer:self.suggestedBooksView];
     [self addGestureRecognizer:self.collectionView];
-    [self addGestureRecognizer:self.customCollectionView];
-}
+    [self addGestureRecognizer:self.collectionView1];
+    
+    
+   }
 
 - (void)addGestureRecognizer:(BookCollectionView*)collView
 {
@@ -93,8 +89,8 @@
         return self.bookFavoriteImages.count;
     } else if (collectionView == self.collectionView) {
         return self.bookSuggestedImages.count;
-    } else if (collectionView == self.customCollectionView) {
-        return self.customCollectionImages.count;
+    } else if (collectionView == self.collectionView1) {
+        return self.bookUniversityImages.count;
     }
     
     else return 0;
@@ -118,78 +114,20 @@
         [self saveBookToCell:indexPath cell:cell booksImages:self.bookSuggestedImages];
     } else if (collectionView == self.collectionView) {
         [self saveBookToCell:indexPath cell:cell booksImages:self.bookFavoriteImages];
-    } else if (collectionView == self.customCollectionView) {
-        [self saveBookToCell:indexPath cell:cell booksImages:self.customCollectionImages];
+    } else if (collectionView == self.collectionView1) {
+        [self saveBookToCell:indexPath cell:cell booksImages:self.bookUniversityImages];
     }
     
     return cell;
 }
 
-// Number of components.
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    return 1;
+
+-(BOOL)prefersStatusBarHidden {
+    return true;
 }
 
-// Total rows in our component.
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    return [self.pickerViewData count];
-}
-
-// Display each row's data.
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    return [self.pickerViewData objectAtIndex: row];
-}
-
-// Do something with the selected row.
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
-    //here we need to get the specific list from the cache-database...
-    //atm we keep it dummy:
-    
-    if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Mathematics"]) {
-        self.customCollectionImages = self.bookMathsImages;
-        [self.customListButton setTitle:@"Mathematics" forState:UIControlStateNormal];
-        NSLog(@"changed to maths");
-    } else if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"University"]) {
-        self.customCollectionImages = self.bookUniversityImages;
-        [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
-        NSLog(@"changed to uni");
-    } else {
-        self.customCollectionImages = self.bookRandomImages;
-        [self.customListButton setTitle:@"Random" forState:UIControlStateNormal];
-        NSLog(@"changed to random");
-    }
-    
-    //we can create a new custom list as well
-    
-    [self.customCollectionView reloadData];
-    
-    [self.pickerView removeFromSuperview];
+- (IBAction)sidebarButtonPressed:(id)sender {
+    [self.sideMenuViewController openMenuAnimated:YES completion:nil];
 
 }
-
-- (IBAction)customListSelector:(id)sender {
-    
-    
-    self.pickerView = [[UIPickerView alloc] init];
-    
-    // Calculate the screen's width.
-    float screenWidth = [UIScreen mainScreen].bounds.size.width;
-    float pickerWidth = screenWidth * 3 / 4;
-    
-    // Calculate the starting x coordinate.
-    float xPoint = screenWidth / 2 - pickerWidth / 2;
-    
-    // Set the picker's frame. We set the y coordinate to 50px.
-    [self.pickerView setFrame: CGRectMake(xPoint, 50.0f, pickerWidth, 200.0f)];
-    
-    [self.pickerView setDataSource:self];
-    [self.pickerView setDelegate:self];
-    self.pickerView.showsSelectionIndicator = YES;
-    self.pickerView.backgroundColor = [UIColor whiteColor];
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
-    
-    [self.view addSubview:self.pickerView];
-    
-    }
 @end

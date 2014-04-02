@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1501B3F818EC4C13007DD020 /* maths1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1501B3F618EC4C13007DD020 /* maths1.jpg */; };
+		1501B3F918EC4C13007DD020 /* maths2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1501B3F718EC4C13007DD020 /* maths2.jpg */; };
 		152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152FF0321899B75D00E824E9 /* BookDetailsViewController.m */; };
 		152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */; };
 		15B08CD118783CD000FE1C17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD018783CD000FE1C17 /* Foundation.framework */; };
@@ -54,6 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1501B3F618EC4C13007DD020 /* maths1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = maths1.jpg; sourceTree = "<group>"; };
+		1501B3F718EC4C13007DD020 /* maths2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = maths2.jpg; sourceTree = "<group>"; };
 		152FF0311899B75D00E824E9 /* BookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailsViewController.h; sourceTree = "<group>"; };
 		152FF0321899B75D00E824E9 /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
 		152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookDetailsViewController.xib; sourceTree = "<group>"; };
@@ -232,6 +236,8 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1501B3F618EC4C13007DD020 /* maths1.jpg */,
+				1501B3F718EC4C13007DD020 /* maths2.jpg */,
 				15B08D27188B1D0A00FE1C17 /* ai.jpg */,
 				15B08D28188B1D0A00FE1C17 /* design.jpg */,
 				15B08D29188B1D0A00FE1C17 /* java.jpg */,
@@ -339,7 +345,9 @@
 				15B08D161878423F00FE1C17 /* four.jpg in Resources */,
 				152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */,
 				15B08CEC18783CD000FE1C17 /* Images.xcassets in Resources */,
+				1501B3F918EC4C13007DD020 /* maths2.jpg in Resources */,
 				15B08D24188B184900FE1C17 /* 2.jpg in Resources */,
+				1501B3F818EC4C13007DD020 /* maths1.jpg in Resources */,
 				15B08D26188B184900FE1C17 /* 4.jpg in Resources */,
 				15B08CE418783CD000FE1C17 /* Main_iPhone.storyboard in Resources */,
 				15B08D2C188B1D0A00FE1C17 /* ai.jpg in Resources */,
