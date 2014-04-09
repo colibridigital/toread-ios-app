@@ -133,8 +133,8 @@
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="vXZ-lx-hvc" id="Mcq-Z1-vvJ"/>
-                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="ndS-9e-4I0"/>
+                                    <outlet property="dataSource" destination="vXZ-lx-hvc" id="pQa-K5-r6D"/>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="IF7-42-5Wi"/>
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d25-fH-T3a">
@@ -151,6 +151,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="QG2-2B-4ad" id="Uda-Up-LHb"/>

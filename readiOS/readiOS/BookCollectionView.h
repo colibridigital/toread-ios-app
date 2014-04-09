@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BookCollectionView : UICollectionView
+@interface BookCollectionView : UICollectionView<UIGestureRecognizerDelegate>
+
+@property (weak, nonatomic) UICollectionView *collView;
+
+@property (strong, nonatomic) NSMutableArray *bookImages;
 
 -(void)registerNibAndCell;
 

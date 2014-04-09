@@ -20,15 +20,19 @@
 
 - (void)initializeCollectionViewData
 {
-    self.bookFavoriteImages = @[@"one.jpg",@"two.jpg",@"three.jpg",@"four.jpg"];
-    self.bookSuggestedImages = @[@"1.jpg", @"2.jpg", @"3.jpg", @"4.jpg"];
-    self.bookUniversityImages = @[@"math.jpg", @"design.jpg", @"java.jpg", @"ai.jpg", @"logic.jpg"];
-    self.bookMathsImages = @[@"maths1.jpg", @"maths2.jpg"];
-    self.bookRandomImages = @[@"4.jpg", @"four.jpg", @"ai.jpg"];
+    self.bookFavoriteImages = [@[@"one.jpg",@"two.jpg",@"three.jpg",@"four.jpg"] mutableCopy];
+    self.bookSuggestedImages = [@[@"1.jpg", @"2.jpg", @"3.jpg", @"4.jpg"] mutableCopy];
+    self.bookUniversityImages = [@[@"math.jpg", @"design.jpg", @"java.jpg", @"ai.jpg", @"logic.jpg"] mutableCopy];
+    self.bookMathsImages = [@[@"maths1.jpg", @"maths2.jpg"] mutableCopy];
+    self.bookRandomImages = [@[@"4.jpg", @"four.jpg", @"ai.jpg"] mutableCopy];
     
     self.pickerViewData = @[@"University", @"Mathematics", @"Random", @"Create New Book List"];
     
-    self.customCollectionImages = self.bookUniversityImages;
+    
+    self.collectionView.bookImages = self.bookFavoriteImages;
+    self.customCollectionView.bookImages = self.bookUniversityImages;
+    self.suggestedBooksView.bookImages = self.bookSuggestedImages;
+
     [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
 }
 
@@ -42,42 +46,65 @@
     
     [self initializeCollectionViewData];
     
-    [self addGestureRecognizer:self.suggestedBooksView];
+    [self addGestureRecognizer:self.suggestedBooksView ];
     [self addGestureRecognizer:self.collectionView];
     [self addGestureRecognizer:self.customCollectionView];
 }
 
-- (void)addGestureRecognizer:(BookCollectionView*)collView
-{
+
+- (void)addGestureRecognizer:(BookCollectionView *)collView{
+    NSLog(@"adding gesture");
     UILongPressGestureRecognizer *lpgr
     = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = .5; //seconds
+    lpgr.minimumPressDuration = 0.5; //seconds
     lpgr.delaysTouchesBegan = YES;
     lpgr.delegate = self;
     [collView addGestureRecognizer:lpgr];
-  }
+    NSLog(@"added");
+    
+}
 
 -(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded) {
         return;
     }
     NSLog(@"in here");
-   // CGPoint p = [gestureRecognizer locationInView:self.suggestedBooksView];
     
-   // NSIndexPath *indexPath = [self.suggestedBooksView indexPathForItemAtPoint:p];
-  //  if (indexPath == nil){
- //       NSLog(@"couldn't find index path");
- //   } else {
-        // get the cell at indexPath (the one you long pressed)
-        // BookCollectionViewCell* cell =[self cellForItemAtIndexPath:indexPath];
-        // do stuff with the cell
-        BookDetailsViewController *bookDetails = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-        
-        [self presentViewController:bookDetails animated:YES completion:nil];
-        
-      //  NSLog(@"getting cell %@", indexPath);
-  //  }
+    
+    CGPoint p = [gestureRecognizer locationInView:gestureRecognizer.view];
+    NSIndexPath *indexPath ;
+    BookCollectionViewCell* cell ;
+    
+    if ([gestureRecognizer.view isEqual:self.suggestedBooksView]) {
+       indexPath = [self.suggestedBooksView indexPathForItemAtPoint:p];
+        cell =[self.suggestedBooksView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
+        [self setDataToDelete:self.suggestedBooksView imagesArray:self.suggestedBooksView.bookImages indexPath:indexPath];
+        self.isDeleteMode = YES;
+        [self.suggestedBooksView reloadData];
+    } else if ([gestureRecognizer.view isEqual:self.collectionView]) {
+        indexPath = [self.collectionView indexPathForItemAtPoint:p];
+        cell =[self.collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
+        [self setDataToDelete:self.collectionView imagesArray:self.collectionView.bookImages indexPath:indexPath];
+        self.isDeleteMode = YES;
+        [self.collectionView reloadData];
+    } else if ([gestureRecognizer.view isEqual:self.customCollectionView]) {
+        indexPath = [self.customCollectionView indexPathForItemAtPoint:p];
+        cell =[self.customCollectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
+        [self setDataToDelete:self.customCollectionView imagesArray:self.customCollectionView.bookImages indexPath:indexPath];
+        self.isDeleteMode = YES;
+        [self.customCollectionView reloadData];
+    }
+  
+        NSLog(@"getting cell %@", indexPath);
+    
 }
+
+-(void)setDataToDelete:(BookCollectionView *)collView imagesArray:(NSMutableArray *)imagesArray indexPath:(NSIndexPath *)indexPath {
+    self.collView = collView;
+    self.bookImages = imagesArray;
+    self.indexPath = indexPath;
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -86,45 +113,79 @@
 }
 
 
+
 #pragma mark - Collection View Data Sources
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (collectionView == self.suggestedBooksView) {
-        return self.bookFavoriteImages.count;
+        return self.suggestedBooksView.bookImages.count;
     } else if (collectionView == self.collectionView) {
-        return self.bookSuggestedImages.count;
+        return self.collectionView.bookImages.count;
     } else if (collectionView == self.customCollectionView) {
-        return self.customCollectionImages.count;
+        return self.customCollectionView.bookImages.count;
     }
     
     else return 0;
 }
 
-- (void)saveBookToCell:(NSIndexPath *)indexPath cell:(BookCollectionViewCell *)cell booksImages:(NSArray *)booksImages
-{
-    UIImage *bookImage = [[UIImage alloc] init];
-    bookImage = [UIImage imageNamed:[booksImages objectAtIndex:indexPath.row]];
-    cell.bookLabel.text = [NSString stringWithFormat:@"Book %li", (long)indexPath.row ];
-    [cell.bookLabel sizeToFit];
-    cell.bookImage.image = bookImage;
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    BookDetailsViewController *bookDetails = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    [self presentViewController:bookDetails animated:YES completion:nil];
 }
 
-// The cell that is returned must be retrieved from a call to - dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BookCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
     
+    if ([indexPath isEqual:self.indexPath] && self.isDeleteMode) {
+        cell.deleteButton.hidden = NO;
+        [cell.deleteButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
+    } else if (![indexPath isEqual:self.indexPath]) {
+        cell.deleteButton.hidden = YES;
+    }
+    
     if (collectionView == self.suggestedBooksView) {
-        [self saveBookToCell:indexPath cell:cell booksImages:self.bookSuggestedImages];
+        [self saveBookToCell:indexPath cell:cell booksImages:self.suggestedBooksView.bookImages];
     } else if (collectionView == self.collectionView) {
-        [self saveBookToCell:indexPath cell:cell booksImages:self.bookFavoriteImages];
+         [self saveBookToCell:indexPath cell:cell booksImages:self.collectionView.bookImages];
     } else if (collectionView == self.customCollectionView) {
-        [self saveBookToCell:indexPath cell:cell booksImages:self.customCollectionImages];
+        [self saveBookToCell:indexPath cell:cell booksImages:self.customCollectionView.bookImages];
     }
     
     return cell;
+    
 }
+
+
+- (void)saveBookToCell:(NSIndexPath *)indexPath cell:(BookCollectionViewCell *)cell booksImages:(NSArray *)booksImages
+{
+    UIImage *bookImage = [[UIImage alloc] init];
+    bookImage = [UIImage imageNamed:[booksImages objectAtIndex:indexPath.row]];
+    //later on I can add rating
+    /* cell.bookLabel.text = [NSString stringWithFormat:@"Book %li", (long)indexPath.row ];
+     [cell.bookLabel sizeToFit];*/
+    
+    cell.bookImage.image = bookImage;
+}
+
+
+    -(void)deleteCell:(UIButton *)sender {
+        
+        NSLog(@"here to delete");
+        
+        NSInteger row = [self.indexPath row];
+        
+        [self.bookImages removeObjectAtIndex:row];
+        
+        NSArray *deletions = @[self.indexPath];
+        
+        [self.collView deleteItemsAtIndexPaths:deletions];
+        
+    }
+
+
+
 
 // Number of components.
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
@@ -203,4 +264,5 @@
     [self.view addSubview:self.pickerView];
     
     }
+
 @end

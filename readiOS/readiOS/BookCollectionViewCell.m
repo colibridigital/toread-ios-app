@@ -7,6 +7,8 @@
 //
 
 #import "BookCollectionViewCell.h"
+#import "BookCollectionView.h"
+
 
 @implementation BookCollectionViewCell
 
@@ -14,9 +16,18 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
-           }
+        self.pressed = NO;
+        }
     return self;
+}
+
+- (id) init {
+    self = [super init];
+    if (self) {
+        self.pressed = NO;
+    }
+    return self;
+
 }
 
 /*
@@ -27,5 +38,18 @@
     // Drawing code
 }
 */
+
+- (BOOL)deleteButtonPressed {
+    return self.pressed;
+}
+
+- (IBAction)deleteButtonAction:(id)sender {
+    
+}
+
+- (void)awakeFromNib
+{
+   // [self.deleteButton addTarget:self action:@selector(deleteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+}
 
 @end

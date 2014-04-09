@@ -17,19 +17,24 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (strong, nonatomic) UIPickerView *pickerView;
 
-@property (strong, nonatomic) NSArray *bookFavoriteImages;
-@property (strong, nonatomic) NSArray *bookSuggestedImages;
-@property (strong, nonatomic) NSArray *bookUniversityImages;
-@property (strong, nonatomic) NSArray *bookMathsImages;
-@property (strong, nonatomic) NSArray *bookRandomImages;
-@property (strong, nonatomic) NSArray *customCollectionImages;
+@property (strong, nonatomic) NSMutableArray *bookFavoriteImages;
+@property (strong, nonatomic) NSMutableArray *bookSuggestedImages;
+@property (strong, nonatomic) NSMutableArray *bookUniversityImages;
+@property (strong, nonatomic) NSMutableArray *bookMathsImages;
+@property (strong, nonatomic) NSMutableArray *bookRandomImages;
+@property (strong, nonatomic) NSMutableArray *customCollectionImages;
 
 @property (strong, nonatomic) NSArray *pickerViewData;
+@property (nonatomic) BOOL isDeleteMode;
 
-@property (weak, nonatomic) IBOutlet BookCollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet BookCollectionView *selectedCollectionView;
 @property (weak, nonatomic) IBOutlet BookCollectionView *suggestedBooksView;
 @property (weak, nonatomic) IBOutlet BookCollectionView *customCollectionView;
+@property (weak, nonatomic) IBOutlet BookCollectionView *collectionView;
 
+@property (strong, nonatomic) NSMutableArray *bookImages;
+@property (weak, nonatomic) BookCollectionView *collView;
+@property (strong, nonatomic) NSIndexPath *indexPath;
 
 
 

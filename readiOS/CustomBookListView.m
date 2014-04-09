@@ -48,7 +48,7 @@
     self.listTitle = self.bookListTitle.text;
     [self.viewController.customListButton setTitle:self.listTitle forState:UIControlStateNormal];
     
-    NSArray *newBookList = [[NSMutableArray alloc] init];
+    NSMutableArray *newBookList = [[NSMutableArray alloc] init];
     self.viewController.customCollectionImages = newBookList;
     
     [self dismissViewControllerAnimated:YES completion:nil];

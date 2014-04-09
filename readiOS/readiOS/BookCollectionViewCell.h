@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
 
 @interface BookCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UILabel *bookLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *bookImage;
+@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
+
+
+@property (nonatomic) BOOL pressed;
+
+- (BOOL)deleteButtonPressed;
+- (IBAction)deleteButtonAction:(id)sender;
 
 @end
