@@ -25,7 +25,7 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 @property (strong, nonatomic) NSMutableArray *customCollectionImages;
 
 @property (strong, nonatomic) NSArray *pickerViewData;
-@property (nonatomic) BOOL isDeleteMode;
+@property (nonatomic) BOOL isEditMode;
 
 @property (weak, nonatomic) IBOutlet BookCollectionView *selectedCollectionView;
 @property (weak, nonatomic) IBOutlet BookCollectionView *suggestedBooksView;
@@ -36,6 +36,8 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 @property (weak, nonatomic) BookCollectionView *collView;
 @property (strong, nonatomic) NSIndexPath *indexPath;
 
+
+@property (strong, nonatomic) NSMutableArray *readBooks;
 
 
 @end

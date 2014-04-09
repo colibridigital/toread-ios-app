@@ -16,18 +16,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.pressed = NO;
+
         }
     return self;
-}
-
-- (id) init {
-    self = [super init];
-    if (self) {
-        self.pressed = NO;
-    }
-    return self;
-
 }
 
 /*
@@ -39,17 +30,5 @@
 }
 */
 
-- (BOOL)deleteButtonPressed {
-    return self.pressed;
-}
-
-- (IBAction)deleteButtonAction:(id)sender {
-    
-}
-
-- (void)awakeFromNib
-{
-   // [self.deleteButton addTarget:self action:@selector(deleteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-}
 
 @end

@@ -45,6 +45,7 @@
 		15B08D2E188B1D0A00FE1C17 /* java.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D29188B1D0A00FE1C17 /* java.jpg */; };
 		15B08D2F188B1D0A00FE1C17 /* logic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D2A188B1D0A00FE1C17 /* logic.jpg */; };
 		15B08D30188B1D0A00FE1C17 /* math.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D2B188B1D0A00FE1C17 /* math.jpg */; };
+		15EF457E18F5B5BF00A77569 /* read.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EF457D18F5B5BF00A77569 /* read.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,7 @@
 		15B08D29188B1D0A00FE1C17 /* java.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = java.jpg; sourceTree = "<group>"; };
 		15B08D2A188B1D0A00FE1C17 /* logic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logic.jpg; sourceTree = "<group>"; };
 		15B08D2B188B1D0A00FE1C17 /* math.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math.jpg; sourceTree = "<group>"; };
+		15EF457D18F5B5BF00A77569 /* read.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = read.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +255,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				15EF457D18F5B5BF00A77569 /* read.png */,
 				1501B3F618EC4C13007DD020 /* maths1.jpg */,
 				1501B3F718EC4C13007DD020 /* maths2.jpg */,
 				15B08D27188B1D0A00FE1C17 /* ai.jpg */,
@@ -373,6 +376,7 @@
 				15B08CDB18783CD000FE1C17 /* InfoPlist.strings in Resources */,
 				15B08D171878423F00FE1C17 /* one.jpg in Resources */,
 				15B08D0D18783F7700FE1C17 /* BookCollectionViewCell.xib in Resources */,
+				15EF457E18F5B5BF00A77569 /* read.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -32,8 +32,10 @@
     self.collectionView.bookImages = self.bookFavoriteImages;
     self.customCollectionView.bookImages = self.bookUniversityImages;
     self.suggestedBooksView.bookImages = self.bookSuggestedImages;
-
+    
     [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
+    
+    self.readBooks = [[NSMutableArray alloc] init];
 }
 
 - (void)viewDidLoad
@@ -83,7 +85,7 @@
         if (indexPath != nil) {
             cell =[self.collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
             [self setDataToDelete:self.collectionView imagesArray:self.collectionView.bookImages indexPath:indexPath];
-            self.isDeleteMode = YES;
+            self.isEditMode = YES;
             [self.collectionView reloadData];
         }
     } else if ([gestureRecognizer.view isEqual:self.customCollectionView]) {
@@ -91,11 +93,11 @@
         if (indexPath != nil) {
             cell =[self.customCollectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
             [self setDataToDelete:self.customCollectionView imagesArray:self.customCollectionView.bookImages indexPath:indexPath];
-            self.isDeleteMode = YES;
+            self.isEditMode = YES;
             [self.customCollectionView reloadData];
         }
     }
-        NSLog(@"getting cell %@", indexPath);
+    NSLog(@"getting cell %@", indexPath);
     
     
 }
@@ -139,21 +141,24 @@
 {
     BookCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
     
-    if ([indexPath isEqual:self.indexPath] && self.isDeleteMode && [collectionView isEqual:self.collView]) {
+    if ([indexPath isEqual:self.indexPath] && self.isEditMode && [collectionView isEqual:self.collView]) {
         cell.deleteButton.hidden = NO;
+        cell.readButton.hidden = NO;
         [cell.deleteButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
     } else {
         cell.deleteButton.hidden = YES;
+        cell.readButton.hidden = YES;
+        [cell.readButton addTarget:self action:@selector(markBookAsRead:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     if (collectionView == self.suggestedBooksView) {
         [self saveBookToCell:indexPath cell:cell booksImages:self.suggestedBooksView.bookImages];
     } else if (collectionView == self.collectionView) {
-         [self saveBookToCell:indexPath cell:cell booksImages:self.collectionView.bookImages];
+        [self saveBookToCell:indexPath cell:cell booksImages:self.collectionView.bookImages];
     } else if (collectionView == self.customCollectionView) {
         [self saveBookToCell:indexPath cell:cell booksImages:self.customCollectionView.bookImages];
     }
-   
+    
     return cell;
     
 }
@@ -170,26 +175,49 @@
     cell.bookImage.image = bookImage;
 }
 
-
-    -(void)deleteCell:(UIButton *)sender {
+//mock for now, not really showing the books
+- (void)markBookAsRead:(UIButton *)sender {
+    
+    NSLog(@"marked as read");
+    if (self.indexPath != nil) {
+        [self.readBooks addObject:self.indexPath]; //later on we will need to add the id of the book.... from the database
         
-        NSLog(@"here to delete");
-        
-        if (self.indexPath != nil) {
-            NSInteger row = [self.indexPath row];
-            [self.bookImages removeObjectAtIndex:row];
-            NSArray *deletions = @[self.indexPath];
-            [self.collView deleteItemsAtIndexPaths:deletions];
-        }
-        
-        
-        [self.collView reloadData];
-        
-        self.indexPath = nil;
-        self.collView = nil;
-        self.bookImages = nil;
-        
+        //then remove it from the orifinal book list and from the specific view
+        NSInteger row = [self.indexPath row];
+        [self.bookImages removeObjectAtIndex:row];
+        NSArray *deletions = @[self.indexPath];
+        [self.collView deleteItemsAtIndexPaths:deletions];
     }
+    
+    [self.collView reloadData];
+    
+    self.indexPath = nil;
+    self.collView = nil;
+    self.bookImages = nil;
+    
+    
+    NSLog(@"books read %lu", (unsigned long)self.readBooks.count);
+}
+
+-(void)deleteCell:(UIButton *)sender {
+    
+    NSLog(@"here to delete");
+    
+    if (self.indexPath != nil) {
+        NSInteger row = [self.indexPath row];
+        [self.bookImages removeObjectAtIndex:row];
+        NSArray *deletions = @[self.indexPath];
+        [self.collView deleteItemsAtIndexPaths:deletions];
+    }
+    
+    
+    [self.collView reloadData];
+    
+    self.indexPath = nil;
+    self.collView = nil;
+    self.bookImages = nil;
+
+}
 
 
 
@@ -216,7 +244,7 @@
     //atm we keep it dummy:
     
     if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Create New Book List"]) {
-       
+        
         NSLog(@"here");
         
         CustomBookListView *customBookListView = [[CustomBookListView alloc] initWithNibName:@"CustomBookListView" bundle:nil];
@@ -242,7 +270,7 @@
     [self.customCollectionView reloadData];
     
     [self.pickerView removeFromSuperview];
-
+    
 }
 
 
@@ -270,6 +298,6 @@
     
     [self.view addSubview:self.pickerView];
     
-    }
+}
 
 @end
