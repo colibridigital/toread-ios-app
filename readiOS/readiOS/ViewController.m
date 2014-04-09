@@ -180,7 +180,9 @@
     
     NSLog(@"marked as read");
     if (self.indexPath != nil) {
-        [self.readBooks addObject:self.indexPath]; //later on we will need to add the id of the book.... from the database
+        
+        //later on we will need to add the id of the book.... from the database
+        [self.readBooks addObject:[self.collView.bookImages objectAtIndex:self.indexPath.row]];
         
         //then remove it from the orifinal book list and from the specific view
         NSInteger row = [self.indexPath row];
