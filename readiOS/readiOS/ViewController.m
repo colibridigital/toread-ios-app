@@ -70,32 +70,33 @@
     }
     NSLog(@"in here");
     
-    
     CGPoint p = [gestureRecognizer locationInView:gestureRecognizer.view];
     NSIndexPath *indexPath ;
     BookCollectionViewCell* cell ;
     
-    if ([gestureRecognizer.view isEqual:self.suggestedBooksView]) {
-       indexPath = [self.suggestedBooksView indexPathForItemAtPoint:p];
-        cell =[self.suggestedBooksView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
-        [self setDataToDelete:self.suggestedBooksView imagesArray:self.suggestedBooksView.bookImages indexPath:indexPath];
-        self.isDeleteMode = YES;
-        [self.suggestedBooksView reloadData];
-    } else if ([gestureRecognizer.view isEqual:self.collectionView]) {
+    
+    if (self.collView != nil)
+        [self.collView reloadData];
+    
+    if ([gestureRecognizer.view isEqual:self.collectionView]) {
         indexPath = [self.collectionView indexPathForItemAtPoint:p];
-        cell =[self.collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
-        [self setDataToDelete:self.collectionView imagesArray:self.collectionView.bookImages indexPath:indexPath];
-        self.isDeleteMode = YES;
-        [self.collectionView reloadData];
+        if (indexPath != nil) {
+            cell =[self.collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
+            [self setDataToDelete:self.collectionView imagesArray:self.collectionView.bookImages indexPath:indexPath];
+            self.isDeleteMode = YES;
+            [self.collectionView reloadData];
+        }
     } else if ([gestureRecognizer.view isEqual:self.customCollectionView]) {
         indexPath = [self.customCollectionView indexPathForItemAtPoint:p];
-        cell =[self.customCollectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
-        [self setDataToDelete:self.customCollectionView imagesArray:self.customCollectionView.bookImages indexPath:indexPath];
-        self.isDeleteMode = YES;
-        [self.customCollectionView reloadData];
+        if (indexPath != nil) {
+            cell =[self.customCollectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
+            [self setDataToDelete:self.customCollectionView imagesArray:self.customCollectionView.bookImages indexPath:indexPath];
+            self.isDeleteMode = YES;
+            [self.customCollectionView reloadData];
+        }
     }
-  
         NSLog(@"getting cell %@", indexPath);
+    
     
 }
 
@@ -138,10 +139,10 @@
 {
     BookCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
     
-    if ([indexPath isEqual:self.indexPath] && self.isDeleteMode) {
+    if ([indexPath isEqual:self.indexPath] && self.isDeleteMode && [collectionView isEqual:self.collView]) {
         cell.deleteButton.hidden = NO;
         [cell.deleteButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
-    } else if (![indexPath isEqual:self.indexPath]) {
+    } else {
         cell.deleteButton.hidden = YES;
     }
     
@@ -152,7 +153,7 @@
     } else if (collectionView == self.customCollectionView) {
         [self saveBookToCell:indexPath cell:cell booksImages:self.customCollectionView.bookImages];
     }
-    
+   
     return cell;
     
 }
@@ -174,13 +175,19 @@
         
         NSLog(@"here to delete");
         
-        NSInteger row = [self.indexPath row];
+        if (self.indexPath != nil) {
+            NSInteger row = [self.indexPath row];
+            [self.bookImages removeObjectAtIndex:row];
+            NSArray *deletions = @[self.indexPath];
+            [self.collView deleteItemsAtIndexPaths:deletions];
+        }
         
-        [self.bookImages removeObjectAtIndex:row];
         
-        NSArray *deletions = @[self.indexPath];
+        [self.collView reloadData];
         
-        [self.collView deleteItemsAtIndexPaths:deletions];
+        self.indexPath = nil;
+        self.collView = nil;
+        self.bookImages = nil;
         
     }
 
