@@ -20,7 +20,7 @@
 
 - (void)initializeCollectionViewData
 {
-    self.bookFavoriteImages = [@[@"one.jpg",@"two.jpg",@"three.jpg",@"four.jpg"] mutableCopy];
+    self.bookFavoriteImages = [@[@"three.jpg",@"four.jpg",@"one.jpg",@"two.jpg"] mutableCopy];
     self.bookSuggestedImages = [@[@"1.jpg", @"2.jpg", @"3.jpg", @"4.jpg"] mutableCopy];
     self.bookUniversityImages = [@[@"math.jpg", @"design.jpg", @"java.jpg", @"ai.jpg", @"logic.jpg"] mutableCopy];
     self.bookMathsImages = [@[@"maths1.jpg", @"maths2.jpg"] mutableCopy];

@@ -45,6 +45,7 @@
 		15B08D2E188B1D0A00FE1C17 /* java.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D29188B1D0A00FE1C17 /* java.jpg */; };
 		15B08D2F188B1D0A00FE1C17 /* logic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D2A188B1D0A00FE1C17 /* logic.jpg */; };
 		15B08D30188B1D0A00FE1C17 /* math.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D2B188B1D0A00FE1C17 /* math.jpg */; };
+		15D4935218FC93F1008460D4 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 15D4935118FC93F1008460D4 /* menu.png */; };
 		15EF457E18F5B5BF00A77569 /* read.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EF457D18F5B5BF00A77569 /* read.png */; };
 		15EF459518FBE93D00A77569 /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15EF459018FBE93D00A77569 /* MFSideMenuContainerViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		15EF459618FBE93D00A77569 /* MFSideMenuShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 15EF459218FBE93D00A77569 /* MFSideMenuShadow.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -113,6 +114,7 @@
 		15B08D29188B1D0A00FE1C17 /* java.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = java.jpg; sourceTree = "<group>"; };
 		15B08D2A188B1D0A00FE1C17 /* logic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logic.jpg; sourceTree = "<group>"; };
 		15B08D2B188B1D0A00FE1C17 /* math.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math.jpg; sourceTree = "<group>"; };
+		15D4935118FC93F1008460D4 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		15EF457D18F5B5BF00A77569 /* read.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = read.png; sourceTree = "<group>"; };
 		15EF458E18FBE93D00A77569 /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
 		15EF458F18FBE93D00A77569 /* MFSideMenuContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenuContainerViewController.h; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				15D4935118FC93F1008460D4 /* menu.png */,
 				15EF457D18F5B5BF00A77569 /* read.png */,
 				1501B3F618EC4C13007DD020 /* maths1.jpg */,
 				1501B3F718EC4C13007DD020 /* maths2.jpg */,
@@ -415,6 +418,7 @@
 				15EF45A818FBF1ED00A77569 /* SideMenuViewController.xib in Resources */,
 				1501B3F918EC4C13007DD020 /* maths2.jpg in Resources */,
 				15B08D24188B184900FE1C17 /* 2.jpg in Resources */,
+				15D4935218FC93F1008460D4 /* menu.png in Resources */,
 				1501B3F818EC4C13007DD020 /* maths1.jpg in Resources */,
 				15B08D26188B184900FE1C17 /* 4.jpg in Resources */,
 				15B08CE418783CD000FE1C17 /* Main_iPhone.storyboard in Resources */,
