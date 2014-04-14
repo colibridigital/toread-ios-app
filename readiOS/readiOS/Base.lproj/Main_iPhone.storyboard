@@ -7,7 +7,7 @@
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L7w-mE-fRZ"/>
                         <viewControllerLayoutGuide type="bottom" id="nZs-Ac-3m3"/>
@@ -58,6 +58,9 @@
                                 <state key="normal" title="Button" image="menu.jpg">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="showMenu:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="0Ib-Um-eVd"/>
+                                </connections>
                             </button>
                             <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cg3-p1-IDg">
                                 <rect key="frame" x="46" y="48" width="274" height="44"/>
@@ -157,6 +160,7 @@
                         <outlet property="collectionView" destination="QG2-2B-4ad" id="Uda-Up-LHb"/>
                         <outlet property="customCollectionView" destination="PkH-Ye-E8L" id="Lp5-e5-LCK"/>
                         <outlet property="customListButton" destination="d25-fH-T3a" id="Hjf-jL-gII"/>
+                        <outlet property="menuButton" destination="haP-wi-y8a" id="MBg-DM-3Z3"/>
                         <outlet property="suggestedBooksView" destination="5ni-an-PLx" id="tfz-TV-Pzs"/>
                     </connections>
                 </viewController>

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BookCollectionView.h"
 
+
 @interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,
 UIPickerViewDataSource, UIPickerViewDelegate>
 
@@ -23,6 +24,7 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 @property (strong, nonatomic) NSMutableArray *bookMathsImages;
 @property (strong, nonatomic) NSMutableArray *bookRandomImages;
 @property (strong, nonatomic) NSMutableArray *customCollectionImages;
+@property (weak, nonatomic) IBOutlet UIButton *menuButton;
 
 @property (strong, nonatomic) NSArray *pickerViewData;
 @property (nonatomic) BOOL isEditMode;
@@ -39,5 +41,6 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *readBooks;
 
+- (IBAction)showMenu:(id)sender;
 
 @end

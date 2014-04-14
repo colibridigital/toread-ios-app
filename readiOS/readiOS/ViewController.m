@@ -10,7 +10,7 @@
 #import "BookCollectionViewCell.h"
 #import "BookDetailsViewController.h"
 #import "CustomBookListView.h"
-
+#import "MFSideMenu.h"
 
 @interface ViewController ()
 
@@ -301,5 +301,13 @@
     [self.view addSubview:self.pickerView];
     
 }
+
+- (IBAction)showMenu:(id)sender {
+    
+    NSLog(@"in side menu here");
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:^{}];
+    
+}
+
 
 @end
