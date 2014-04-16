@@ -45,13 +45,14 @@
 		15B08D2E188B1D0A00FE1C17 /* java.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D29188B1D0A00FE1C17 /* java.jpg */; };
 		15B08D2F188B1D0A00FE1C17 /* logic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D2A188B1D0A00FE1C17 /* logic.jpg */; };
 		15B08D30188B1D0A00FE1C17 /* math.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D2B188B1D0A00FE1C17 /* math.jpg */; };
+		15CFECE418FEC5560086207B /* home-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15CFECE318FEC5560086207B /* home-icon.png */; };
 		15D4935218FC93F1008460D4 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 15D4935118FC93F1008460D4 /* menu.png */; };
 		15EF457E18F5B5BF00A77569 /* read.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EF457D18F5B5BF00A77569 /* read.png */; };
 		15EF459518FBE93D00A77569 /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15EF459018FBE93D00A77569 /* MFSideMenuContainerViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		15EF459618FBE93D00A77569 /* MFSideMenuShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 15EF459218FBE93D00A77569 /* MFSideMenuShadow.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		15EF459718FBE93D00A77569 /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 15EF459418FBE93D00A77569 /* UIViewController+MFSideMenuAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		15EF459A18FBEA7800A77569 /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15EF459918FBEA7800A77569 /* SideMenuViewController.m */; };
-		15EF459B18FBEDDB00A77569 /* MFSideMenu.h in Sources */ = {isa = PBXBuildFile; fileRef = 15EF458E18FBE93D00A77569 /* MFSideMenu.h */; };
+		15EF459B18FBEDDB00A77569 /* MFSideMenu.h in Sources */ = {isa = PBXBuildFile; fileRef = 15EF458E18FBE93D00A77569 /* MFSideMenu.h */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		15EF459D18FBEE6700A77569 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EF459C18FBEE6700A77569 /* QuartzCore.framework */; };
 		15EF45A818FBF1ED00A77569 /* SideMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15EF45A618FBF1ED00A77569 /* SideMenuViewController.xib */; };
 /* End PBXBuildFile section */
@@ -114,6 +115,7 @@
 		15B08D29188B1D0A00FE1C17 /* java.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = java.jpg; sourceTree = "<group>"; };
 		15B08D2A188B1D0A00FE1C17 /* logic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logic.jpg; sourceTree = "<group>"; };
 		15B08D2B188B1D0A00FE1C17 /* math.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math.jpg; sourceTree = "<group>"; };
+		15CFECE318FEC5560086207B /* home-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home-icon.png"; sourceTree = "<group>"; };
 		15D4935118FC93F1008460D4 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		15EF457D18F5B5BF00A77569 /* read.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = read.png; sourceTree = "<group>"; };
 		15EF458E18FBE93D00A77569 /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				15CFECE318FEC5560086207B /* home-icon.png */,
 				15D4935118FC93F1008460D4 /* menu.png */,
 				15EF457D18F5B5BF00A77569 /* read.png */,
 				1501B3F618EC4C13007DD020 /* maths1.jpg */,
@@ -424,6 +427,7 @@
 				15B08CE418783CD000FE1C17 /* Main_iPhone.storyboard in Resources */,
 				15B08D2C188B1D0A00FE1C17 /* ai.jpg in Resources */,
 				15B08D1E188B156700FE1C17 /* menu.jpg in Resources */,
+				15CFECE418FEC5560086207B /* home-icon.png in Resources */,
 				15B08CDB18783CD000FE1C17 /* InfoPlist.strings in Resources */,
 				15B08D171878423F00FE1C17 /* one.jpg in Resources */,
 				15B08D0D18783F7700FE1C17 /* BookCollectionViewCell.xib in Resources */,

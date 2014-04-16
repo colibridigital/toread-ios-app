@@ -55,15 +55,60 @@
 
 
 - (void)addGestureRecognizer:(BookCollectionView *)collView{
-    NSLog(@"adding gesture");
+    NSLog(@"adding long press gesture");
     UILongPressGestureRecognizer *lpgr
     = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.minimumPressDuration = 0.5; //seconds
     lpgr.delaysTouchesBegan = YES;
     lpgr.delegate = self;
     [collView addGestureRecognizer:lpgr];
-    NSLog(@"added");
+    NSLog(@"added long press");
     
+    NSLog(@"adding tap gesture");
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    tgr.delegate = self;
+    [collView addGestureRecognizer:tgr];
+    NSLog(@"added tap gesture");
+}
+
+- (void)getBookCover:(CGPoint)p bookDetails:(BookDetailsViewController *)bookDetails collView:(BookCollectionView *)collView{
+    NSIndexPath *indexPath;
+    UIImage *bookImage;
+    BookCollectionViewCell *cell;
+    indexPath = [collView indexPathForItemAtPoint:p];
+    if (indexPath != nil) {
+        cell =[collView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
+        bookImage = [UIImage imageNamed:[collView.bookImages objectAtIndex:indexPath.row]];
+        bookDetails.bookCover.image = bookImage;
+    }
+}
+
+-(void)handleTap:(UITapGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state != UIGestureRecognizerStateEnded) {
+        return;
+    }
+    NSLog(@"in tap gesture");
+    self.isEditMode = NO;
+    
+    CGPoint p = [gestureRecognizer locationInView:gestureRecognizer.view];
+    
+    BookDetailsViewController *bookDetails = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
+    [self presentViewController:bookDetails animated:YES completion:nil];
+    
+    //will need to pass on the details a bit more intelligent
+    //either call the server for the book details or get them from the local database
+    //but we wont pass them on from here for sure!!!
+    bookDetails.bookTitle.text = @"Book";
+    if ([gestureRecognizer.view isEqual:self.collectionView]) {
+        [self getBookCover:p bookDetails:bookDetails collView:self.collectionView];
+    } else if ([gestureRecognizer.view isEqual:self.customCollectionView]) {
+        [self getBookCover:p bookDetails:bookDetails collView:self.customCollectionView];
+    } else if ([gestureRecognizer.view isEqual:self.suggestedBooksView]) {
+        [self getBookCover:p bookDetails:bookDetails collView:self.suggestedBooksView];
+    }
+    
+    if (self.collView != nil)
+        [self.collView reloadData];
 }
 
 -(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
@@ -130,11 +175,6 @@
     }
     
     else return 0;
-}
-
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    BookDetailsViewController *bookDetails = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-    [self presentViewController:bookDetails animated:YES completion:nil];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -218,7 +258,7 @@
     self.indexPath = nil;
     self.collView = nil;
     self.bookImages = nil;
-
+    
 }
 
 

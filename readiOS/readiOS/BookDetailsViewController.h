@@ -11,5 +11,9 @@
 @interface BookDetailsViewController : UIViewController
 
 - (IBAction)dismissDetailsView:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *bookTitle;
+//this will eventually load the cover
+//from the url? 
+@property (weak, nonatomic) IBOutlet UIImageView *bookCover;
 
 @end
