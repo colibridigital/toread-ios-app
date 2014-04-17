@@ -109,6 +109,8 @@
     
     if (self.collView != nil)
         [self.collView reloadData];
+    
+    [self.pickerView removeFromSuperview];
 }
 
 -(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
@@ -289,20 +291,25 @@
         
         NSLog(@"here");
         
+       // self.customCollectionView.bookImages = nil;
+       // [self.customListButton setTitle:@"Mathematics" forState:UIControlStateNormal];
+
+        
         CustomBookListView *customBookListView = [[CustomBookListView alloc] initWithNibName:@"CustomBookListView" bundle:nil];
         [customBookListView setParentViewController:self];
+        self.customCollectionView.bookImages = self.customCollectionImages;
         [self presentViewController:customBookListView animated:YES completion:nil];//mockup now to see ui works
         
     } else if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Mathematics"]) {
-        self.customCollectionImages = self.bookMathsImages;
+        self.customCollectionView.bookImages = self.bookMathsImages;
         [self.customListButton setTitle:@"Mathematics" forState:UIControlStateNormal];
         NSLog(@"changed to maths");
     } else if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"University"]) {
-        self.customCollectionImages = self.bookUniversityImages;
+        self.customCollectionView.bookImages = self.bookUniversityImages;
         [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
         NSLog(@"changed to uni");
     } else {
-        self.customCollectionImages = self.bookRandomImages;
+        self.customCollectionView.bookImages = self.bookRandomImages;
         [self.customListButton setTitle:@"Random" forState:UIControlStateNormal];
         NSLog(@"changed to random");
     }
