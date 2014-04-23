@@ -54,12 +54,28 @@
     [self.view addSubview:self.datePicker];
 }
 
+- (void)scheduleNotification {
+    UILocalNotification *notification = [[UILocalNotification alloc]init];
+    notification.fireDate = self.datePicker.date;
+    //notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+    notification.timeZone = [NSTimeZone defaultTimeZone];
+    notification.alertBody = @"Finish reading book ";
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    notification.alertAction= @"View";
+    
+    [[UIApplication sharedApplication]scheduleLocalNotification:notification];
+}
+
 -(void) dueDateChanged:(UIDatePicker *)sender {
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
-    self.dueDate.text = [dateFormatter stringFromDate:[self.datePicker date]];//should keep this in the database as well
+    self.dueDate.text = [dateFormatter stringFromDate:[self.datePicker date]];
+    
+    [self scheduleNotification];
+    
+    ;//should keep this in the database as well
     NSLog(@"Picked the date %@", [dateFormatter stringFromDate:[sender date]]);
     [self.datePicker removeFromSuperview];
 }
