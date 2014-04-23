@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @interface BookDetailsViewController : UIViewController
-
 - (IBAction)dismissDetailsView:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *bookTitle;
+@property (weak, nonatomic) IBOutlet UILabel *dueDate;
 //this will eventually load the cover
 //from the url? 
 @property (weak, nonatomic) IBOutlet UIImageView *bookCover;
+@property (weak, nonatomic) IBOutlet UIButton *calendarPicker;
+@property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
+- (IBAction)showCalendarPicker:(id)sender;
 
 @end

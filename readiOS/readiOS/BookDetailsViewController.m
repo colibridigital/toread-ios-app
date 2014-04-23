@@ -41,4 +41,26 @@
 - (IBAction)dismissDetailsView:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+- (IBAction)showCalendarPicker:(id)sender {
+    
+    self.datePicker = [[UIDatePicker alloc] init];
+    self.datePicker.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.datePicker.datePickerMode = UIDatePickerModeDate;
+    
+    [self.datePicker addTarget:self action:@selector(dueDateChanged:) forControlEvents:UIControlEventValueChanged];
+    CGSize pickerSize = [self.datePicker sizeThatFits:CGSizeZero];
+    self.datePicker.frame = CGRectMake(0.0, 250, pickerSize.width, 460);
+    self.datePicker.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.datePicker];
+}
+
+-(void) dueDateChanged:(UIDatePicker *)sender {
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    
+    self.dueDate.text = [dateFormatter stringFromDate:[self.datePicker date]];//should keep this in the database as well
+    NSLog(@"Picked the date %@", [dateFormatter stringFromDate:[sender date]]);
+    [self.datePicker removeFromSuperview];
+}
 @end

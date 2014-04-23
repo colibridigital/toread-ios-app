@@ -13,6 +13,7 @@
 		1501B40118EC74A9007DD020 /* CustomBookListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1501B3FF18EC74A9007DD020 /* CustomBookListView.xib */; };
 		152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152FF0321899B75D00E824E9 /* BookDetailsViewController.m */; };
 		152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */; };
+		15ABDB511907C0A500C1FE32 /* Calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 15ABDB501907C0A500C1FE32 /* Calendar.png */; };
 		15B08CD118783CD000FE1C17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD018783CD000FE1C17 /* Foundation.framework */; };
 		15B08CD318783CD000FE1C17 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD218783CD000FE1C17 /* CoreGraphics.framework */; };
 		15B08CD518783CD000FE1C17 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD418783CD000FE1C17 /* UIKit.framework */; };
@@ -76,6 +77,7 @@
 		152FF0311899B75D00E824E9 /* BookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailsViewController.h; sourceTree = "<group>"; };
 		152FF0321899B75D00E824E9 /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
 		152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookDetailsViewController.xib; sourceTree = "<group>"; };
+		15ABDB501907C0A500C1FE32 /* Calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Calendar.png; sourceTree = "<group>"; };
 		15B08CCD18783CD000FE1C17 /* readiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = readiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15B08CD018783CD000FE1C17 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		15B08CD218783CD000FE1C17 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -281,6 +283,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				15ABDB501907C0A500C1FE32 /* Calendar.png */,
 				15CFECE318FEC5560086207B /* home-icon.png */,
 				15D4935118FC93F1008460D4 /* menu.png */,
 				15EF457D18F5B5BF00A77569 /* read.png */,
@@ -418,6 +421,7 @@
 				15B08D161878423F00FE1C17 /* four.jpg in Resources */,
 				152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */,
 				15B08CEC18783CD000FE1C17 /* Images.xcassets in Resources */,
+				15ABDB511907C0A500C1FE32 /* Calendar.png in Resources */,
 				15EF45A818FBF1ED00A77569 /* SideMenuViewController.xib in Resources */,
 				1501B3F918EC4C13007DD020 /* maths2.jpg in Resources */,
 				15B08D24188B184900FE1C17 /* 2.jpg in Resources */,
