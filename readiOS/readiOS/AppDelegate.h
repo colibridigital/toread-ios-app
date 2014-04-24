@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <sqlite3.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    sqlite3 *database;
+    NSMutableArray *suggestedBooks;
+}
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, retain) NSMutableArray *suggestedBooks;
 
 @end

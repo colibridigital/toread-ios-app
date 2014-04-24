@@ -9,8 +9,10 @@
 #import "ViewController.h"
 #import "BookCollectionViewCell.h"
 #import "BookDetailsViewController.h"
+#import "BooksDatabase.h"
 #import "CustomBookListView.h"
 #import "MFSideMenu.h"
+#import "AppDelegate.h"
 
 @interface ViewController ()
 
@@ -169,7 +171,11 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (collectionView == self.suggestedBooksView) {
-        return self.suggestedBooksView.bookImages.count;
+        //return self.suggestedBooksView.bookImages.count;
+        
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        return appDelegate.suggestedBooks.count;
+        
     } else if (collectionView == self.collectionView) {
         return self.collectionView.bookImages.count;
     } else if (collectionView == self.customCollectionView) {
@@ -194,7 +200,14 @@
     }
     
     if (collectionView == self.suggestedBooksView) {
-        [self saveBookToCell:indexPath cell:cell booksImages:self.suggestedBooksView.bookImages];
+       // [self saveBookToCell:indexPath cell:cell booksImages:self.suggestedBooksView.bookImages];
+        
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+        BooksDatabase *bDB = [appDelegate.suggestedBooks objectAtIndex:indexPath.row];
+        NSURL *url = [NSURL URLWithString:bDB.coverLink];
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
+        cell.bookImage.image = bookImage;
     } else if (collectionView == self.collectionView) {
         [self saveBookToCell:indexPath cell:cell booksImages:self.collectionView.bookImages];
     } else if (collectionView == self.customCollectionView) {

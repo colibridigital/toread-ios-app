@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BookDetailsViewController : UIViewController
+@interface BookDetailsViewController : UIViewController<UIGestureRecognizerDelegate>
 - (IBAction)dismissDetailsView:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *bookTitle;
 @property (weak, nonatomic) IBOutlet UILabel *dueDate;

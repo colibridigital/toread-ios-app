@@ -14,6 +14,9 @@
 		152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152FF0321899B75D00E824E9 /* BookDetailsViewController.m */; };
 		152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */; };
 		15ABDB511907C0A500C1FE32 /* Calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 15ABDB501907C0A500C1FE32 /* Calendar.png */; };
+		15ABDB531908359A00C1FE32 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15ABDB521908359A00C1FE32 /* libsqlite3.0.dylib */; };
+		15ABDB5A1909344E00C1FE32 /* BooksDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 15ABDB591909344E00C1FE32 /* BooksDatabase.m */; };
+		15ABDB5D1909536000C1FE32 /* books.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 15ABDB5C1909536000C1FE32 /* books.sqlite */; };
 		15B08CD118783CD000FE1C17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD018783CD000FE1C17 /* Foundation.framework */; };
 		15B08CD318783CD000FE1C17 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD218783CD000FE1C17 /* CoreGraphics.framework */; };
 		15B08CD518783CD000FE1C17 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD418783CD000FE1C17 /* UIKit.framework */; };
@@ -78,6 +81,10 @@
 		152FF0321899B75D00E824E9 /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
 		152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookDetailsViewController.xib; sourceTree = "<group>"; };
 		15ABDB501907C0A500C1FE32 /* Calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Calendar.png; sourceTree = "<group>"; };
+		15ABDB521908359A00C1FE32 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		15ABDB581909344E00C1FE32 /* BooksDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksDatabase.h; sourceTree = "<group>"; };
+		15ABDB591909344E00C1FE32 /* BooksDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksDatabase.m; sourceTree = "<group>"; };
+		15ABDB5C1909536000C1FE32 /* books.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = books.sqlite; sourceTree = "<group>"; };
 		15B08CCD18783CD000FE1C17 /* readiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = readiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15B08CD018783CD000FE1C17 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		15B08CD218783CD000FE1C17 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -138,6 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15ABDB531908359A00C1FE32 /* libsqlite3.0.dylib in Frameworks */,
 				15EF459D18FBEE6700A77569 /* QuartzCore.framework in Frameworks */,
 				15B08CD318783CD000FE1C17 /* CoreGraphics.framework in Frameworks */,
 				15B08CD518783CD000FE1C17 /* UIKit.framework in Frameworks */,
@@ -179,6 +187,15 @@
 			name = BookDetailsViewController;
 			sourceTree = "<group>";
 		};
+		15ABDB5B1909345500C1FE32 /* BooksDatabase */ = {
+			isa = PBXGroup;
+			children = (
+				15ABDB581909344E00C1FE32 /* BooksDatabase.h */,
+				15ABDB591909344E00C1FE32 /* BooksDatabase.m */,
+			);
+			name = BooksDatabase;
+			sourceTree = "<group>";
+		};
 		15B08CC418783CD000FE1C17 = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +219,7 @@
 		15B08CCF18783CD000FE1C17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15ABDB521908359A00C1FE32 /* libsqlite3.0.dylib */,
 				15EF459C18FBEE6700A77569 /* QuartzCore.framework */,
 				15B08CD018783CD000FE1C17 /* Foundation.framework */,
 				15B08CD218783CD000FE1C17 /* CoreGraphics.framework */,
@@ -214,6 +232,7 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				15ABDB5B1909345500C1FE32 /* BooksDatabase */,
 				15EF459E18FBF0FB00A77569 /* SideMenuViewController */,
 				15EF458D18FBE8FA00A77569 /* MFSideMenu */,
 				1501B40218EC78E8007DD020 /* CustomBookListView */,
@@ -283,6 +302,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				15ABDB5C1909536000C1FE32 /* books.sqlite */,
 				15ABDB501907C0A500C1FE32 /* Calendar.png */,
 				15CFECE318FEC5560086207B /* home-icon.png */,
 				15D4935118FC93F1008460D4 /* menu.png */,
@@ -430,6 +450,7 @@
 				15B08D26188B184900FE1C17 /* 4.jpg in Resources */,
 				15B08CE418783CD000FE1C17 /* Main_iPhone.storyboard in Resources */,
 				15B08D2C188B1D0A00FE1C17 /* ai.jpg in Resources */,
+				15ABDB5D1909536000C1FE32 /* books.sqlite in Resources */,
 				15B08D1E188B156700FE1C17 /* menu.jpg in Resources */,
 				15CFECE418FEC5560086207B /* home-icon.png in Resources */,
 				15B08CDB18783CD000FE1C17 /* InfoPlist.strings in Resources */,
@@ -461,6 +482,7 @@
 				1501B40018EC74A9007DD020 /* CustomBookListView.m in Sources */,
 				15EF459618FBE93D00A77569 /* MFSideMenuShadow.m in Sources */,
 				15B08D111878408200FE1C17 /* BookCollectionView.m in Sources */,
+				15ABDB5A1909344E00C1FE32 /* BooksDatabase.m in Sources */,
 				15EF459518FBE93D00A77569 /* MFSideMenuContainerViewController.m in Sources */,
 				15EF459718FBE93D00A77569 /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */,

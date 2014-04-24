@@ -32,6 +32,7 @@
     // Do any additional setup after loading the view from its nib.
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -79,4 +80,10 @@
     NSLog(@"Picked the date %@", [dateFormatter stringFromDate:[sender date]]);
     [self.datePicker removeFromSuperview];
 }
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.datePicker removeFromSuperview];
+}
+
 @end
