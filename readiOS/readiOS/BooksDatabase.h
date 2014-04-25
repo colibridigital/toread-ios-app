@@ -29,4 +29,7 @@
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db table:(NSString *)tableName;
 
+- (id)initWithPrimaryKeyAllDetails:(NSInteger)pk database:(sqlite3 *)db table:(NSString *)tableName;
+
+
 @end

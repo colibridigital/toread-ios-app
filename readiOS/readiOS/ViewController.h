@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BookCollectionView.h"
+#import "AppDelegate.h"
 
 
 @interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,
@@ -18,8 +19,6 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (strong, nonatomic) UIPickerView *pickerView;
 
-@property (strong, nonatomic) NSMutableArray *bookFavoriteImages;
-@property (strong, nonatomic) NSMutableArray *bookSuggestedImages;
 @property (strong, nonatomic) NSMutableArray *bookUniversityImages;
 @property (strong, nonatomic) NSMutableArray *bookMathsImages;
 @property (strong, nonatomic) NSMutableArray *bookRandomImages;
@@ -32,7 +31,8 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 @property (weak, nonatomic) IBOutlet BookCollectionView *selectedCollectionView;
 @property (weak, nonatomic) IBOutlet BookCollectionView *suggestedBooksView;
 @property (weak, nonatomic) IBOutlet BookCollectionView *customCollectionView;
-@property (weak, nonatomic) IBOutlet BookCollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet BookCollectionView *favouriteCollectionView;
+@property (weak, nonatomic) AppDelegate *appDelegate;
 
 @property (strong, nonatomic) NSMutableArray *bookImages;
 @property (weak, nonatomic) BookCollectionView *collView;

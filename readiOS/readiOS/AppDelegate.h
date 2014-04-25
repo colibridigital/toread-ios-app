@@ -12,9 +12,15 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
     sqlite3 *database;
     NSMutableArray *suggestedBooks;
+    NSMutableArray *favouriteBooks;
 }
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, retain) NSMutableArray *suggestedBooks;
+@property (nonatomic, retain) NSMutableArray *favouriteBooks;
+
+- (void)moveBooksToReadInTheDatabase:(NSString *)tableName ID:(NSInteger)ID;
+
+- (void)deleteBooksToReadFromOriginalTable:(NSString *)tableName ID:(NSInteger)ID;
 
 @end

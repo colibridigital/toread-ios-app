@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -154,9 +154,9 @@
                         <gestureRecognizers/>
                     </view>
                     <connections>
-                        <outlet property="collectionView" destination="QG2-2B-4ad" id="Uda-Up-LHb"/>
                         <outlet property="customCollectionView" destination="PkH-Ye-E8L" id="Lp5-e5-LCK"/>
                         <outlet property="customListButton" destination="d25-fH-T3a" id="Hjf-jL-gII"/>
+                        <outlet property="favouriteCollectionView" destination="QG2-2B-4ad" id="H3D-2G-crm"/>
                         <outlet property="menuButton" destination="haP-wi-y8a" id="MBg-DM-3Z3"/>
                         <outlet property="suggestedBooksView" destination="5ni-an-PLx" id="tfz-TV-Pzs"/>
                     </connections>

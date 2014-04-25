@@ -15,12 +15,13 @@ static sqlite3_stmt *init_statement = nil;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db table:(NSString *)tableName{
     
+    init_statement = nil;
+    
     if (self = [super init]) {
         ID = pk;
         database = db;
         if (init_statement == nil) {
-            //should i select only the coverlink to start with and then request the other details when the user presses on it? i think yes
-            //const char *sql = [[NSString stringWithFormat:@"SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE FROM %@ WHERE ID = ?", tableName] UTF8String];
+            //i need to get the id as well and then when i get all the details
             
             const char *sql = [[NSString stringWithFormat:@"SELECT COVERLINK FROM %@ WHERE ID = ?", tableName] UTF8String];
             
@@ -31,28 +32,10 @@ static sqlite3_stmt *init_statement = nil;
         // For this query, we bind the primary key to the first (and only) placeholder in the statement
         sqlite3_bind_int(init_statement, 1, ID);
         if (sqlite3_step(init_statement) == SQLITE_ROW) {
-            
-            NSLog(@"entering to save the data");
-            
-            /*self.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
-            NSLog(@"done");
-            self.authors = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)];
-            NSLog(@"done");
-            self.editor = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 2)];
-            NSLog(@"done");*/
             self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
             NSLog(@"DONE %@", self.coverLink);
-           /* if ([NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 4)] == NULL) {
-                self.dueDate = @"";
-            } else {
-                self.dueDate = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 4)];
-            }*/
-        } else {
-            self.title = @"Nothing";
-            self.authors = @"Nothing";
-            self.editor = @"Nothing";
-            self.coverLink = @"Nothing";
-            self.dueDate = @"Nothing";
+                 } else {
+            self.coverLink = @"";
         }
         // reset the statement for future reuse
         sqlite3_reset(init_statement);
@@ -60,5 +43,50 @@ static sqlite3_stmt *init_statement = nil;
     
     return self;
 }
+
+- (id)initWithPrimaryKeyAllDetails:(NSInteger)pk database:(sqlite3 *)db table:(NSString *)tableName {
+    
+    init_statement = nil;
+    
+    if (self = [super init]) {
+        ID = pk;
+        database = db;
+        if (init_statement == nil) {
+            const char *sql = [[NSString stringWithFormat:@"SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE FROM %@ WHERE ID = %li", tableName, (long)ID] UTF8String];
+            NSLog(@"%s", sql);
+            
+            if (sqlite3_prepare_v2(database, sql, -1, &init_statement, NULL) != SQLITE_OK) {
+                NSAssert1(0, @"ERROR: failed to prepare statement with message '%s' .", sqlite3_errmsg(database));
+            }
+        }
+        if (sqlite3_step(init_statement) == SQLITE_ROW) {
+            
+            NSLog(@"entering to save the details data");
+            
+            self.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
+            NSLog(@"done %@", self.title);
+             self.authors = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)];
+             NSLog(@"done");
+             self.editor = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 2)];
+             NSLog(@"done");
+            self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 3)];
+            NSLog(@"DONE %@", self.coverLink);
+            self.dueDate = @""; //need to check this
+            
+        } else {
+            self.title = @"Nothing";
+            self.authors = @"Nothing";
+            self.editor = @"Nothing";
+            self.coverLink = @"Nothing";
+            self.dueDate = @"";
+        }
+        // reset the statement for future reuse
+        sqlite3_reset(init_statement);
+    }
+    
+    return self;
+
+}
+
 
 @end

@@ -12,7 +12,6 @@
 #import "BooksDatabase.h"
 #import "CustomBookListView.h"
 #import "MFSideMenu.h"
-#import "AppDelegate.h"
 
 @interface ViewController ()
 
@@ -22,55 +21,51 @@
 
 - (void)initializeCollectionViewData
 {
-    self.bookFavoriteImages = [@[@"three.jpg",@"four.jpg",@"one.jpg",@"two.jpg"] mutableCopy];
-    self.bookSuggestedImages = [@[@"1.jpg", @"2.jpg", @"3.jpg", @"4.jpg"] mutableCopy];
     self.bookUniversityImages = [@[@"math.jpg", @"design.jpg", @"java.jpg", @"ai.jpg", @"logic.jpg"] mutableCopy];
     self.bookMathsImages = [@[@"maths1.jpg", @"maths2.jpg"] mutableCopy];
     self.bookRandomImages = [@[@"4.jpg", @"four.jpg", @"ai.jpg"] mutableCopy];
     
     self.pickerViewData = @[@"University", @"Mathematics", @"Random", @"Create New Book List"];
     
+    self.favouriteCollectionView.bookImages = [@[] mutableCopy];
+    self.suggestedBooksView.bookImages = [@[] mutableCopy];
     
-    self.collectionView.bookImages = self.bookFavoriteImages;
     self.customCollectionView.bookImages = self.bookUniversityImages;
-    self.suggestedBooksView.bookImages = self.bookSuggestedImages;
-    
+    //need to fix the customList thing
     [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
     
     self.readBooks = [[NSMutableArray alloc] init];
+    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self.collectionView registerNibAndCell];
+    [self.favouriteCollectionView registerNibAndCell];
     [self.customCollectionView registerNibAndCell];
     [self.suggestedBooksView registerNibAndCell];
     
     [self initializeCollectionViewData];
     
     [self addGestureRecognizer:self.suggestedBooksView ];
-    [self addGestureRecognizer:self.collectionView];
+    [self addGestureRecognizer:self.favouriteCollectionView];
     [self addGestureRecognizer:self.customCollectionView];
 }
 
 
 - (void)addGestureRecognizer:(BookCollectionView *)collView{
-    NSLog(@"adding long press gesture");
     UILongPressGestureRecognizer *lpgr
     = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.minimumPressDuration = 0.5; //seconds
     lpgr.delaysTouchesBegan = YES;
     lpgr.delegate = self;
     [collView addGestureRecognizer:lpgr];
-    NSLog(@"added long press");
-    
-    NSLog(@"adding tap gesture");
+
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tgr.delegate = self;
     [collView addGestureRecognizer:tgr];
-    NSLog(@"added tap gesture");
 }
 
 - (void)getBookCover:(CGPoint)p bookDetails:(BookDetailsViewController *)bookDetails collView:(BookCollectionView *)collView{
@@ -78,6 +73,9 @@
     UIImage *bookImage;
     BookCollectionViewCell *cell;
     indexPath = [collView indexPathForItemAtPoint:p];
+    
+    NSLog(@"%lu",(unsigned long)collView.bookImages.count);
+    
     if (indexPath != nil) {
         cell =[collView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
         bookImage = [UIImage imageNamed:[collView.bookImages objectAtIndex:indexPath.row]];
@@ -95,19 +93,26 @@
     CGPoint p = [gestureRecognizer locationInView:gestureRecognizer.view];
     
     BookDetailsViewController *bookDetails = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
-    [self presentViewController:bookDetails animated:YES completion:nil];
+    
+    
+    NSLog(@"handling tap gesture");
     
     //will need to pass on the details a bit more intelligent
     //either call the server for the book details or get them from the local database
     //but we wont pass them on from here for sure!!!
-    bookDetails.bookTitle.text = @"Book";
-    if ([gestureRecognizer.view isEqual:self.collectionView]) {
-        [self getBookCover:p bookDetails:bookDetails collView:self.collectionView];
+    if ([gestureRecognizer.view isEqual:self.favouriteCollectionView]) {
+        bookDetails.indexPath = [self.favouriteCollectionView indexPathForItemAtPoint:p];
+        bookDetails.tableName = @"favouriteBooks";
+        bookDetails.bookImages = self.favouriteCollectionView.bookImages;
     } else if ([gestureRecognizer.view isEqual:self.customCollectionView]) {
         [self getBookCover:p bookDetails:bookDetails collView:self.customCollectionView];
     } else if ([gestureRecognizer.view isEqual:self.suggestedBooksView]) {
-        [self getBookCover:p bookDetails:bookDetails collView:self.suggestedBooksView];
+        bookDetails.indexPath = [self.suggestedBooksView indexPathForItemAtPoint:p];
+        bookDetails.tableName = @"suggestedBooks";
+        bookDetails.bookImages = self.suggestedBooksView.bookImages;
     }
+    
+    [self presentViewController:bookDetails animated:YES completion:nil];
     
     if (self.collView != nil)
         [self.collView reloadData];
@@ -129,13 +134,14 @@
     if (self.collView != nil)
         [self.collView reloadData];
     
-    if ([gestureRecognizer.view isEqual:self.collectionView]) {
-        indexPath = [self.collectionView indexPathForItemAtPoint:p];
+    //fix this ? need to delete from database as well
+    if ([gestureRecognizer.view isEqual:self.favouriteCollectionView]) {
+        indexPath = [self.favouriteCollectionView indexPathForItemAtPoint:p];
         if (indexPath != nil) {
-            cell =[self.collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
-            [self setDataToDelete:self.collectionView imagesArray:self.collectionView.bookImages indexPath:indexPath];
+            cell =[self.favouriteCollectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
+            [self setDataToDelete:self.favouriteCollectionView imagesArray:self.favouriteCollectionView.bookImages indexPath:indexPath];
             self.isEditMode = YES;
-            [self.collectionView reloadData];
+            [self.favouriteCollectionView reloadData];
         }
     } else if ([gestureRecognizer.view isEqual:self.customCollectionView]) {
         indexPath = [self.customCollectionView indexPathForItemAtPoint:p];
@@ -152,9 +158,12 @@
 }
 
 -(void)setDataToDelete:(BookCollectionView *)collView imagesArray:(NSMutableArray *)imagesArray indexPath:(NSIndexPath *)indexPath {
+    
     self.collView = collView;
     self.bookImages = imagesArray;
     self.indexPath = indexPath;
+    
+    NSLog(@"%lu when setting the data and %lu", (unsigned long)self.bookImages.count, self.collView.bookImages.count);
 }
 
 
@@ -171,13 +180,12 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (collectionView == self.suggestedBooksView) {
-        //return self.suggestedBooksView.bookImages.count;
-        
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        return appDelegate.suggestedBooks.count;
-        
-    } else if (collectionView == self.collectionView) {
-        return self.collectionView.bookImages.count;
+        return self.appDelegate.suggestedBooks.count;
+    } else if (collectionView == self.favouriteCollectionView) {
+        if (self.favouriteCollectionView.bookImages.count == 0)
+            return self.appDelegate.favouriteBooks.count;
+        else
+            return self.favouriteCollectionView.bookImages.count;
     } else if (collectionView == self.customCollectionView) {
         return self.customCollectionView.bookImages.count;
     }
@@ -192,30 +200,39 @@
     if ([indexPath isEqual:self.indexPath] && self.isEditMode && [collectionView isEqual:self.collView]) {
         cell.deleteButton.hidden = NO;
         cell.readButton.hidden = NO;
+        [cell.readButton addTarget:self action:@selector(markBookAsRead:) forControlEvents:UIControlEventTouchUpInside];
         [cell.deleteButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
     } else {
         cell.deleteButton.hidden = YES;
         cell.readButton.hidden = YES;
         [cell.readButton addTarget:self action:@selector(markBookAsRead:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.deleteButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
     
     if (collectionView == self.suggestedBooksView) {
-       // [self saveBookToCell:indexPath cell:cell booksImages:self.suggestedBooksView.bookImages];
+            BooksDatabase *bDB = [self.appDelegate.suggestedBooks objectAtIndex:indexPath.row];
+            NSURL *url = [NSURL URLWithString:bDB.coverLink];
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
+            cell.bookImage.image = bookImage;
+        if (![self.suggestedBooksView.bookImages containsObject:data])
+            [self.suggestedBooksView.bookImages addObject:data];
         
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-        BooksDatabase *bDB = [appDelegate.suggestedBooks objectAtIndex:indexPath.row];
-        NSURL *url = [NSURL URLWithString:bDB.coverLink];
-        NSData *data = [NSData dataWithContentsOfURL:url];
-        UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
-        cell.bookImage.image = bookImage;
-    } else if (collectionView == self.collectionView) {
-        [self saveBookToCell:indexPath cell:cell booksImages:self.collectionView.bookImages];
+    } else if (collectionView == self.favouriteCollectionView) {
+            BooksDatabase *bDB = [self.appDelegate.favouriteBooks objectAtIndex:indexPath.row];
+            NSURL *url = [NSURL URLWithString:bDB.coverLink];
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
+            cell.bookImage.image = bookImage;
+        if (![self.favouriteCollectionView.bookImages containsObject:data])
+            [self.favouriteCollectionView.bookImages addObject:data];
+       
     } else if (collectionView == self.customCollectionView) {
         [self saveBookToCell:indexPath cell:cell booksImages:self.customCollectionView.bookImages];
+         // NSLog(@"count %lu", (unsigned long)self.customCollectionView.bookImages.count);
     }
-    
     return cell;
-    
 }
 
 
@@ -238,12 +255,17 @@
         
         //later on we will need to add the id of the book.... from the database
         [self.readBooks addObject:[self.collView.bookImages objectAtIndex:self.indexPath.row]];
-        
+        NSLog(@"%ld the index and the count: %lu, actual %lu, bookImages %lu", (long)self.indexPath.row, (unsigned long)self.collView.bookImages.count, self.favouriteCollectionView.bookImages.count, (unsigned long)self.bookImages.count);
         //then remove it from the orifinal book list and from the specific view
         NSInteger row = [self.indexPath row];
         [self.bookImages removeObjectAtIndex:row];
         NSArray *deletions = @[self.indexPath];
         [self.collView deleteItemsAtIndexPaths:deletions];
+        //make it generic with table name
+        [self.appDelegate moveBooksToReadInTheDatabase:@"favouriteBooks" ID:self.indexPath.row];
+        [self.appDelegate deleteBooksToReadFromOriginalTable:@"favouriteBooks" ID:self.indexPath.row];
+        //need to create the readBooks array in the delegate and in here to have the books there
+        
     }
     
     [self.collView reloadData];
