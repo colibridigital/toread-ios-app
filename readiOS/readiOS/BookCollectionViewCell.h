@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 @property (weak, nonatomic) IBOutlet UIButton *readButton;
 
+@property (assign, nonatomic) NSInteger ID;
+
 @end

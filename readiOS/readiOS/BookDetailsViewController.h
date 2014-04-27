@@ -22,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 
 @property (weak, nonatomic) NSMutableArray *bookImages;
+@property (assign, nonatomic) NSInteger cellID;
 
 - (IBAction)showCalendarPicker:(id)sender;
 

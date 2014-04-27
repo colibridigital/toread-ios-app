@@ -33,6 +33,7 @@ static sqlite3_stmt *init_statement = nil;
         sqlite3_bind_int(init_statement, 1, ID);
         if (sqlite3_step(init_statement) == SQLITE_ROW) {
             self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
+            //self.ID = sqlite3_column_int(init_statement,0);
             NSLog(@"DONE %@", self.coverLink);
                  } else {
             self.coverLink = @"";

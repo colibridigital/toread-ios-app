@@ -102,14 +102,20 @@
     //but we wont pass them on from here for sure!!!
     if ([gestureRecognizer.view isEqual:self.favouriteCollectionView]) {
         bookDetails.indexPath = [self.favouriteCollectionView indexPathForItemAtPoint:p];
+        BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.favouriteCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
+
         bookDetails.tableName = @"favouriteBooks";
         bookDetails.bookImages = self.favouriteCollectionView.bookImages;
+        bookDetails.cellID = cell.ID;
     } else if ([gestureRecognizer.view isEqual:self.customCollectionView]) {
         [self getBookCover:p bookDetails:bookDetails collView:self.customCollectionView];
     } else if ([gestureRecognizer.view isEqual:self.suggestedBooksView]) {
         bookDetails.indexPath = [self.suggestedBooksView indexPathForItemAtPoint:p];
+         BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.customCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
+        
         bookDetails.tableName = @"suggestedBooks";
         bookDetails.bookImages = self.suggestedBooksView.bookImages;
+        bookDetails.cellID = cell.ID;
     }
     
     [self presentViewController:bookDetails animated:YES completion:nil];
@@ -216,6 +222,9 @@
             NSData *data = [NSData dataWithContentsOfURL:url];
             UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
             cell.bookImage.image = bookImage;
+        
+            cell.ID = bDB.ID;
+        
         if (![self.suggestedBooksView.bookImages containsObject:data])
             [self.suggestedBooksView.bookImages addObject:data];
         
@@ -225,6 +234,9 @@
             NSData *data = [NSData dataWithContentsOfURL:url];
             UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
             cell.bookImage.image = bookImage;
+        
+            cell.ID = bDB.ID;
+        
         if (![self.favouriteCollectionView.bookImages containsObject:data])
             [self.favouriteCollectionView.bookImages addObject:data];
        
@@ -256,14 +268,19 @@
         //later on we will need to add the id of the book.... from the database
         [self.readBooks addObject:[self.collView.bookImages objectAtIndex:self.indexPath.row]];
         NSLog(@"%ld the index and the count: %lu, actual %lu, bookImages %lu", (long)self.indexPath.row, (unsigned long)self.collView.bookImages.count, self.favouriteCollectionView.bookImages.count, (unsigned long)self.bookImages.count);
+        BookCollectionViewCell *cell = (BookCollectionViewCell*)[self.favouriteCollectionView cellForItemAtIndexPath:self.indexPath];
         //then remove it from the orifinal book list and from the specific view
         NSInteger row = [self.indexPath row];
         [self.bookImages removeObjectAtIndex:row];
         NSArray *deletions = @[self.indexPath];
         [self.collView deleteItemsAtIndexPaths:deletions];
         //make it generic with table name
-        [self.appDelegate moveBooksToReadInTheDatabase:@"favouriteBooks" ID:self.indexPath.row];
-        [self.appDelegate deleteBooksToReadFromOriginalTable:@"favouriteBooks" ID:self.indexPath.row];
+        
+
+        
+        [self.appDelegate moveBooksToReadInTheDatabase:@"favouriteBooks" ID:cell.ID indexPath:self.indexPath.row];
+        [self.appDelegate deleteBooksToReadFromOriginalTable:@"favouriteBooks" ID:cell.ID];
+        
         //need to create the readBooks array in the delegate and in here to have the books there
         
     }

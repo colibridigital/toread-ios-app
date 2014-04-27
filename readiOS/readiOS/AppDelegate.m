@@ -146,7 +146,7 @@
 
 }
 
-- (void)moveBooksToReadInTheDatabase:(NSString *)tableName ID:(NSInteger)ID{
+- (void)moveBooksToReadInTheDatabase:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath{
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -164,7 +164,7 @@
                 return;
         }
         
-        [self.favouriteBooks removeObjectAtIndex:ID];
+        [self.favouriteBooks removeObjectAtIndex:indexPath];
         
         NSLog(@"Number of items from the DB: %lu", (unsigned long)favouriteBooks.count);
         // finalize the statement

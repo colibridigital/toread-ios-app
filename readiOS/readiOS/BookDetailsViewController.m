@@ -7,6 +7,7 @@
 //
 
 #import "BookDetailsViewController.h"
+#import "BookCollectionViewCell.h"
 #import "BooksDatabase.h"
 #import <sqlite3.h>
 
@@ -45,13 +46,11 @@
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
     sqlite3 *database;
     
-    NSInteger ID = self.indexPath.row + 1;
-    
-    NSLog(@"id %ld, row %li, bookImagesCount %lu", (long)ID, (long)self.indexPath.row, (unsigned long)self.bookImages.count);
+    NSLog(@"id %ld, row %li, bookImagesCount %lu", (long)self.cellID, (long)self.indexPath.row, (unsigned long)self.bookImages.count);
     //Open the db. The db was prepared outside the application
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
 
-        BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:ID database:database table:self.tableName];
+        BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:self.cellID database:database table:self.tableName];
         self.bookTitle.text = bDB.title;
         UIImage *bookImage = [UIImage imageWithData:[self.bookImages objectAtIndex:self.indexPath.row]];
         self.bookCover.image = bookImage;

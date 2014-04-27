@@ -19,7 +19,7 @@
 @property (nonatomic, retain) NSMutableArray *suggestedBooks;
 @property (nonatomic, retain) NSMutableArray *favouriteBooks;
 
-- (void)moveBooksToReadInTheDatabase:(NSString *)tableName ID:(NSInteger)ID;
+- (void)moveBooksToReadInTheDatabase:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath;
 
 - (void)deleteBooksToReadFromOriginalTable:(NSString *)tableName ID:(NSInteger)ID;
 
