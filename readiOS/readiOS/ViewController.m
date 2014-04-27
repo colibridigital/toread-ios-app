@@ -276,8 +276,6 @@
         [self.collView deleteItemsAtIndexPaths:deletions];
         //make it generic with table name
         
-
-        
         [self.appDelegate moveBooksToReadInTheDatabase:@"favouriteBooks" ID:cell.ID indexPath:self.indexPath.row];
         [self.appDelegate deleteBooksToReadFromOriginalTable:@"favouriteBooks" ID:cell.ID];
         
@@ -300,10 +298,14 @@
     NSLog(@"here to delete");
     
     if (self.indexPath != nil) {
+        BookCollectionViewCell *cell = (BookCollectionViewCell*)[self.favouriteCollectionView cellForItemAtIndexPath:self.indexPath];
+        
         NSInteger row = [self.indexPath row];
         [self.bookImages removeObjectAtIndex:row];
         NSArray *deletions = @[self.indexPath];
         [self.collView deleteItemsAtIndexPaths:deletions];
+        //make this generic
+        [self.appDelegate deleteBooksToReadFromOriginalTable:@"favouriteBooks" ID:cell.ID];
     }
     
     
