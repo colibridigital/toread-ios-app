@@ -13,11 +13,13 @@
     sqlite3 *database;
     NSMutableArray *suggestedBooks;
     NSMutableArray *favouriteBooks;
+    NSMutableArray *customListBooks;
 }
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, retain) NSMutableArray *suggestedBooks;
 @property (nonatomic, retain) NSMutableArray *favouriteBooks;
+@property (nonatomic, retain) NSMutableArray *customListBooks;
 
 - (void)moveBooksToReadInTheDatabase:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath;
 

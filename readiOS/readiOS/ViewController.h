@@ -19,7 +19,6 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (strong, nonatomic) UIPickerView *pickerView;
 
-@property (strong, nonatomic) NSMutableArray *bookUniversityImages;
 @property (strong, nonatomic) NSMutableArray *bookMathsImages;
 @property (strong, nonatomic) NSMutableArray *bookRandomImages;
 @property (strong, nonatomic) NSMutableArray *customCollectionImages;

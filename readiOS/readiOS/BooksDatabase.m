@@ -30,7 +30,7 @@ static sqlite3_stmt *init_statement = nil;
             }
         }
         // For this query, we bind the primary key to the first (and only) placeholder in the statement
-        sqlite3_bind_int(init_statement, 1, ID);
+        sqlite3_bind_int(init_statement, 1, (int)ID);
         if (sqlite3_step(init_statement) == SQLITE_ROW) {
             self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
             //self.ID = sqlite3_column_int(init_statement,0);

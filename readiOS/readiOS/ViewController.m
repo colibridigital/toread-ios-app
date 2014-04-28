@@ -21,7 +21,6 @@
 
 - (void)initializeCollectionViewData
 {
-    self.bookUniversityImages = [@[@"math.jpg", @"design.jpg", @"java.jpg", @"ai.jpg", @"logic.jpg"] mutableCopy];
     self.bookMathsImages = [@[@"maths1.jpg", @"maths2.jpg"] mutableCopy];
     self.bookRandomImages = [@[@"4.jpg", @"four.jpg", @"ai.jpg"] mutableCopy];
     
@@ -30,7 +29,7 @@
     self.favouriteCollectionView.bookImages = [@[] mutableCopy];
     self.suggestedBooksView.bookImages = [@[] mutableCopy];
     
-    self.customCollectionView.bookImages = self.bookUniversityImages;
+    self.customCollectionView.bookImages = [@[] mutableCopy];
     //need to fix the customList thing
     [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
     
@@ -68,21 +67,6 @@
     [collView addGestureRecognizer:tgr];
 }
 
-- (void)getBookCover:(CGPoint)p bookDetails:(BookDetailsViewController *)bookDetails collView:(BookCollectionView *)collView{
-    NSIndexPath *indexPath;
-    UIImage *bookImage;
-    BookCollectionViewCell *cell;
-    indexPath = [collView indexPathForItemAtPoint:p];
-    
-    NSLog(@"%lu",(unsigned long)collView.bookImages.count);
-    
-    if (indexPath != nil) {
-        cell =[collView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
-        bookImage = [UIImage imageNamed:[collView.bookImages objectAtIndex:indexPath.row]];
-        bookDetails.bookCover.image = bookImage;
-    }
-}
-
 -(void)handleTap:(UITapGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded) {
         return;
@@ -108,7 +92,12 @@
         bookDetails.bookImages = self.favouriteCollectionView.bookImages;
         bookDetails.cellID = cell.ID;
     } else if ([gestureRecognizer.view isEqual:self.customCollectionView]) {
-        [self getBookCover:p bookDetails:bookDetails collView:self.customCollectionView];
+        bookDetails.indexPath = [self.customCollectionView indexPathForItemAtPoint:p];
+        BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.customCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
+        
+        bookDetails.tableName = @"suggestedBooks";
+        bookDetails.bookImages = self.customCollectionView.bookImages;
+        bookDetails.cellID = cell.ID;
     } else if ([gestureRecognizer.view isEqual:self.suggestedBooksView]) {
         bookDetails.indexPath = [self.suggestedBooksView indexPathForItemAtPoint:p];
          BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.customCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
@@ -139,8 +128,7 @@
     
     if (self.collView != nil)
         [self.collView reloadData];
-    
-    //fix this ? need to delete from database as well
+
     if ([gestureRecognizer.view isEqual:self.favouriteCollectionView]) {
         indexPath = [self.favouriteCollectionView indexPathForItemAtPoint:p];
         if (indexPath != nil) {
@@ -193,7 +181,10 @@
         else
             return self.favouriteCollectionView.bookImages.count;
     } else if (collectionView == self.customCollectionView) {
-        return self.customCollectionView.bookImages.count;
+        if (self.customCollectionView.bookImages.count == 0)
+            return self.appDelegate.customListBooks.count;
+        else
+            return self.customCollectionView.bookImages.count;
     }
     
     else return 0;
@@ -241,22 +232,18 @@
             [self.favouriteCollectionView.bookImages addObject:data];
        
     } else if (collectionView == self.customCollectionView) {
-        [self saveBookToCell:indexPath cell:cell booksImages:self.customCollectionView.bookImages];
-         // NSLog(@"count %lu", (unsigned long)self.customCollectionView.bookImages.count);
+        BooksDatabase *bDB = [self.appDelegate.customListBooks objectAtIndex:indexPath.row];
+        NSURL *url = [NSURL URLWithString:bDB.coverLink];
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
+        cell.bookImage.image = bookImage;
+        
+        cell.ID = bDB.ID;
+        
+        if (![self.customCollectionView.bookImages containsObject:data])
+            [self.customCollectionView.bookImages addObject:data];
     }
     return cell;
-}
-
-
-- (void)saveBookToCell:(NSIndexPath *)indexPath cell:(BookCollectionViewCell *)cell booksImages:(NSArray *)booksImages
-{
-    UIImage *bookImage = [[UIImage alloc] init];
-    bookImage = [UIImage imageNamed:[booksImages objectAtIndex:indexPath.row]];
-    //later on I can add rating
-    /* cell.bookLabel.text = [NSString stringWithFormat:@"Book %li", (long)indexPath.row ];
-     [cell.bookLabel sizeToFit];*/
-    
-    cell.bookImage.image = bookImage;
 }
 
 //mock for now, not really showing the books
@@ -335,7 +322,7 @@
     return [self.pickerViewData objectAtIndex: row];
 }
 
-// Do something with the selected row.
+//fix this!!!
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
     //here we need to get the specific list from the cache-database...
@@ -359,7 +346,7 @@
         [self.customListButton setTitle:@"Mathematics" forState:UIControlStateNormal];
         NSLog(@"changed to maths");
     } else if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"University"]) {
-        self.customCollectionView.bookImages = self.bookUniversityImages;
+       // self.customCollectionView.bookImages = self.bookUniversityImages;
         [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
         NSLog(@"changed to uni");
     } else {
