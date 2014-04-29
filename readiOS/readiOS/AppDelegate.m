@@ -32,9 +32,18 @@
     
     // Override point for customization after application launch.
     SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
+    UIStoryboard *mainStoryboard;
     
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
-                                                             bundle: nil];
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        
+       mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPad"
+                                                                 bundle: nil];
+    } else {
+        
+        mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
+                                                                 bundle: nil];
+    }
+
     
     ViewController *mainViewController = (ViewController*)[mainStoryboard
                                                                    instantiateViewControllerWithIdentifier: @"MainViewController"];

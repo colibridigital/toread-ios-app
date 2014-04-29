@@ -332,10 +332,6 @@
         
         NSLog(@"here");
         
-       // self.customCollectionView.bookImages = nil;
-       // [self.customListButton setTitle:@"Mathematics" forState:UIControlStateNormal];
-
-        
         CustomBookListView *customBookListView = [[CustomBookListView alloc] initWithNibName:@"CustomBookListView" bundle:nil];
         [customBookListView setParentViewController:self];
         self.customCollectionView.bookImages = self.customCollectionImages;
