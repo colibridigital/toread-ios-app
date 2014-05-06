@@ -14,19 +14,21 @@
 #pragma mark -
 #pragma mark - UITableViewDataSource
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+/*- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     NSString * title = [NSString stringWithFormat:@"Section %ld", (long)section];
     
     return title;
-}
+}*/
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    if (section == 0)
+        return 2;
+    else return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -42,9 +44,16 @@
     
     if ([indexPath isEqual:firstRowPath]) {
         cell.textLabel.text = [NSString stringWithFormat:@"What I've Read"];
+    } else if ([indexPath isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
+        cell.textLabel.text = [NSString stringWithFormat:@"My Whole Reading List"];
+    } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:1]]) {
+        cell.textLabel.text = [NSString stringWithFormat:@"My Account"];
+    } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:1 inSection:1]]) {
+        cell.textLabel.text = [NSString stringWithFormat:@"Login on Facebook"];
     } else {
-        cell.textLabel.text = [NSString stringWithFormat:@"Item %ld", (long)indexPath.row];
+        cell.textLabel.text = [NSString stringWithFormat:@"Refresh Reading List"];
     }
+    
     cell.backgroundColor = [UIColor blackColor];
     cell.textLabel.textColor = [UIColor grayColor];
     
