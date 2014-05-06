@@ -7,7 +7,7 @@
 #import "SideMenuViewController.h"
 #import "MFSideMenu.h"
 #import "ViewController.h"
-#import "CustomBookListView.h"
+#import "ReadBooksViewController.h"
 
 @implementation SideMenuViewController
 
@@ -59,11 +59,14 @@
     
     if ([indexPath  isEqual:[NSIndexPath indexPathForRow:0 inSection:0]]) {
         NSLog(@"in read books selection");
-        CustomBookListView *bookListView = [[CustomBookListView alloc] initWithNibName:@"CustomBookListView" bundle:nil];
+        ReadBooksViewController *bookListView = [[ReadBooksViewController alloc] initWithNibName:@"ReadBooksViewController" bundle:nil];
         NSLog(@"initialized view");
         UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-        NSArray *controllers = [NSArray arrayWithObject:bookListView];
-        navigationController.viewControllers = controllers;
+       // NSArray *controllers = [NSArray arrayWithObject:bookListView];
+       // navigationController.viewControllers = controllers;
+        NSLog(@"will show view");
+        [navigationController presentViewController:bookListView animated:NO completion:nil];
+        
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
 
     } else {

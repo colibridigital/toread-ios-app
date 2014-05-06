@@ -17,6 +17,7 @@
 		15ABDB531908359A00C1FE32 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15ABDB521908359A00C1FE32 /* libsqlite3.0.dylib */; };
 		15ABDB5A1909344E00C1FE32 /* BooksDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 15ABDB591909344E00C1FE32 /* BooksDatabase.m */; };
 		15ABDB5F190A67DF00C1FE32 /* books.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 15ABDB5E190A67DF00C1FE32 /* books.sqlite */; };
+		15AD9F87191917A20020E2C3 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 15AD9F86191917A20020E2C3 /* back.png */; };
 		15B08CD118783CD000FE1C17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD018783CD000FE1C17 /* Foundation.framework */; };
 		15B08CD318783CD000FE1C17 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD218783CD000FE1C17 /* CoreGraphics.framework */; };
 		15B08CD518783CD000FE1C17 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD418783CD000FE1C17 /* UIKit.framework */; };
@@ -49,6 +50,8 @@
 		15B08D2E188B1D0A00FE1C17 /* java.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D29188B1D0A00FE1C17 /* java.jpg */; };
 		15B08D2F188B1D0A00FE1C17 /* logic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D2A188B1D0A00FE1C17 /* logic.jpg */; };
 		15B08D30188B1D0A00FE1C17 /* math.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D2B188B1D0A00FE1C17 /* math.jpg */; };
+		15C2C84E19102028009C9361 /* ReadBooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C2C84C19102028009C9361 /* ReadBooksViewController.m */; };
+		15C2C84F19102028009C9361 /* ReadBooksViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15C2C84D19102028009C9361 /* ReadBooksViewController.xib */; };
 		15CFECE418FEC5560086207B /* home-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15CFECE318FEC5560086207B /* home-icon.png */; };
 		15D4935218FC93F1008460D4 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 15D4935118FC93F1008460D4 /* menu.png */; };
 		15EF457E18F5B5BF00A77569 /* read.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EF457D18F5B5BF00A77569 /* read.png */; };
@@ -85,6 +88,7 @@
 		15ABDB581909344E00C1FE32 /* BooksDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksDatabase.h; sourceTree = "<group>"; };
 		15ABDB591909344E00C1FE32 /* BooksDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksDatabase.m; sourceTree = "<group>"; };
 		15ABDB5E190A67DF00C1FE32 /* books.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = books.sqlite; sourceTree = "<group>"; };
+		15AD9F86191917A20020E2C3 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		15B08CCD18783CD000FE1C17 /* readiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = readiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15B08CD018783CD000FE1C17 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		15B08CD218783CD000FE1C17 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -124,6 +128,9 @@
 		15B08D29188B1D0A00FE1C17 /* java.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = java.jpg; sourceTree = "<group>"; };
 		15B08D2A188B1D0A00FE1C17 /* logic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logic.jpg; sourceTree = "<group>"; };
 		15B08D2B188B1D0A00FE1C17 /* math.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = math.jpg; sourceTree = "<group>"; };
+		15C2C84B19102028009C9361 /* ReadBooksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadBooksViewController.h; sourceTree = "<group>"; };
+		15C2C84C19102028009C9361 /* ReadBooksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadBooksViewController.m; sourceTree = "<group>"; };
+		15C2C84D19102028009C9361 /* ReadBooksViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadBooksViewController.xib; sourceTree = "<group>"; };
 		15CFECE318FEC5560086207B /* home-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home-icon.png"; sourceTree = "<group>"; };
 		15D4935118FC93F1008460D4 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		15EF457D18F5B5BF00A77569 /* read.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = read.png; sourceTree = "<group>"; };
@@ -187,6 +194,16 @@
 			name = BookDetailsViewController;
 			sourceTree = "<group>";
 		};
+		15A41DA7190FE0A600F28FBA /* ReadBooks */ = {
+			isa = PBXGroup;
+			children = (
+				15C2C84B19102028009C9361 /* ReadBooksViewController.h */,
+				15C2C84C19102028009C9361 /* ReadBooksViewController.m */,
+				15C2C84D19102028009C9361 /* ReadBooksViewController.xib */,
+			);
+			name = ReadBooks;
+			sourceTree = "<group>";
+		};
 		15ABDB5B1909345500C1FE32 /* BooksDatabase */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +249,7 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				15A41DA7190FE0A600F28FBA /* ReadBooks */,
 				15ABDB5B1909345500C1FE32 /* BooksDatabase */,
 				15EF459E18FBF0FB00A77569 /* SideMenuViewController */,
 				15EF458D18FBE8FA00A77569 /* MFSideMenu */,
@@ -302,6 +320,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				15AD9F86191917A20020E2C3 /* back.png */,
 				15ABDB5E190A67DF00C1FE32 /* books.sqlite */,
 				15ABDB501907C0A500C1FE32 /* Calendar.png */,
 				15CFECE318FEC5560086207B /* home-icon.png */,
@@ -435,6 +454,7 @@
 				1501B40118EC74A9007DD020 /* CustomBookListView.xib in Resources */,
 				15B08D2F188B1D0A00FE1C17 /* logic.jpg in Resources */,
 				15B08D2D188B1D0A00FE1C17 /* design.jpg in Resources */,
+				15C2C84F19102028009C9361 /* ReadBooksViewController.xib in Resources */,
 				15B08CE718783CD000FE1C17 /* Main_iPad.storyboard in Resources */,
 				15B08D30188B1D0A00FE1C17 /* math.jpg in Resources */,
 				15B08D25188B184900FE1C17 /* 3.jpg in Resources */,
@@ -454,6 +474,7 @@
 				15B08D1E188B156700FE1C17 /* menu.jpg in Resources */,
 				15CFECE418FEC5560086207B /* home-icon.png in Resources */,
 				15B08CDB18783CD000FE1C17 /* InfoPlist.strings in Resources */,
+				15AD9F87191917A20020E2C3 /* back.png in Resources */,
 				15B08D171878423F00FE1C17 /* one.jpg in Resources */,
 				15B08D0D18783F7700FE1C17 /* BookCollectionViewCell.xib in Resources */,
 				15EF457E18F5B5BF00A77569 /* read.png in Resources */,
@@ -476,6 +497,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15EF459B18FBEDDB00A77569 /* MFSideMenu.h in Sources */,
+				15C2C84E19102028009C9361 /* ReadBooksViewController.m in Sources */,
 				15B08CEA18783CD000FE1C17 /* ViewController.m in Sources */,
 				15B08D0B18783E7900FE1C17 /* BookCollectionViewCell.m in Sources */,
 				15B08CE118783CD000FE1C17 /* AppDelegate.m in Sources */,

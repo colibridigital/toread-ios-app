@@ -31,7 +31,7 @@
     
     
     // Override point for customization after application launch.
-    SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
+  //  SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
     UIStoryboard *mainStoryboard;
     
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
@@ -48,13 +48,19 @@
     ViewController *mainViewController = (ViewController*)[mainStoryboard
                                                                    instantiateViewControllerWithIdentifier: @"MainViewController"];
     
+    [self setupMenu:mainViewController];
+    return YES;
+}
+
+- (void)setupMenu:(UIViewController *)mainViewController {
+    SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
     MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
                                                     containerWithCenterViewController:mainViewController
                                                     leftMenuViewController:leftMenuViewController
                                                     rightMenuViewController:nil];
     self.window.rootViewController = container;
     [self.window makeKeyAndVisible];
-    return YES;
+
 }
 
 - (void)createEditableCopyOfDatabaseIfNeeded {
