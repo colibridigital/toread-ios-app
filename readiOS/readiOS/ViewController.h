@@ -36,10 +36,14 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 @property (strong, nonatomic) NSMutableArray *bookImages;
 @property (weak, nonatomic) BookCollectionView *collView;
 @property (strong, nonatomic) NSIndexPath *indexPath;
+@property (strong, nonatomic) NSString* tableName;
+@property (strong, nonatomic) NSString* collName;
 
 
 @property (strong, nonatomic) NSMutableArray *readBooks;
 
 - (IBAction)showMenu:(id)sender;
+- (void)loadCustomListDatabase;
+- (void)loadCustomListDatabaseAndRefreshView;
 
 @end

@@ -52,7 +52,7 @@
 
         BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:self.cellID database:database table:self.tableName];
         self.bookTitle.text = bDB.title;
-        UIImage *bookImage = [UIImage imageWithData:[self.bookImages objectAtIndex:self.indexPath.row]];
+        UIImage *bookImage = [UIImage imageWithContentsOfFile:[self.bookImages objectAtIndex:self.indexPath.row]];
         self.bookCover.image = bookImage;
         
         // finalize the statement

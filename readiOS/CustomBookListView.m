@@ -51,6 +51,8 @@
     NSMutableArray *newBookList = [[NSMutableArray alloc] init];
     self.viewController.customCollectionImages = newBookList;
     
+    [self.viewController loadCustomListDatabaseAndRefreshView];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -38,6 +38,19 @@
     
 }
 
+- (void)loadCustomListDatabase
+{
+    self.tableName = [self.customListButton.titleLabel.text lowercaseString];
+    NSLog(@"titlu custom %@", self.tableName);
+    
+    [self.appDelegate initiateCustomBooksListFromTheDatabase:[NSString stringWithFormat:@"%@Books",self.tableName]];
+}
+
+- (void)loadCustomListDatabaseAndRefreshView {
+    [self loadCustomListDatabase];
+    [self.customCollectionView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -49,6 +62,8 @@
     [self.suggestedBooksView registerNibAndCell];
     
     [self initializeCollectionViewData];
+    
+    [self loadCustomListDatabase];
     
     [self addGestureRecognizer:self.suggestedBooksView ];
     [self addGestureRecognizer:self.favouriteCollectionView];
@@ -94,10 +109,12 @@
         bookDetails.bookImages = self.favouriteCollectionView.bookImages;
         bookDetails.cellID = cell.ID;
     } else if ([gestureRecognizer.view isEqual:self.customCollectionView]) {
+        NSLog(@"in tap for custom");
         bookDetails.indexPath = [self.customCollectionView indexPathForItemAtPoint:p];
         BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.customCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
         
-        bookDetails.tableName = @"suggestedBooks";
+        bookDetails.tableName = [NSString stringWithFormat:@"%@Books",self.tableName];
+        NSLog(@"count:%lu", (unsigned long)self.customCollectionView.bookImages.count);
         bookDetails.bookImages = self.customCollectionView.bookImages;
         bookDetails.cellID = cell.ID;
     } else if ([gestureRecognizer.view isEqual:self.suggestedBooksView]) {
@@ -135,7 +152,7 @@
         indexPath = [self.favouriteCollectionView indexPathForItemAtPoint:p];
         if (indexPath != nil) {
             cell =[self.favouriteCollectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
-            [self setDataToDelete:self.favouriteCollectionView imagesArray:self.favouriteCollectionView.bookImages indexPath:indexPath];
+            [self setDataToDelete:self.favouriteCollectionView imagesArray:self.favouriteCollectionView.bookImages indexPath:indexPath tableName:@"favouriteBooks"];
             self.isEditMode = YES;
             [self.favouriteCollectionView reloadData];
         }
@@ -143,7 +160,7 @@
         indexPath = [self.customCollectionView indexPathForItemAtPoint:p];
         if (indexPath != nil) {
             cell =[self.customCollectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
-            [self setDataToDelete:self.customCollectionView imagesArray:self.customCollectionView.bookImages indexPath:indexPath];
+            [self setDataToDelete:self.customCollectionView imagesArray:self.customCollectionView.bookImages indexPath:indexPath tableName:[NSString stringWithFormat:@"%@Books", self.tableName]];
             self.isEditMode = YES;
             [self.customCollectionView reloadData];
         }
@@ -153,11 +170,12 @@
     
 }
 
--(void)setDataToDelete:(BookCollectionView *)collView imagesArray:(NSMutableArray *)imagesArray indexPath:(NSIndexPath *)indexPath {
+-(void)setDataToDelete:(BookCollectionView *)collView imagesArray:(NSMutableArray *)imagesArray indexPath:(NSIndexPath *)indexPath tableName:(NSString *)tableName{
     
     self.collView = collView;
     self.bookImages = imagesArray;
     self.indexPath = indexPath;
+    self.collName = tableName;
     
     NSLog(@"%lu when setting the data and %lu", (unsigned long)self.bookImages.count, self.collView.bookImages.count);
 }
@@ -225,6 +243,8 @@
             cell.bookImage.image = bookImage;
             cell.ID = bDB.ID;
             NSLog(@"loading from memory");
+            if (![self.suggestedBooksView.bookImages containsObject:pngFilePath])
+                [self.suggestedBooksView.bookImages addObject:pngFilePath];
         } else {
             
             
@@ -235,8 +255,8 @@
             
             cell.ID = bDB.ID;
             
-            if (![self.suggestedBooksView.bookImages containsObject:data] && data!=NULL) {
-                [self.suggestedBooksView.bookImages addObject:data];
+            if (![self.suggestedBooksView.bookImages containsObject:pngFilePath] && data!=NULL) {
+                [self.suggestedBooksView.bookImages addObject:pngFilePath];
             
             NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             
@@ -269,6 +289,9 @@
             cell.bookImage.image = bookImage;
             cell.ID = bDB.ID;
             NSLog(@"loading from memory");
+            if (![self.favouriteCollectionView.bookImages containsObject:pngFilePath])
+                [self.favouriteCollectionView.bookImages addObject:pngFilePath];
+
         } else {
             
             
@@ -279,8 +302,8 @@
             
             cell.ID = bDB.ID;
             
-            if (![self.favouriteCollectionView.bookImages containsObject:data] && data!=NULL) {
-                [self.favouriteCollectionView.bookImages addObject:data];
+            if (![self.favouriteCollectionView.bookImages containsObject:pngFilePath] && data!=NULL) {
+                [self.favouriteCollectionView.bookImages addObject:pngFilePath];
             
             NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             
@@ -302,7 +325,7 @@
         //if image is stored then show it if not and there is internet connection load it and store it
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *imageName = [NSString stringWithFormat:@"customBooks%ld.png",(long)bDB.ID];
+        NSString *imageName = [NSString stringWithFormat:@"%@Books%ld.png",self.tableName,(long)bDB.ID];
         
         NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
         
@@ -314,10 +337,10 @@
             UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
             cell.bookImage.image = bookImage;
             cell.ID = bDB.ID;
-            NSLog(@"loading from memory");
+            NSLog(@"loading from memory custom");
+            if (![self.customCollectionView.bookImages containsObject:pngFilePath])
+                [self.customCollectionView.bookImages addObject:pngFilePath];
         } else {
-            
-            
             
             NSURL *url = [NSURL URLWithString:bDB.coverLink];
             NSData *data = [NSData dataWithContentsOfURL:url];
@@ -326,19 +349,20 @@
             
             cell.ID = bDB.ID;
             
-            if (![self.customCollectionView.bookImages containsObject:data] && data != NULL) {
-                [self.customCollectionView.bookImages addObject:data];
-            
             NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             
             // If you go to the folder below, you will find those pictures
             NSLog(@"%@",docDir);
             
             NSLog(@"saving png");
-            NSString *imageName = [NSString stringWithFormat:@"customBooks%ld.png",(long)cell.ID];
+            NSString *imageName = [NSString stringWithFormat:@"%@Books%ld.png",self.tableName, (long)cell.ID];
             NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
             NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
             [data1 writeToFile:pngFilePath atomically:YES];
+
+            
+            if (![self.customCollectionView.bookImages containsObject:pngFilePath] && data != NULL) {
+                [self.customCollectionView.bookImages addObject:pngFilePath];
             }
         }
         
@@ -346,6 +370,7 @@
     return cell;
 }
 
+//need to fix this!
 //mock for now, not really showing the books
 - (void)markBookAsRead:(UIButton *)sender {
     
@@ -355,16 +380,22 @@
         //later on we will need to add the id of the book.... from the database
         [self.readBooks addObject:[self.collView.bookImages objectAtIndex:self.indexPath.row]];
         NSLog(@"%ld the index and the count: %lu, actual %lu, bookImages %lu", (long)self.indexPath.row, (unsigned long)self.collView.bookImages.count, self.favouriteCollectionView.bookImages.count, (unsigned long)self.bookImages.count);
-        BookCollectionViewCell *cell = (BookCollectionViewCell*)[self.favouriteCollectionView cellForItemAtIndexPath:self.indexPath];
+        BookCollectionViewCell *cell;
+        if ([self.collName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+        
+            cell = (BookCollectionViewCell*)[self.favouriteCollectionView cellForItemAtIndexPath:self.indexPath];
+            
+        } else {
+            cell = (BookCollectionViewCell*)[self.customCollectionView cellForItemAtIndexPath:self.indexPath];
+        }
         //then remove it from the orifinal book list and from the specific view
         NSInteger row = [self.indexPath row];
         [self.bookImages removeObjectAtIndex:row];
         NSArray *deletions = @[self.indexPath];
         [self.collView deleteItemsAtIndexPaths:deletions];
-        //make it generic with table name
         
-        [self.appDelegate moveBooksToReadInTheDatabase:@"favouriteBooks" ID:cell.ID indexPath:self.indexPath.row];
-        [self.appDelegate deleteBooksToReadFromOriginalTable:@"favouriteBooks" ID:cell.ID];
+        [self.appDelegate moveBooksToReadInTheDatabase:self.collName ID:cell.ID indexPath:self.indexPath.row];
+        [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID];
     }
     
     [self.collView reloadData];
@@ -372,24 +403,33 @@
     self.indexPath = nil;
     self.collView = nil;
     self.bookImages = nil;
+    self.collName = nil;
     
     
     NSLog(@"books read %lu", (unsigned long)self.readBooks.count);
 }
 
+//need to fix this
 -(void)deleteCell:(UIButton *)sender {
     
     NSLog(@"here to delete");
     
     if (self.indexPath != nil) {
-        BookCollectionViewCell *cell = (BookCollectionViewCell*)[self.favouriteCollectionView cellForItemAtIndexPath:self.indexPath];
+        BookCollectionViewCell *cell;
+        if ([self.collName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            
+            cell = (BookCollectionViewCell*)[self.favouriteCollectionView cellForItemAtIndexPath:self.indexPath];
+            
+        } else {
+            cell = (BookCollectionViewCell*)[self.customCollectionView cellForItemAtIndexPath:self.indexPath];
+        }
         
         NSInteger row = [self.indexPath row];
         [self.bookImages removeObjectAtIndex:row];
         NSArray *deletions = @[self.indexPath];
         [self.collView deleteItemsAtIndexPaths:deletions];
         //make this generic
-        [self.appDelegate deleteBooksToReadFromOriginalTable:@"favouriteBooks" ID:cell.ID];
+        [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID];
     }
     
     
@@ -398,6 +438,7 @@
     self.indexPath = nil;
     self.collView = nil;
     self.bookImages = nil;
+    self.collName = nil;
     
 }
 
