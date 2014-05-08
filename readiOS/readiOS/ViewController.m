@@ -35,12 +35,14 @@
     
     self.readBooks = [[NSMutableArray alloc] init];
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSLog(@"load view");
     
     [self.favouriteCollectionView registerNibAndCell];
     [self.customCollectionView registerNibAndCell];
@@ -61,7 +63,7 @@
     lpgr.delaysTouchesBegan = YES;
     lpgr.delegate = self;
     [collView addGestureRecognizer:lpgr];
-
+    
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     tgr.delegate = self;
     [collView addGestureRecognizer:tgr];
@@ -87,7 +89,7 @@
     if ([gestureRecognizer.view isEqual:self.favouriteCollectionView]) {
         bookDetails.indexPath = [self.favouriteCollectionView indexPathForItemAtPoint:p];
         BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.favouriteCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
-
+        
         bookDetails.tableName = @"favouriteBooks";
         bookDetails.bookImages = self.favouriteCollectionView.bookImages;
         bookDetails.cellID = cell.ID;
@@ -100,7 +102,7 @@
         bookDetails.cellID = cell.ID;
     } else if ([gestureRecognizer.view isEqual:self.suggestedBooksView]) {
         bookDetails.indexPath = [self.suggestedBooksView indexPathForItemAtPoint:p];
-         BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.customCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
+        BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.customCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
         
         bookDetails.tableName = @"suggestedBooks";
         bookDetails.bookImages = self.suggestedBooksView.bookImages;
@@ -128,7 +130,7 @@
     
     if (self.collView != nil)
         [self.collView reloadData];
-
+    
     if ([gestureRecognizer.view isEqual:self.favouriteCollectionView]) {
         indexPath = [self.favouriteCollectionView indexPathForItemAtPoint:p];
         if (indexPath != nil) {
@@ -207,41 +209,139 @@
     }
     
     
+    NSLog(@"showing book");
+    
     if (collectionView == self.suggestedBooksView) {
-            BooksDatabase *bDB = [self.appDelegate.suggestedBooks objectAtIndex:indexPath.row];
+        
+        BooksDatabase *bDB = [self.appDelegate.suggestedBooks objectAtIndex:indexPath.row];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *imageName = [NSString stringWithFormat:@"suggestedBooks%ld.png",(long)bDB.ID];
+        NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+
+        if ([fileManager fileExistsAtPath:pngFilePath])
+        {
+            UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
+            cell.bookImage.image = bookImage;
+            cell.ID = bDB.ID;
+            NSLog(@"loading from memory");
+        } else {
+            
+            
             NSURL *url = [NSURL URLWithString:bDB.coverLink];
             NSData *data = [NSData dataWithContentsOfURL:url];
             UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
             cell.bookImage.image = bookImage;
-        
+            
             cell.ID = bDB.ID;
-        
-        if (![self.suggestedBooksView.bookImages containsObject:data])
-            [self.suggestedBooksView.bookImages addObject:data];
+            
+            if (![self.suggestedBooksView.bookImages containsObject:data] && data!=NULL) {
+                [self.suggestedBooksView.bookImages addObject:data];
+            
+            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            // If you go to the folder below, you will find those pictures
+            NSLog(@"%@",docDir);
+            
+            NSLog(@"saving png");
+            NSString *imageName = [NSString stringWithFormat:@"suggestedBooks%ld.png",(long)cell.ID];
+            NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
+            [data1 writeToFile:pngFilePath atomically:YES];
+            }
+            
+        }
         
     } else if (collectionView == self.favouriteCollectionView) {
-            BooksDatabase *bDB = [self.appDelegate.favouriteBooks objectAtIndex:indexPath.row];
+        BooksDatabase *bDB = [self.appDelegate.favouriteBooks objectAtIndex:indexPath.row];
+        
+        //if image is stored then show it if not and there is internet connection load it and store it
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)bDB.ID];
+        NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+        
+       // NSLog(@"%@", pngFilePath);
+        
+        if ([fileManager fileExistsAtPath:pngFilePath])
+        {
+            UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
+            cell.bookImage.image = bookImage;
+            cell.ID = bDB.ID;
+            NSLog(@"loading from memory");
+        } else {
+            
+            
             NSURL *url = [NSURL URLWithString:bDB.coverLink];
             NSData *data = [NSData dataWithContentsOfURL:url];
             UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
             cell.bookImage.image = bookImage;
-        
+            
             cell.ID = bDB.ID;
+            
+            if (![self.favouriteCollectionView.bookImages containsObject:data] && data!=NULL) {
+                [self.favouriteCollectionView.bookImages addObject:data];
+            
+            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            // If you go to the folder below, you will find those pictures
+            NSLog(@"%@",docDir);
+            
+            NSLog(@"saving png");
+            NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)cell.ID];
+            NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
+            [data1 writeToFile:pngFilePath atomically:YES];
+            }
+        }
         
-        if (![self.favouriteCollectionView.bookImages containsObject:data])
-            [self.favouriteCollectionView.bookImages addObject:data];
-       
+        //make this customizable pls
     } else if (collectionView == self.customCollectionView) {
         BooksDatabase *bDB = [self.appDelegate.customListBooks objectAtIndex:indexPath.row];
-        NSURL *url = [NSURL URLWithString:bDB.coverLink];
-        NSData *data = [NSData dataWithContentsOfURL:url];
-        UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
-        cell.bookImage.image = bookImage;
         
-        cell.ID = bDB.ID;
+        //if image is stored then show it if not and there is internet connection load it and store it
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *imageName = [NSString stringWithFormat:@"customBooks%ld.png",(long)bDB.ID];
         
-        if (![self.customCollectionView.bookImages containsObject:data])
-            [self.customCollectionView.bookImages addObject:data];
+        NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+        
+        NSLog(@"%@", pngFilePath);
+     
+        
+        if ([fileManager fileExistsAtPath:pngFilePath])
+        {
+            UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
+            cell.bookImage.image = bookImage;
+            cell.ID = bDB.ID;
+            NSLog(@"loading from memory");
+        } else {
+            
+            
+            
+            NSURL *url = [NSURL URLWithString:bDB.coverLink];
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
+            cell.bookImage.image = bookImage;
+            
+            cell.ID = bDB.ID;
+            
+            if (![self.customCollectionView.bookImages containsObject:data] && data != NULL) {
+                [self.customCollectionView.bookImages addObject:data];
+            
+            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            // If you go to the folder below, you will find those pictures
+            NSLog(@"%@",docDir);
+            
+            NSLog(@"saving png");
+            NSString *imageName = [NSString stringWithFormat:@"customBooks%ld.png",(long)cell.ID];
+            NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
+            [data1 writeToFile:pngFilePath atomically:YES];
+            }
+        }
+        
     }
     return cell;
 }
@@ -265,9 +365,6 @@
         
         [self.appDelegate moveBooksToReadInTheDatabase:@"favouriteBooks" ID:cell.ID indexPath:self.indexPath.row];
         [self.appDelegate deleteBooksToReadFromOriginalTable:@"favouriteBooks" ID:cell.ID];
-        
-        //need to create the readBooks array in the delegate and in here to have the books there
-        
     }
     
     [self.collView reloadData];
@@ -342,7 +439,7 @@
         [self.customListButton setTitle:@"Mathematics" forState:UIControlStateNormal];
         NSLog(@"changed to maths");
     } else if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"University"]) {
-       // self.customCollectionView.bookImages = self.bookUniversityImages;
+        // self.customCollectionView.bookImages = self.bookUniversityImages;
         [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
         NSLog(@"changed to uni");
     } else {
