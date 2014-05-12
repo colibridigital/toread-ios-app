@@ -33,9 +33,7 @@
     //need to fix the customList thing
     [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
     
-    self.readBooks = [[NSMutableArray alloc] init];
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
 }
 
 - (void)loadCustomListDatabase
@@ -236,7 +234,7 @@
         NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString *imageName = [NSString stringWithFormat:@"suggestedBooks%ld.png",(long)bDB.ID];
         NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
-
+        
         if ([fileManager fileExistsAtPath:pngFilePath])
         {
             UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
@@ -257,17 +255,17 @@
             
             if (![self.suggestedBooksView.bookImages containsObject:pngFilePath] && data!=NULL) {
                 [self.suggestedBooksView.bookImages addObject:pngFilePath];
-            
-            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            
-            // If you go to the folder below, you will find those pictures
-            NSLog(@"%@",docDir);
-            
-            NSLog(@"saving png");
-            NSString *imageName = [NSString stringWithFormat:@"suggestedBooks%ld.png",(long)cell.ID];
-            NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
-            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
-            [data1 writeToFile:pngFilePath atomically:YES];
+                
+                NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                
+                // If you go to the folder below, you will find those pictures
+                NSLog(@"%@",docDir);
+                
+                NSLog(@"saving png");
+                NSString *imageName = [NSString stringWithFormat:@"suggestedBooks%ld.png",(long)cell.ID];
+                NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+                NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
+                [data1 writeToFile:pngFilePath atomically:YES];
             }
             
         }
@@ -281,7 +279,7 @@
         NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)bDB.ID];
         NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
         
-       // NSLog(@"%@", pngFilePath);
+        // NSLog(@"%@", pngFilePath);
         
         if ([fileManager fileExistsAtPath:pngFilePath])
         {
@@ -291,7 +289,7 @@
             NSLog(@"loading from memory");
             if (![self.favouriteCollectionView.bookImages containsObject:pngFilePath])
                 [self.favouriteCollectionView.bookImages addObject:pngFilePath];
-
+            
         } else {
             
             
@@ -304,17 +302,17 @@
             
             if (![self.favouriteCollectionView.bookImages containsObject:pngFilePath] && data!=NULL) {
                 [self.favouriteCollectionView.bookImages addObject:pngFilePath];
-            
-            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            
-            // If you go to the folder below, you will find those pictures
-            NSLog(@"%@",docDir);
-            
-            NSLog(@"saving png");
-            NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)cell.ID];
-            NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
-            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
-            [data1 writeToFile:pngFilePath atomically:YES];
+                
+                NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                
+                // If you go to the folder below, you will find those pictures
+                NSLog(@"%@",docDir);
+                
+                NSLog(@"saving png");
+                NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)cell.ID];
+                NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+                NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
+                [data1 writeToFile:pngFilePath atomically:YES];
             }
         }
         
@@ -330,7 +328,7 @@
         NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
         
         NSLog(@"%@", pngFilePath);
-     
+        
         
         if ([fileManager fileExistsAtPath:pngFilePath])
         {
@@ -359,7 +357,7 @@
             NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
             NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
             [data1 writeToFile:pngFilePath atomically:YES];
-
+            
             
             if (![self.customCollectionView.bookImages containsObject:pngFilePath] && data != NULL) {
                 [self.customCollectionView.bookImages addObject:pngFilePath];
@@ -370,6 +368,16 @@
     return cell;
 }
 
+- (void)removeImage:(NSString *)filePath
+{
+    NSError *error;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:filePath error:&error];
+    if (error){
+        NSLog(@"%@", error);
+    }
+}
+
 //need to fix this!
 //mock for now, not really showing the books
 - (void)markBookAsRead:(UIButton *)sender {
@@ -377,36 +385,53 @@
     NSLog(@"marked as read");
     if (self.indexPath != nil) {
         
-        //later on we will need to add the id of the book.... from the database
-        [self.readBooks addObject:[self.collView.bookImages objectAtIndex:self.indexPath.row]];
-        NSLog(@"%ld the index and the count: %lu, actual %lu, bookImages %lu", (long)self.indexPath.row, (unsigned long)self.collView.bookImages.count, self.favouriteCollectionView.bookImages.count, (unsigned long)self.bookImages.count);
+        NSLog(@"count coll view books %lu, image %@", self.collView.bookImages.count, [self.collView.bookImages objectAtIndex:self.indexPath.row]);
+        
         BookCollectionViewCell *cell;
         if ([self.collName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-        
+            
             cell = (BookCollectionViewCell*)[self.favouriteCollectionView cellForItemAtIndexPath:self.indexPath];
             
         } else {
             cell = (BookCollectionViewCell*)[self.customCollectionView cellForItemAtIndexPath:self.indexPath];
         }
         //then remove it from the orifinal book list and from the specific view
-        NSInteger row = [self.indexPath row];
-        [self.bookImages removeObjectAtIndex:row];
-        NSArray *deletions = @[self.indexPath];
-        [self.collView deleteItemsAtIndexPaths:deletions];
         
-        [self.appDelegate moveBooksToReadInTheDatabase:self.collName ID:cell.ID indexPath:self.indexPath.row];
-        [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID];
+        NSString *imagePath = [self.collView.bookImages objectAtIndex:self.indexPath.row];
+        
+        UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:imagePath];
+        
+        NSLog(@"saving png");
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        
+        self.uniqueID  = self.uniqueID + 1;
+        
+        NSString *imageName = [NSString stringWithFormat:@"readBooks%ld.png", (long)self.uniqueID];;
+        NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+        NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
+        [data1 writeToFile:pngFilePath atomically:YES];
+    
+    
+    
+    NSInteger row = [self.indexPath row];
+    [self.bookImages removeObjectAtIndex:row];
+    NSArray *deletions = @[self.indexPath];
+    [self.collView deleteItemsAtIndexPaths:deletions];
+    
+    [self.appDelegate moveBooksToReadInTheDatabase:self.collName ID:cell.ID indexPath:self.indexPath.row];
+    [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID];
+    [self removeImage:imagePath];
     }
-    
-    [self.collView reloadData];
-    
-    self.indexPath = nil;
-    self.collView = nil;
-    self.bookImages = nil;
-    self.collName = nil;
-    
-    
-    NSLog(@"books read %lu", (unsigned long)self.readBooks.count);
+
+[self.collView reloadData];
+
+self.indexPath = nil;
+self.collView = nil;
+self.bookImages = nil;
+self.collName = nil;
+
 }
 
 //need to fix this

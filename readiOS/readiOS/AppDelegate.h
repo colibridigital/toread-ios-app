@@ -13,7 +13,6 @@
     sqlite3 *database;
     NSMutableArray *suggestedBooks;
     NSMutableArray *favouriteBooks;
-    NSMutableArray *readBooks;
 }
 
 @property (strong, nonatomic) UIWindow *window;

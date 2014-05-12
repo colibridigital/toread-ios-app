@@ -38,9 +38,7 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @property (strong, nonatomic) NSString* tableName;
 @property (strong, nonatomic) NSString* collName;
-
-
-@property (strong, nonatomic) NSMutableArray *readBooks;
+@property (nonatomic) int uniqueID;
 
 - (IBAction)showMenu:(id)sender;
 - (void)loadCustomListDatabase;

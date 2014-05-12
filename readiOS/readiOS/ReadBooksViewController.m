@@ -71,7 +71,17 @@
                 int ID = sqlite3_column_int(statement, 0);
                 NSLog(@"ID is %i", ID);
                 BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKey:ID database:database table:tableName];
+                
                 [self.readBooks addObject:bDB];
+                
+                NSFileManager *fileManager = [NSFileManager defaultManager];
+                NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                NSString *imageName = [NSString stringWithFormat:@"readBooks%ld.png",(long)bDB.ID];
+                
+                NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+
+                [self.booksImages addObject:pngFilePath];
+                
             }
         }
         NSLog(@"Number of items from the DB: %lu", (unsigned long)self.readBooks.count);
@@ -132,14 +142,14 @@
     BookCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
     
     BooksDatabase *bDB = [self.readBooks objectAtIndex:indexPath.row];
-    NSURL *url = [NSURL URLWithString:bDB.coverLink];
+   /* NSURL *url = [NSURL URLWithString:bDB.coverLink];
     NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
-    cell.bookImage.image = bookImage;
+    UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there*/
+    cell.bookImage.image = [[UIImage alloc] initWithContentsOfFile:[self.booksImages objectAtIndex:indexPath.row]];
     
     cell.ID = bDB.ID;
     
-    [self.booksImages addObject:data];
+   // [self.booksImages addObject:data];
     
     [cell.deleteButton setEnabled:NO];
     [cell.readButton setEnabled:NO];

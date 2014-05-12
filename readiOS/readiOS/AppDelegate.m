@@ -161,40 +161,7 @@
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
-    
-   /* if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
-        //Get the primary key for all the books
-        
-        //mock here the tableName (bookList)
-        NSString *tableName = @"universityBooks";
-        
-        const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@", tableName] UTF8String];
-        NSLog(@"%s",sql);
-        sqlite3_stmt *statement;
-        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
-            // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
-            while (sqlite3_step(statement) == SQLITE_ROW) {
-                
-                NSLog(@"in SQL");
-                int ID = sqlite3_column_int(statement, 0);
-                NSLog(@"ID is %i", ID);
-                BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKey:ID database:database table:tableName];
-                [customListBooks addObject:bDB];
-            }
-        }
-        NSLog(@"Number of items from the DB: %lu", (unsigned long)customListBooks.count);
-        // finalize the statement
-        sqlite3_finalize(statement);
-        sqlite3_close(database);
-    } else {
-        //even though the open failed, call close to properly clean up resources.
-        sqlite3_close(database);
-        NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
-    }*/
-    
-    
-
+   
 }
 
 - (void)initiateCustomBooksListFromTheDatabase:(NSString *)tableName {
@@ -256,9 +223,12 @@
                 return;
         }
         
-        [self.favouriteBooks removeObjectAtIndex:indexPath];
-        
-        NSLog(@"Number of items from the DB: %lu", (unsigned long)favouriteBooks.count);
+        if ([tableName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            [self.favouriteBooks removeObjectAtIndex:indexPath];
+        } else {
+            [self.customListBooks removeObjectAtIndex:indexPath];
+        }
+      
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
