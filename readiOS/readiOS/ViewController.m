@@ -385,8 +385,6 @@
     NSLog(@"marked as read");
     if (self.indexPath != nil) {
         
-        NSLog(@"count coll view books %lu, image %@", self.collView.bookImages.count, [self.collView.bookImages objectAtIndex:self.indexPath.row]);
-        
         BookCollectionViewCell *cell;
         if ([self.collName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
             
@@ -403,7 +401,6 @@
         
         NSLog(@"saving png");
         
-        NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         
         self.uniqueID  = self.uniqueID + 1;

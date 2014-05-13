@@ -215,7 +215,7 @@
     //Open the db. The db was prepared outside the application
 
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO readBooks SELECT * FROM %@ WHERE ID = %lu", tableName, (unsigned long)ID] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO readBooks(TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE) SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE FROM %@ WHERE ID = %lu", tableName, (unsigned long)ID] UTF8String];
         NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {

@@ -23,8 +23,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
-        self.booksImages = [@[] mutableCopy];
     }
     return self;
 }
@@ -33,8 +31,8 @@
 {
     [super viewDidLoad];
     NSLog(@"show view");
+    [self getReadBooks];
     [self.collectionView registerNibAndCell];
-    [self showReadBooks];
     [self addGestureRecognizer:self.collectionView];
 
 }
@@ -43,9 +41,12 @@
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
--(void)showReadBooks {
+-(void)getReadBooks {
     NSMutableArray *readBooksArray = [[NSMutableArray alloc] init];
     self.readBooks = readBooksArray;
+    
+    NSMutableArray *booksImagesArray = [[NSMutableArray alloc] init];
+    self.booksImages = booksImagesArray;
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -74,7 +75,6 @@
                 
                 [self.readBooks addObject:bDB];
                 
-                NSFileManager *fileManager = [NSFileManager defaultManager];
                 NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 NSString *imageName = [NSString stringWithFormat:@"readBooks%ld.png",(long)bDB.ID];
                 
@@ -142,14 +142,9 @@
     BookCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
     
     BooksDatabase *bDB = [self.readBooks objectAtIndex:indexPath.row];
-   /* NSURL *url = [NSURL URLWithString:bDB.coverLink];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there*/
     cell.bookImage.image = [[UIImage alloc] initWithContentsOfFile:[self.booksImages objectAtIndex:indexPath.row]];
     
     cell.ID = bDB.ID;
-    
-   // [self.booksImages addObject:data];
     
     [cell.deleteButton setEnabled:NO];
     [cell.readButton setEnabled:NO];
