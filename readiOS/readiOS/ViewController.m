@@ -292,7 +292,6 @@
             
         } else {
             
-            
             NSURL *url = [NSURL URLWithString:bDB.coverLink];
             NSData *data = [NSData dataWithContentsOfURL:url];
             UIImage *bookImage = [[UIImage alloc] initWithData:data]; //i can add this image to an array so i have it in memory all the time; or I can add it to the same book once downloaded and keep it there
@@ -409,26 +408,26 @@
         NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
         NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
         [data1 writeToFile:pngFilePath atomically:YES];
-    
-    
-    
-    NSInteger row = [self.indexPath row];
-    [self.bookImages removeObjectAtIndex:row];
-    NSArray *deletions = @[self.indexPath];
-    [self.collView deleteItemsAtIndexPaths:deletions];
-    
-    [self.appDelegate moveBooksToReadInTheDatabase:self.collName ID:cell.ID indexPath:self.indexPath.row];
-    [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID];
-    [self removeImage:imagePath];
+        
+        
+        
+        NSInteger row = [self.indexPath row];
+        [self.bookImages removeObjectAtIndex:row];
+        NSArray *deletions = @[self.indexPath];
+        [self.collView deleteItemsAtIndexPaths:deletions];
+        
+        [self.appDelegate moveBooksToReadInTheDatabase:self.collName ID:cell.ID indexPath:self.indexPath.row];
+        [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID indexPath:self.indexPath.row];
+        [self removeImage:imagePath];
     }
-
-[self.collView reloadData];
-
-self.indexPath = nil;
-self.collView = nil;
-self.bookImages = nil;
-self.collName = nil;
-
+    
+    [self.collView reloadData];
+    
+    self.indexPath = nil;
+    self.collView = nil;
+    self.bookImages = nil;
+    self.collName = nil;
+    
 }
 
 //need to fix this
@@ -451,7 +450,7 @@ self.collName = nil;
         NSArray *deletions = @[self.indexPath];
         [self.collView deleteItemsAtIndexPaths:deletions];
         //make this generic
-        [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID];
+        [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID indexPath:self.indexPath.row];
     }
     
     

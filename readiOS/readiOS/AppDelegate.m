@@ -240,7 +240,7 @@
 
 }
 
-- (void)deleteBooksToReadFromOriginalTable:(NSString *)tableName ID:(NSInteger)ID{
+- (void)deleteBooksToReadFromOriginalTable:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath{
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -257,6 +257,13 @@
             if (sqlite3_step(statement) != SQLITE_DONE)
                 return;
         }
+        if ([tableName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            [self.favouriteBooks removeObjectAtIndex:indexPath];
+        } else {
+            [self.customListBooks removeObjectAtIndex:indexPath];
+        }
+
+        
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);

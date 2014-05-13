@@ -24,6 +24,6 @@
 
 - (void)initiateCustomBooksListFromTheDatabase:(NSString *)tableName;
 
-- (void)deleteBooksToReadFromOriginalTable:(NSString *)tableName ID:(NSInteger)ID;
+- (void)deleteBooksToReadFromOriginalTable:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath;
 - (void)setupMenu:(UIViewController *)mainViewController;
 @end
