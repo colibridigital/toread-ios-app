@@ -51,7 +51,6 @@
             continue;
         } else{
             [newTable addObject:[[name stringByReplacingOccurrencesOfString:@"Books" withString:@""] capitalizedString]];
-            
         }
     }
     
@@ -523,9 +522,7 @@
         
         NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
-        self.customCollectionView.bookImages = self.customCollectionImages;
-        
-        
+        self.customCollectionView.bookImages = self.customCollectionImages;        
     }
     
     //we can create a new custom list as well

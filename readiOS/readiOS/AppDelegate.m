@@ -161,6 +161,44 @@
    
 }
 
+- (void)createNewCustomListInTheDatabase:(NSString *)name {
+    
+    NSString* tableName = [name lowercaseString];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
+    
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
+        //Get the primary key for all the books
+        
+        const char *sql = [[NSString stringWithFormat:@"create table if not exists %@Books (ID INTEGER PRIMARY KEY, TITLE VARCHAR(300), AUTHORS VARCHAR(300), EDITOR VARCHAR(300), COVERLINK VARCHAR(300), DUEDATE VARCHAR(50))", tableName] UTF8String];
+        NSLog(@"%s",sql);
+        sqlite3_stmt *statement;
+        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+            // We step through the results once for each row.
+            NSLog(@"in sql results app delegate");
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                
+                NSLog(@"in SQL");
+                int ID = sqlite3_column_int(statement, 0);
+                NSLog(@"ID is %i", ID);
+                
+                NSLog(@"DONE");
+            }
+        }
+        // finalize the statement
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    } else {
+        //even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
+    }
+
+    
+}
+
 - (void)getAllDatabaseTableNames {
     
     NSMutableArray *tableNamesArray = [[NSMutableArray alloc] init];

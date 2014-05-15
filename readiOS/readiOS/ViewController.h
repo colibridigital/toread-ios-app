@@ -41,5 +41,6 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 - (IBAction)showMenu:(id)sender;
 - (void)loadCustomListDatabase:(NSString *)customListButtonTitle;
 - (void)loadCustomListDatabaseAndRefreshView:(NSString *)customListButtonTitle;
+- (void) initiatePickerViewWithTableNames;
 
 @end

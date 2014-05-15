@@ -45,13 +45,17 @@
 
 - (IBAction)saveButtPressed:(id)sender {
     NSLog(@"here %@", self.bookListTitle.text);
-    self.listTitle = self.bookListTitle.text;
+    self.listTitle = [self.bookListTitle.text capitalizedString];
     [self.viewController.customListButton setTitle:self.listTitle forState:UIControlStateNormal];
     
     NSMutableArray *newBookList = [[NSMutableArray alloc] init];
     self.viewController.customCollectionImages = newBookList;
     
+    [self.viewController.appDelegate createNewCustomListInTheDatabase:self.listTitle];
+    
     [self.viewController loadCustomListDatabaseAndRefreshView:self.listTitle];
+    
+    [self.viewController initiatePickerViewWithTableNames];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }

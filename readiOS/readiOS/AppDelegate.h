@@ -31,4 +31,6 @@
 - (void)setupMenu:(UIViewController *)mainViewController;
 
 - (void)getAllDatabaseTableNames;
+
+- (void)createNewCustomListInTheDatabase:(NSString *)name;
 @end
