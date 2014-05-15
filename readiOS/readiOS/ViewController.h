@@ -18,10 +18,8 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 - (IBAction)customListSelector:(id)sender;
 
 @property (strong, nonatomic) UIPickerView *pickerView;
-
-@property (strong, nonatomic) NSMutableArray *bookMathsImages;
-@property (strong, nonatomic) NSMutableArray *bookRandomImages;
 @property (strong, nonatomic) NSMutableArray *customCollectionImages;
+@property (strong, nonatomic) NSMutableArray *tableNames;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
 
 @property (strong, nonatomic) NSArray *pickerViewData;
@@ -41,7 +39,7 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 @property (nonatomic) int uniqueID;
 
 - (IBAction)showMenu:(id)sender;
-- (void)loadCustomListDatabase;
-- (void)loadCustomListDatabaseAndRefreshView;
+- (void)loadCustomListDatabase:(NSString *)customListButtonTitle;
+- (void)loadCustomListDatabaseAndRefreshView:(NSString *)customListButtonTitle;
 
 @end

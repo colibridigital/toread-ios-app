@@ -21,31 +21,53 @@
 
 - (void)initializeCollectionViewData
 {
-    self.bookMathsImages = [@[@"maths1.jpg", @"maths2.jpg"] mutableCopy];
-    self.bookRandomImages = [@[@"4.jpg", @"four.jpg", @"ai.jpg"] mutableCopy];
+    //loadThisDataTitle from the database titles adding the Create New Book List in the end
     
-    self.pickerViewData = @[@"University", @"Mathematics", @"Random", @"Create New Book List"];
+    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    [self initiatePickerViewWithTableNames];
     
     self.favouriteCollectionView.bookImages = [@[] mutableCopy];
     self.suggestedBooksView.bookImages = [@[] mutableCopy];
     
     self.customCollectionView.bookImages = [@[] mutableCopy];
     //need to fix the customList thing
-    [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
+    [self.customListButton setTitle:[self.pickerViewData objectAtIndex:1] forState:UIControlStateNormal];
     
-    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
 }
 
-- (void)loadCustomListDatabase
-{
-    self.tableName = [self.customListButton.titleLabel.text lowercaseString];
-    NSLog(@"titlu custom %@", self.tableName);
+- (void) initiatePickerViewWithTableNames {
+    [self.appDelegate getAllDatabaseTableNames];
+    self.tableNames = [self.appDelegate.tableNames mutableCopy];
     
+    [self.tableNames insertObject:@"" atIndex:0];
+    [self.tableNames insertObject:@"Create New List" atIndex:self.tableNames.count];
+    
+    NSMutableArray *newTable = [NSMutableArray array];
+    
+    for (NSString* name in self.tableNames) {
+        if ([name rangeOfString:@"suggested"].location != NSNotFound || [name rangeOfString:@"read"].location != NSNotFound || [name rangeOfString:@"favourite"].location != NSNotFound) {
+            continue;
+        } else{
+            [newTable addObject:[[name stringByReplacingOccurrencesOfString:@"Books" withString:@""] capitalizedString]];
+            
+        }
+    }
+    
+    self.pickerViewData = [newTable mutableCopy];
+    
+}
+
+- (void)loadCustomListDatabase:(NSString *)customListButtonTitle
+{
+    self.tableName = [customListButtonTitle lowercaseString];
+    NSLog(@"the tile is %@", self.tableName);
     [self.appDelegate initiateCustomBooksListFromTheDatabase:[NSString stringWithFormat:@"%@Books",self.tableName]];
 }
 
-- (void)loadCustomListDatabaseAndRefreshView {
-    [self loadCustomListDatabase];
+- (void)loadCustomListDatabaseAndRefreshView:(NSString *)customListButtonTitle {
+    [self loadCustomListDatabase:customListButtonTitle];
     [self.customCollectionView reloadData];
 }
 
@@ -61,7 +83,7 @@
     
     [self initializeCollectionViewData];
     
-    [self loadCustomListDatabase];
+    [self loadCustomListDatabase:self.customListButton.titleLabel.text];
     
     [self addGestureRecognizer:self.suggestedBooksView ];
     [self addGestureRecognizer:self.favouriteCollectionView];
@@ -481,13 +503,11 @@
     return [self.pickerViewData objectAtIndex: row];
 }
 
-//fix this!!!
+//fix this!!! we need to call the database for the books from the table specified in the title
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
-    //here we need to get the specific list from the cache-database...
-    //atm we keep it dummy:
     
-    if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Create New Book List"]) {
+    if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Create New List"]) {
         
         NSLog(@"here");
         
@@ -496,18 +516,16 @@
         self.customCollectionView.bookImages = self.customCollectionImages;
         [self presentViewController:customBookListView animated:YES completion:nil];//mockup now to see ui works
         
-    } else if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Mathematics"]) {
-        self.customCollectionView.bookImages = self.bookMathsImages;
-        [self.customListButton setTitle:@"Mathematics" forState:UIControlStateNormal];
-        NSLog(@"changed to maths");
-    } else if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"University"]) {
-        // self.customCollectionView.bookImages = self.bookUniversityImages;
-        [self.customListButton setTitle:@"University" forState:UIControlStateNormal];
-        NSLog(@"changed to uni");
     } else {
-        self.customCollectionView.bookImages = self.bookRandomImages;
-        [self.customListButton setTitle:@"Random" forState:UIControlStateNormal];
-        NSLog(@"changed to random");
+        [self.customListButton setTitle:[self.pickerViewData objectAtIndex:row] forState:UIControlStateNormal];
+        
+        [self loadCustomListDatabaseAndRefreshView:[self.pickerViewData objectAtIndex:row]];
+        
+        NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
+        
+        self.customCollectionView.bookImages = self.customCollectionImages;
+        
+        
     }
     
     //we can create a new custom list as well
@@ -517,7 +535,6 @@
     [self.pickerView removeFromSuperview];
     
 }
-
 
 - (IBAction)customListSelector:(id)sender {
     
@@ -539,7 +556,7 @@
     self.pickerView.showsSelectionIndicator = YES;
     self.pickerView.backgroundColor = [UIColor whiteColor];
     
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
+    [self.pickerView selectRow:0 inComponent:0 animated:NO];
     
     [self.view addSubview:self.pickerView];
     

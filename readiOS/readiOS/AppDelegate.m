@@ -22,7 +22,7 @@
 
 @implementation AppDelegate
 
-@synthesize suggestedBooks,favouriteBooks,customListBooks;
+@synthesize suggestedBooks,favouriteBooks,customListBooks, tableNames;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -89,9 +89,6 @@
     
     NSMutableArray *favouriteBooksArray = [[NSMutableArray alloc] init];
     self.favouriteBooks = favouriteBooksArray;
-    
-    NSMutableArray *customListBooksArray = [[NSMutableArray alloc] init];
-    self.customListBooks = customListBooksArray;
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -162,6 +159,48 @@
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
    
+}
+
+- (void)getAllDatabaseTableNames {
+    
+    NSMutableArray *tableNamesArray = [[NSMutableArray alloc] init];
+    self.tableNames = tableNamesArray;
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
+    
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
+        //Get the primary key for all the books
+        
+        const char *sql = [[NSString stringWithFormat:@"select name from sqlite_master where type='table'"] UTF8String];
+        NSLog(@"%s",sql);
+        sqlite3_stmt *statement;
+        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+            // We step through the results once for each row.
+            NSLog(@"in sql results app delegate");
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                
+                NSLog(@"in SQL");
+                int ID = sqlite3_column_int(statement, 0);
+                NSLog(@"ID is %i", ID);
+               
+                    [tableNames addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)]];
+
+                    NSLog(@"DONE");
+                                         }
+        }
+        NSLog(@"Number of items from the DB: %lu", (unsigned long)tableNames.count);
+        // finalize the statement
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    } else {
+        //even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
+    }
+
+    
 }
 
 - (void)initiateCustomBooksListFromTheDatabase:(NSString *)tableName {

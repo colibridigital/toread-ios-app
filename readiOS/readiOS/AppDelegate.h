@@ -13,12 +13,15 @@
     sqlite3 *database;
     NSMutableArray *suggestedBooks;
     NSMutableArray *favouriteBooks;
+    NSMutableArray *customListBooks;
+    NSMutableArray *tableNames;
 }
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, retain) NSMutableArray *suggestedBooks;
 @property (nonatomic, retain) NSMutableArray *favouriteBooks;
 @property (nonatomic, retain) NSMutableArray *customListBooks;
+@property (nonatomic, retain) NSMutableArray *tableNames;
 
 - (void)moveBooksToReadInTheDatabase:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath;
 
@@ -26,4 +29,6 @@
 
 - (void)deleteBooksToReadFromOriginalTable:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath;
 - (void)setupMenu:(UIViewController *)mainViewController;
+
+- (void)getAllDatabaseTableNames;
 @end
