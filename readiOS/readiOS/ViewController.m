@@ -21,8 +21,6 @@
 
 - (void)initializeCollectionViewData
 {
-    //loadThisDataTitle from the database titles adding the Create New Book List in the end
-    
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     [self initiatePickerViewWithTableNames];
@@ -31,11 +29,11 @@
     self.suggestedBooksView.bookImages = [@[] mutableCopy];
     
     self.customCollectionView.bookImages = [@[] mutableCopy];
-    //need to fix the customList thing
     [self.customListButton setTitle:[self.pickerViewData objectAtIndex:1] forState:UIControlStateNormal];
     
+    self.retrieveBooks = [[RetrieveBooks alloc] init];
     
-}
+ }
 
 - (void) initiatePickerViewWithTableNames {
     [self.appDelegate getAllDatabaseTableNames];
@@ -87,7 +85,13 @@
     [self addGestureRecognizer:self.suggestedBooksView ];
     [self addGestureRecognizer:self.favouriteCollectionView];
     [self addGestureRecognizer:self.customCollectionView];
-}
+    
+    NSLog(@"try JSOOON");
+    
+    NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:@"https://www.googleapis.com/books/v1/volumes?q=intitle:harry+potter+and+the+sorcerer's+stone"];
+    [self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]];
+    
+   }
 
 
 - (void)addGestureRecognizer:(BookCollectionView *)collView{
@@ -117,9 +121,6 @@
     
     NSLog(@"handling tap gesture");
     
-    //will need to pass on the details a bit more intelligent
-    //either call the server for the book details or get them from the local database
-    //but we wont pass them on from here for sure!!!
     if ([gestureRecognizer.view isEqual:self.favouriteCollectionView]) {
         bookDetails.indexPath = [self.favouriteCollectionView indexPathForItemAtPoint:p];
         BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.favouriteCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
@@ -557,6 +558,9 @@
     
     [self.view addSubview:self.pickerView];
     
+}
+
+- (IBAction)showQRReader:(id)sender {
 }
 
 - (IBAction)showMenu:(id)sender {

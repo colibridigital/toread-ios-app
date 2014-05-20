@@ -11,6 +11,8 @@
 		1501B3F918EC4C13007DD020 /* maths2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1501B3F718EC4C13007DD020 /* maths2.jpg */; };
 		1501B40018EC74A9007DD020 /* CustomBookListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1501B3FE18EC74A9007DD020 /* CustomBookListView.m */; };
 		1501B40118EC74A9007DD020 /* CustomBookListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1501B3FF18EC74A9007DD020 /* CustomBookListView.xib */; };
+		1507C3C3192A48DE002F81C2 /* barcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507C3C2192A48DE002F81C2 /* barcode.png */; };
+		1507C3C7192BA9D9002F81C2 /* RetrieveBooks.m in Sources */ = {isa = PBXBuildFile; fileRef = 1507C3C6192BA9D9002F81C2 /* RetrieveBooks.m */; };
 		152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152FF0321899B75D00E824E9 /* BookDetailsViewController.m */; };
 		152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */; };
 		15ABDB511907C0A500C1FE32 /* Calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 15ABDB501907C0A500C1FE32 /* Calendar.png */; };
@@ -80,6 +82,9 @@
 		1501B3FD18EC74A9007DD020 /* CustomBookListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBookListView.h; sourceTree = "<group>"; };
 		1501B3FE18EC74A9007DD020 /* CustomBookListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBookListView.m; sourceTree = "<group>"; };
 		1501B3FF18EC74A9007DD020 /* CustomBookListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomBookListView.xib; sourceTree = "<group>"; };
+		1507C3C2192A48DE002F81C2 /* barcode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = barcode.png; sourceTree = "<group>"; };
+		1507C3C5192BA9D9002F81C2 /* RetrieveBooks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RetrieveBooks.h; sourceTree = "<group>"; };
+		1507C3C6192BA9D9002F81C2 /* RetrieveBooks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RetrieveBooks.m; sourceTree = "<group>"; };
 		152FF0311899B75D00E824E9 /* BookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailsViewController.h; sourceTree = "<group>"; };
 		152FF0321899B75D00E824E9 /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
 		152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookDetailsViewController.xib; sourceTree = "<group>"; };
@@ -184,6 +189,15 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		1507C3C4192BA99E002F81C2 /* GoogleBooks */ = {
+			isa = PBXGroup;
+			children = (
+				1507C3C5192BA9D9002F81C2 /* RetrieveBooks.h */,
+				1507C3C6192BA9D9002F81C2 /* RetrieveBooks.m */,
+			);
+			name = GoogleBooks;
+			sourceTree = "<group>";
+		};
 		152FF0301899B6ED00E824E9 /* BookDetailsViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,6 +263,7 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				1507C3C4192BA99E002F81C2 /* GoogleBooks */,
 				15A41DA7190FE0A600F28FBA /* ReadBooks */,
 				15ABDB5B1909345500C1FE32 /* BooksDatabase */,
 				15EF459E18FBF0FB00A77569 /* SideMenuViewController */,
@@ -320,6 +335,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1507C3C2192A48DE002F81C2 /* barcode.png */,
 				15AD9F86191917A20020E2C3 /* back.png */,
 				15ABDB5E190A67DF00C1FE32 /* books.sqlite */,
 				15ABDB501907C0A500C1FE32 /* Calendar.png */,
@@ -461,6 +477,7 @@
 				15B08D161878423F00FE1C17 /* four.jpg in Resources */,
 				152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */,
 				15B08CEC18783CD000FE1C17 /* Images.xcassets in Resources */,
+				1507C3C3192A48DE002F81C2 /* barcode.png in Resources */,
 				15ABDB511907C0A500C1FE32 /* Calendar.png in Resources */,
 				15EF45A818FBF1ED00A77569 /* SideMenuViewController.xib in Resources */,
 				1501B3F918EC4C13007DD020 /* maths2.jpg in Resources */,
@@ -505,6 +522,7 @@
 				15EF459618FBE93D00A77569 /* MFSideMenuShadow.m in Sources */,
 				15B08D111878408200FE1C17 /* BookCollectionView.m in Sources */,
 				15ABDB5A1909344E00C1FE32 /* BooksDatabase.m in Sources */,
+				1507C3C7192BA9D9002F81C2 /* RetrieveBooks.m in Sources */,
 				15EF459518FBE93D00A77569 /* MFSideMenuContainerViewController.m in Sources */,
 				15EF459718FBE93D00A77569 /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */,

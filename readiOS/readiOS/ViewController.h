@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "BookCollectionView.h"
 #import "AppDelegate.h"
+#import "RetrieveBooks.h"
 
 
 @interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,
 UIPickerViewDataSource, UIPickerViewDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *QRreader;
 
 @property (weak, nonatomic) IBOutlet UIButton *customListButton;
 - (IBAction)customListSelector:(id)sender;
@@ -30,6 +32,7 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 @property (weak, nonatomic) IBOutlet BookCollectionView *customCollectionView;
 @property (weak, nonatomic) IBOutlet BookCollectionView *favouriteCollectionView;
 @property (weak, nonatomic) AppDelegate *appDelegate;
+@property (retain) RetrieveBooks *retrieveBooks;
 
 @property (strong, nonatomic) NSMutableArray *bookImages;
 @property (weak, nonatomic) BookCollectionView *collView;
@@ -37,6 +40,7 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 @property (strong, nonatomic) NSString* tableName;
 @property (strong, nonatomic) NSString* collName;
 @property (nonatomic) int uniqueID;
+- (IBAction)showQRReader:(id)sender;
 
 - (IBAction)showMenu:(id)sender;
 - (void)loadCustomListDatabase:(NSString *)customListButtonTitle;
