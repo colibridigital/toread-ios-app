@@ -177,6 +177,7 @@
                         <outlet property="customListButton" destination="d25-fH-T3a" id="Hjf-jL-gII"/>
                         <outlet property="favouriteCollectionView" destination="QG2-2B-4ad" id="H3D-2G-crm"/>
                         <outlet property="menuButton" destination="haP-wi-y8a" id="MBg-DM-3Z3"/>
+                        <outlet property="searchBar" destination="cg3-p1-IDg" id="cGJ-wI-fHE"/>
                         <outlet property="suggestedBooksView" destination="5ni-an-PLx" id="tfz-TV-Pzs"/>
                     </connections>
                 </viewController>

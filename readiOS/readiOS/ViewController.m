@@ -12,6 +12,7 @@
 #import "BooksDatabase.h"
 #import "CustomBookListView.h"
 #import "MFSideMenu.h"
+#import "SearchResultsController.h"
 
 @interface ViewController ()
 
@@ -86,12 +87,30 @@
     [self addGestureRecognizer:self.favouriteCollectionView];
     [self addGestureRecognizer:self.customCollectionView];
     
-    NSLog(@"try JSOOON");
+    self.searchBar.delegate = self;
+
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     
-    NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:@"https://www.googleapis.com/books/v1/volumes?q=intitle:harry+potter+and+the+sorcerer's+stone"];
-    [self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]];
+    NSString* searchBarText = self.searchBar.text;
+    NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     
-   }
+    NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
+                           [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=20", urlString]];
+                          
+    SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
+    
+    [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
+    
+    NSLog(@" THE ALLOCATED ONE %@", searchResController.tableData);
+    
+    [self presentViewController:searchResController animated:NO completion:nil];
+    
+    
+    [self.searchBar resignFirstResponder];
+    self.searchBar.text = nil;
+}
 
 
 - (void)addGestureRecognizer:(BookCollectionView *)collView{
@@ -152,6 +171,7 @@
         [self.collView reloadData];
     
     [self.pickerView removeFromSuperview];
+    [self.searchBar resignFirstResponder];
 }
 
 -(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {

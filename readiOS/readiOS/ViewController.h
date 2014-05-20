@@ -13,7 +13,7 @@
 
 
 @interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,
-UIPickerViewDataSource, UIPickerViewDelegate>
+UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *QRreader;
 
 @property (weak, nonatomic) IBOutlet UIButton *customListButton;
@@ -23,6 +23,7 @@ UIPickerViewDataSource, UIPickerViewDelegate>
 @property (strong, nonatomic) NSMutableArray *customCollectionImages;
 @property (strong, nonatomic) NSMutableArray *tableNames;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (strong, nonatomic) NSArray *pickerViewData;
 @property (nonatomic) BOOL isEditMode;

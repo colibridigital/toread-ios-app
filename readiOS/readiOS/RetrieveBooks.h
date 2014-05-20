@@ -13,6 +13,6 @@
 - (NSString *)getDataFromURL:(NSString*)url;
 - (NSData*)getDataFromURLAsData:(NSString*)url;
 - (NSDictionary *)getJsonFromData:(NSData*) urlData;
-- (void)parseJson:(NSDictionary*) json;
+- (NSArray*)parseJson:(NSDictionary*) json;
 
 @end

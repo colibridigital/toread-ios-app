@@ -13,6 +13,11 @@
 		1501B40118EC74A9007DD020 /* CustomBookListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1501B3FF18EC74A9007DD020 /* CustomBookListView.xib */; };
 		1507C3C3192A48DE002F81C2 /* barcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507C3C2192A48DE002F81C2 /* barcode.png */; };
 		1507C3C7192BA9D9002F81C2 /* RetrieveBooks.m in Sources */ = {isa = PBXBuildFile; fileRef = 1507C3C6192BA9D9002F81C2 /* RetrieveBooks.m */; };
+		1507C3D1192BE62E002F81C2 /* SearchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1507C3CF192BE62E002F81C2 /* SearchResultsController.m */; };
+		1507C3D2192BE62E002F81C2 /* SearchResultsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1507C3D0192BE62E002F81C2 /* SearchResultsController.xib */; };
+		1507C3D6192BE845002F81C2 /* SearchResultsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1507C3D4192BE845002F81C2 /* SearchResultsCell.m */; };
+		1507C3D7192BE845002F81C2 /* SearchResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1507C3D5192BE845002F81C2 /* SearchResultsCell.xib */; };
+		1507C3D9192BEDBA002F81C2 /* addIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507C3D8192BEDBA002F81C2 /* addIcon.png */; };
 		152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152FF0321899B75D00E824E9 /* BookDetailsViewController.m */; };
 		152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */; };
 		15ABDB511907C0A500C1FE32 /* Calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 15ABDB501907C0A500C1FE32 /* Calendar.png */; };
@@ -85,6 +90,13 @@
 		1507C3C2192A48DE002F81C2 /* barcode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = barcode.png; sourceTree = "<group>"; };
 		1507C3C5192BA9D9002F81C2 /* RetrieveBooks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RetrieveBooks.h; sourceTree = "<group>"; };
 		1507C3C6192BA9D9002F81C2 /* RetrieveBooks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RetrieveBooks.m; sourceTree = "<group>"; };
+		1507C3CE192BE62E002F81C2 /* SearchResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsController.h; sourceTree = "<group>"; };
+		1507C3CF192BE62E002F81C2 /* SearchResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsController.m; sourceTree = "<group>"; };
+		1507C3D0192BE62E002F81C2 /* SearchResultsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsController.xib; sourceTree = "<group>"; };
+		1507C3D3192BE845002F81C2 /* SearchResultsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultsCell.h; sourceTree = "<group>"; };
+		1507C3D4192BE845002F81C2 /* SearchResultsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultsCell.m; sourceTree = "<group>"; };
+		1507C3D5192BE845002F81C2 /* SearchResultsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsCell.xib; sourceTree = "<group>"; };
+		1507C3D8192BEDBA002F81C2 /* addIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addIcon.png; sourceTree = "<group>"; };
 		152FF0311899B75D00E824E9 /* BookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailsViewController.h; sourceTree = "<group>"; };
 		152FF0321899B75D00E824E9 /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
 		152FF0331899B75D00E824E9 /* BookDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookDetailsViewController.xib; sourceTree = "<group>"; };
@@ -198,6 +210,19 @@
 			name = GoogleBooks;
 			sourceTree = "<group>";
 		};
+		1507C3C8192BE5BD002F81C2 /* GoogleBooksSearchResults */ = {
+			isa = PBXGroup;
+			children = (
+				1507C3CE192BE62E002F81C2 /* SearchResultsController.h */,
+				1507C3CF192BE62E002F81C2 /* SearchResultsController.m */,
+				1507C3D0192BE62E002F81C2 /* SearchResultsController.xib */,
+				1507C3D3192BE845002F81C2 /* SearchResultsCell.h */,
+				1507C3D4192BE845002F81C2 /* SearchResultsCell.m */,
+				1507C3D5192BE845002F81C2 /* SearchResultsCell.xib */,
+			);
+			name = GoogleBooksSearchResults;
+			sourceTree = "<group>";
+		};
 		152FF0301899B6ED00E824E9 /* BookDetailsViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +288,7 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				1507C3C8192BE5BD002F81C2 /* GoogleBooksSearchResults */,
 				1507C3C4192BA99E002F81C2 /* GoogleBooks */,
 				15A41DA7190FE0A600F28FBA /* ReadBooks */,
 				15ABDB5B1909345500C1FE32 /* BooksDatabase */,
@@ -335,6 +361,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1507C3D8192BEDBA002F81C2 /* addIcon.png */,
 				1507C3C2192A48DE002F81C2 /* barcode.png */,
 				15AD9F86191917A20020E2C3 /* back.png */,
 				15ABDB5E190A67DF00C1FE32 /* books.sqlite */,
@@ -472,6 +499,7 @@
 				15B08D2D188B1D0A00FE1C17 /* design.jpg in Resources */,
 				15C2C84F19102028009C9361 /* ReadBooksViewController.xib in Resources */,
 				15B08CE718783CD000FE1C17 /* Main_iPad.storyboard in Resources */,
+				1507C3D9192BEDBA002F81C2 /* addIcon.png in Resources */,
 				15B08D30188B1D0A00FE1C17 /* math.jpg in Resources */,
 				15B08D25188B184900FE1C17 /* 3.jpg in Resources */,
 				15B08D161878423F00FE1C17 /* four.jpg in Resources */,
@@ -479,6 +507,7 @@
 				15B08CEC18783CD000FE1C17 /* Images.xcassets in Resources */,
 				1507C3C3192A48DE002F81C2 /* barcode.png in Resources */,
 				15ABDB511907C0A500C1FE32 /* Calendar.png in Resources */,
+				1507C3D2192BE62E002F81C2 /* SearchResultsController.xib in Resources */,
 				15EF45A818FBF1ED00A77569 /* SideMenuViewController.xib in Resources */,
 				1501B3F918EC4C13007DD020 /* maths2.jpg in Resources */,
 				15B08D24188B184900FE1C17 /* 2.jpg in Resources */,
@@ -486,6 +515,7 @@
 				1501B3F818EC4C13007DD020 /* maths1.jpg in Resources */,
 				15B08D26188B184900FE1C17 /* 4.jpg in Resources */,
 				15B08CE418783CD000FE1C17 /* Main_iPhone.storyboard in Resources */,
+				1507C3D7192BE845002F81C2 /* SearchResultsCell.xib in Resources */,
 				15B08D2C188B1D0A00FE1C17 /* ai.jpg in Resources */,
 				15ABDB5F190A67DF00C1FE32 /* books.sqlite in Resources */,
 				15B08D1E188B156700FE1C17 /* menu.jpg in Resources */,
@@ -513,6 +543,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1507C3D1192BE62E002F81C2 /* SearchResultsController.m in Sources */,
+				1507C3D6192BE845002F81C2 /* SearchResultsCell.m in Sources */,
 				15EF459B18FBEDDB00A77569 /* MFSideMenu.h in Sources */,
 				15C2C84E19102028009C9361 /* ReadBooksViewController.m in Sources */,
 				15B08CEA18783CD000FE1C17 /* ViewController.m in Sources */,

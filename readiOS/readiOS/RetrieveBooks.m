@@ -67,7 +67,7 @@
     return object;
 }
 
-- (void)parseJson:(NSDictionary*) json {
+- (NSArray*)parseJson:(NSDictionary*) json {
     // Iterate through the object and print desired results
     
     NSLog(@"parse json");
@@ -81,6 +81,8 @@
         NSLog(@"Item %.2i - Image Link  - %@", i+1, [[[items[i] objectForKey:@"volumeInfo"] objectForKey:@"imageLinks"] objectForKey:@"thumbnail"]);
         
     }
+    
+    return items;
 }
 
 @end
