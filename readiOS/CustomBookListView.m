@@ -22,6 +22,9 @@
     if (self) {
         NSLog(@"initialize");
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        //self.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+       // self.view.superview.frame = CGRectMake(0,0,320,143);
     }
     return self;
 }
@@ -40,6 +43,7 @@
 }
 
 - (IBAction)cancelButtPressed:(id)sender {
+    NSLog(@"button pressed");
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

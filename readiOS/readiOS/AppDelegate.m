@@ -351,6 +351,35 @@
     }
     
 }
+
+- (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
+    
+    NSLog(@"path %@", path);
+    //Open the db. The db was prepared outside the application
+    
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO %@Books (TITLE,AUTHORS,EDITOR,COVERLINK,DUEDATE) VALUES('%@','%@','%@','%@','')", tableName, bookTitle, bookAuthors, publisher, coverLink] UTF8String];
+        NSLog(@"%s",sql);
+        sqlite3_stmt *statement;
+        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+            if (sqlite3_step(statement) != SQLITE_DONE)
+                return;
+        }
+        // finalize the statement
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    } else {
+        //even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
+    }
+
+    
+}
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {

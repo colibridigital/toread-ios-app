@@ -52,7 +52,15 @@
 
         BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:self.cellID database:database table:self.tableName];
         self.bookTitle.text = bDB.title;
-        UIImage *bookImage = [UIImage imageWithContentsOfFile:[self.bookImages objectAtIndex:self.indexPath.row]];
+
+        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)bDB.ID];
+        
+        NSLog(@"imageNAme %@", imageName);
+        
+        NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+        
+        UIImage *bookImage = [UIImage imageWithContentsOfFile:pngFilePath];
         self.bookCover.image = bookImage;
         
         // finalize the statement

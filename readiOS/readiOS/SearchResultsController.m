@@ -31,6 +31,7 @@
 }
 
 - (IBAction)dismissView:(id)sender {
+    
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
@@ -71,8 +72,12 @@
     
     cell.bookTitle.text = [[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"title"];
     
+    cell.title = cell.bookTitle.text;
+    
     
     NSString *stringURL = [[[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"imageLinks"] objectForKey:@"thumbnail"];
+    
+    cell.coverLink = stringURL;
     
     NSURL *url = [NSURL URLWithString:stringURL];
     NSData *data = [NSData dataWithContentsOfURL:url];
@@ -94,11 +99,15 @@
             bookAuthors = [bookAuthors stringByAppendingString:[NSString stringWithFormat:@"%@; ",author]];
         }
         
-        cell.bookAuthor.text = bookAuthors;
+        cell.bookAuthor.text = [bookAuthors substringToIndex:[bookAuthors length] - 2]; //to remove the last ;
     } else {
         cell.bookAuthor.text = @"";
     }
     
+    cell.authors = cell.bookAuthor.text;
+    
+    cell.editor = [[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"publisher"];
+       
     return cell;
 }
 

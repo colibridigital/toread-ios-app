@@ -91,6 +91,10 @@
 
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [self loadCustomListDatabaseAndRefreshView:self.customListButton.titleLabel.text];
+}
+
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     
     NSString* searchBarText = self.searchBar.text;
@@ -241,10 +245,10 @@
         else
             return self.favouriteCollectionView.bookImages.count;
     } else if (collectionView == self.customCollectionView) {
-        if (self.customCollectionView.bookImages.count == 0)
+        //if (self.customCollectionView.bookImages.count == 0)
             return self.appDelegate.customListBooks.count;
-        else
-            return self.customCollectionView.bookImages.count;
+        //else
+          //  return self.customCollectionView.bookImages.count;
     }
     
     else return 0;
@@ -523,7 +527,6 @@
     return [self.pickerViewData objectAtIndex: row];
 }
 
-//fix this!!! we need to call the database for the books from the table specified in the title
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
     
@@ -534,6 +537,9 @@
         CustomBookListView *customBookListView = [[CustomBookListView alloc] initWithNibName:@"CustomBookListView" bundle:nil];
         [customBookListView setParentViewController:self];
         self.customCollectionView.bookImages = self.customCollectionImages;
+        
+        //[self.view addSubview:customBookListView.view];
+        
         [self presentViewController:customBookListView animated:YES completion:nil];//mockup now to see ui works
         
     } else {
@@ -545,8 +551,6 @@
         
         self.customCollectionView.bookImages = self.customCollectionImages;        
     }
-    
-    //we can create a new custom list as well
     
     [self.customCollectionView reloadData];
     
