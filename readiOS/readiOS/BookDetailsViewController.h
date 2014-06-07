@@ -12,11 +12,11 @@
 @interface BookDetailsViewController : UIViewController<UIGestureRecognizerDelegate>
 - (IBAction)dismissDetailsView:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *bookTitle;
+@property (weak, nonatomic) IBOutlet UILabel *bookAuthors;
 @property (weak, nonatomic) IBOutlet UILabel *dueDate;
 @property (weak, nonatomic) NSIndexPath *indexPath;
 @property (weak, nonatomic) NSString *tableName;
-//this will eventually load the cover
-//from the url? 
+
 @property (weak, nonatomic) IBOutlet UIImageView *bookCover;
 @property (weak, nonatomic) IBOutlet UIButton *calendarPicker;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;

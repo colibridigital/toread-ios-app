@@ -52,6 +52,7 @@
 
         BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:self.cellID database:database table:self.tableName];
         self.bookTitle.text = bDB.title;
+        self.bookAuthors.text = bDB.authors;
 
         NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)bDB.ID];
@@ -118,7 +119,6 @@
     
     ;//should keep this in the database as well
     NSLog(@"Picked the date %@", [dateFormatter stringFromDate:[sender date]]);
-    [self.datePicker removeFromSuperview];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

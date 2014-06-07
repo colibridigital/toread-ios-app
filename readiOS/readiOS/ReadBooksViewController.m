@@ -34,6 +34,7 @@
     [self getReadBooks];
     [self.collectionView registerNibAndCell];
     [self addGestureRecognizer:self.collectionView];
+    [self.collectionView flashScrollIndicators];
 
 }
 

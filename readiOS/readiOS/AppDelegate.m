@@ -335,9 +335,11 @@
                 return;
         }
         if ([tableName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            [self.favouriteBooks removeObjectAtIndex:indexPath];
+            if (self.favouriteBooks.count != 0)
+                [self.favouriteBooks removeObjectAtIndex:indexPath];
         } else {
-            [self.customListBooks removeObjectAtIndex:indexPath];
+            if (self.customListBooks.count != 0)
+                [self.customListBooks removeObjectAtIndex:indexPath];
         }
 
         
@@ -378,6 +380,46 @@
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
 
+    
+}
+
+- (int)getNumberOfReadBooksFromDB {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
+    
+    int readBooksNB = 0;
+    
+    NSLog(@"path %@", path);
+    //Open the db. The db was prepared outside the application
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
+        const char *sql = [[NSString stringWithFormat:@"SELECT COUNT(*) from readBooks"] UTF8String];
+        NSLog(@"%s",sql);
+        sqlite3_stmt *statement;
+
+        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+            
+            // THIS IS WHERE IT FAILS:
+            
+            if (sqlite3_step(statement) == SQLITE_ERROR) {
+                NSAssert1(0,@"Error when counting rows  %s",sqlite3_errmsg(database));
+            } else {
+                readBooksNB = sqlite3_column_int(statement, 0);
+                NSLog(@"SQLite Rows: %i", readBooksNB);
+            }
+            sqlite3_finalize(statement);
+        }
+        
+        sqlite3_close(database);
+        
+    }     else {
+        //even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
+    }
+
+    return readBooksNB;
     
 }
 							

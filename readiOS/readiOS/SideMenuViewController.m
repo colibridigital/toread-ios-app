@@ -14,11 +14,11 @@
 #pragma mark - UITableViewDataSource
 
 /*- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    
-    NSString * title = [NSString stringWithFormat:@"Section %ld", (long)section];
-    
-    return title;
-}*/
+ 
+ NSString * title = [NSString stringWithFormat:@"Section %ld", (long)section];
+ 
+ return title;
+ }*/
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
@@ -70,24 +70,28 @@
         ReadBooksViewController *bookListView = [[ReadBooksViewController alloc] initWithNibName:@"ReadBooksViewController" bundle:nil];
         
         UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-       // NSArray *controllers = [NSArray arrayWithObject:bookListView];
-       // navigationController.viewControllers = controllers;
+        // NSArray *controllers = [NSArray arrayWithObject:bookListView];
+        // navigationController.viewControllers = controllers;
         NSLog(@"will show view");
         [navigationController presentViewController:bookListView animated:NO completion:nil];
         
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-
+        
+    } else if ([indexPath  isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
+         NSLog(@"in What I want to read");
+        
+        
     } else {
-    
-    ViewController *demoController = [[ViewController alloc] init];
-    demoController.title = [NSString stringWithFormat:@"Demo #%ld-%ld", (long)indexPath.section, (long)indexPath.row];
-    
-    
-    
-    UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-    NSArray *controllers = [NSArray arrayWithObject:demoController];
-    navigationController.viewControllers = controllers;
-    [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+        
+        ViewController *demoController = [[ViewController alloc] init];
+        demoController.title = [NSString stringWithFormat:@"Demo #%ld-%ld", (long)indexPath.section, (long)indexPath.row];
+        
+        
+        
+        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+        NSArray *controllers = [NSArray arrayWithObject:demoController];
+        navigationController.viewControllers = controllers;
+        [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
     }
 }
 

@@ -36,4 +36,6 @@
 
 - (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink;
 
+-(int)getNumberOfReadBooksFromDB;
+
 @end

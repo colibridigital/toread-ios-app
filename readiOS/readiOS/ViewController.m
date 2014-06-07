@@ -34,7 +34,10 @@
     
     self.retrieveBooks = [[RetrieveBooks alloc] init];
     
- }
+    self.uniqueID = [self.appDelegate getNumberOfReadBooksFromDB];
+    NSLog(@"read Books count %i", self.uniqueID);
+    
+}
 
 - (void) initiatePickerViewWithTableNames {
     [self.appDelegate getAllDatabaseTableNames];
@@ -46,7 +49,7 @@
     NSMutableArray *newTable = [NSMutableArray array];
     
     for (NSString* name in self.tableNames) {
-        if ([name rangeOfString:@"suggested"].location != NSNotFound || [name rangeOfString:@"read"].location != NSNotFound || [name rangeOfString:@"favourite"].location != NSNotFound) {
+        if ([name rangeOfString:@"suggested"].location != NSNotFound || [name rangeOfString:@"read"].location != NSNotFound || [name rangeOfString:@"favourite"].location != NSNotFound ) {
             continue;
         } else{
             [newTable addObject:[[name stringByReplacingOccurrencesOfString:@"Books" withString:@""] capitalizedString]];
@@ -67,6 +70,7 @@
 - (void)loadCustomListDatabaseAndRefreshView:(NSString *)customListButtonTitle {
     [self loadCustomListDatabase:customListButtonTitle];
     [self.customCollectionView reloadData];
+    NSLog(@"books images count %lu", self.customCollectionView.bookImages.count);
 }
 
 - (void)viewDidLoad
@@ -88,7 +92,7 @@
     [self addGestureRecognizer:self.customCollectionView];
     
     self.searchBar.delegate = self;
-
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -102,7 +106,7 @@
     
     NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
                            [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=20", urlString]];
-                          
+    
     SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
     
     [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
@@ -245,10 +249,10 @@
         else
             return self.favouriteCollectionView.bookImages.count;
     } else if (collectionView == self.customCollectionView) {
-        //if (self.customCollectionView.bookImages.count == 0)
+        if (self.customCollectionView.bookImages.count == 0)
             return self.appDelegate.customListBooks.count;
-        //else
-          //  return self.customCollectionView.bookImages.count;
+        else
+            return self.customCollectionView.bookImages.count;
     }
     
     else return 0;
@@ -423,8 +427,6 @@
     }
 }
 
-//need to fix this!
-//mock for now, not really showing the books
 - (void)markBookAsRead:(UIButton *)sender {
     
     NSLog(@"marked as read");
@@ -455,16 +457,29 @@
         NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
         [data1 writeToFile:pngFilePath atomically:YES];
         
+        NSLog(@"book images count before: %lu", (unsigned long)self.bookImages.count);
         
         
-        NSInteger row = [self.indexPath row];
-        [self.bookImages removeObjectAtIndex:row];
-        NSArray *deletions = @[self.indexPath];
-        [self.collView deleteItemsAtIndexPaths:deletions];
-        
-        [self.appDelegate moveBooksToReadInTheDatabase:self.collName ID:cell.ID indexPath:self.indexPath.row];
-        [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID indexPath:self.indexPath.row];
-        [self removeImage:imagePath];
+        if (self.bookImages.count == 1) {
+            NSInteger row = [self.indexPath row];
+            [self.bookImages removeObjectAtIndex:row];
+            NSLog(@"book images count after adding the default image: %lu", (unsigned long)self.bookImages.count);
+            [self.appDelegate moveBooksToReadInTheDatabase:self.collName ID:cell.ID indexPath:self.indexPath.row];
+            [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID indexPath:self.indexPath.row];
+            [self removeImage:imagePath];
+
+        } else if (self.bookImages.count > 1){
+            NSInteger row = [self.indexPath row];
+            
+            [self.bookImages removeObjectAtIndex:row];
+            NSLog(@"book images count after: %lu", (unsigned long)self.bookImages.count);
+            NSArray *deletions = @[self.indexPath];
+            [self.collView deleteItemsAtIndexPaths:deletions];
+            
+            [self.appDelegate moveBooksToReadInTheDatabase:self.collName ID:cell.ID indexPath:self.indexPath.row];
+            [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID indexPath:self.indexPath.row];
+            [self removeImage:imagePath];
+        }
     }
     
     [self.collView reloadData];
@@ -476,7 +491,7 @@
     
 }
 
-//need to fix this
+
 -(void)deleteCell:(UIButton *)sender {
     
     NSLog(@"here to delete");
@@ -495,7 +510,7 @@
         [self.bookImages removeObjectAtIndex:row];
         NSArray *deletions = @[self.indexPath];
         [self.collView deleteItemsAtIndexPaths:deletions];
-        //make this generic
+        
         [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID indexPath:self.indexPath.row];
     }
     
@@ -549,7 +564,7 @@
         
         NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
-        self.customCollectionView.bookImages = self.customCollectionImages;        
+        self.customCollectionView.bookImages = self.customCollectionImages;
     }
     
     [self.customCollectionView reloadData];
