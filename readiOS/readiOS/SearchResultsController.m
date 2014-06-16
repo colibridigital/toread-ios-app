@@ -107,6 +107,17 @@
     cell.authors = cell.bookAuthor.text;
     
     cell.editor = [[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"publisher"];
+    
+    if ([[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"averageRating"] != nil) {
+        NSLog(@"not nil");
+        NSDecimalNumber *ratings = [[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"averageRating"];
+        
+        cell.rating = [ratings doubleValue];
+        
+    } else {
+        cell.rating = 0.0;
+    }
+
        
     return cell;
 }

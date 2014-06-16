@@ -12,7 +12,7 @@
 #import "RetrieveBooks.h"
 
 
-@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,
+@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,UIAlertViewDelegate,
 UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *QRreader;
 
@@ -47,5 +47,8 @@ UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate>
 - (void)loadCustomListDatabase:(NSString *)customListButtonTitle;
 - (void)loadCustomListDatabaseAndRefreshView:(NSString *)customListButtonTitle;
 - (void) initiatePickerViewWithTableNames;
+
+@property(retain) UIAlertView *av;
+@property (nonatomic) NSString *customListTitle;
 
 @end

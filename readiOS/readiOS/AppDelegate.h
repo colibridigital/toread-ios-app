@@ -28,14 +28,19 @@
 - (void)initiateCustomBooksListFromTheDatabase:(NSString *)tableName;
 
 - (void)deleteBooksToReadFromOriginalTable:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath;
+
+- (void)deleteBooksToReadFromOriginalTableWithoutDeletingFromTable:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath;
+
 - (void)setupMenu:(UIViewController *)mainViewController;
 
 - (void)getAllDatabaseTableNames;
 
 - (void)createNewCustomListInTheDatabase:(NSString *)name;
 
-- (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink;
+- (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink rating:(double )rating;
 
 -(int)getNumberOfReadBooksFromDB;
+
+-(void)loadFavouriteDatabase;
 
 @end

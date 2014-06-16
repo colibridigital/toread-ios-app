@@ -8,22 +8,32 @@
 
 #import <UIKit/UIKit.h>
 #import "BookCollectionView.h"
+#import "EDStarRating.h"
+#import "AppDelegate.h"
 
-@interface BookDetailsViewController : UIViewController<UIGestureRecognizerDelegate>
+@interface BookDetailsViewController : UIViewController<UIGestureRecognizerDelegate, EDStarRatingProtocol, UIAlertViewDelegate>
 - (IBAction)dismissDetailsView:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *bookTitle;
 @property (weak, nonatomic) IBOutlet UILabel *bookAuthors;
 @property (weak, nonatomic) IBOutlet UILabel *dueDate;
 @property (weak, nonatomic) NSIndexPath *indexPath;
-@property (weak, nonatomic) NSString *tableName;
+@property (nonatomic) NSString *tableName;
 
 @property (weak, nonatomic) IBOutlet UIImageView *bookCover;
 @property (weak, nonatomic) IBOutlet UIButton *calendarPicker;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 
-@property (weak, nonatomic) NSMutableArray *bookImages;
 @property (assign, nonatomic) NSInteger cellID;
+@property (weak, nonatomic) IBOutlet EDStarRating *starRating;
+@property (weak, nonatomic) IBOutlet UILabel *starRatingLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+
+@property (weak, nonatomic) AppDelegate *appDelegate;
+
+@property (nonatomic) int uniqueID;
+@property(retain) UIAlertView *av;
 
 - (IBAction)showCalendarPicker:(id)sender;
+- (IBAction)pickAction:(id)sender;
 
 @end

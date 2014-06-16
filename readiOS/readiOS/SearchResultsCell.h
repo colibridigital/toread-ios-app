@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-@interface SearchResultsCell : UITableViewCell<UIPickerViewDataSource, UIPickerViewDelegate>
+@interface SearchResultsCell : UITableViewCell<UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *bookCover;
 
@@ -28,6 +28,11 @@
 @property (nonatomic, retain) NSString *authors;
 @property (nonatomic, retain) NSString *editor;
 @property (nonatomic, retain) NSString *coverLink;
+@property (nonatomic) double rating;
+@property (nonatomic) NSString *customListTitle;
+
+@property(retain) UIAlertView *av;
+
 
 - (IBAction)addBookToDatabase:(id)sender;
 

@@ -31,22 +31,22 @@
     
     
     // Override point for customization after application launch.
-  //  SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
+    //  SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
     UIStoryboard *mainStoryboard;
     
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         
-       mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPad"
-                                                                 bundle: nil];
+        mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPad"
+                                                   bundle: nil];
     } else {
         
         mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
-                                                                 bundle: nil];
+                                                   bundle: nil];
     }
-
+    
     
     ViewController *mainViewController = (ViewController*)[mainStoryboard
-                                                                   instantiateViewControllerWithIdentifier: @"MainViewController"];
+                                                           instantiateViewControllerWithIdentifier: @"MainViewController"];
     
     [self setupMenu:mainViewController];
     return YES;
@@ -60,7 +60,7 @@
                                                     rightMenuViewController:nil];
     self.window.rootViewController = container;
     [self.window makeKeyAndVisible];
-
+    
 }
 
 - (void)createEditableCopyOfDatabaseIfNeeded {
@@ -86,9 +86,6 @@
     
     NSMutableArray *suggestedBooksArray = [[NSMutableArray alloc] init];
     self.suggestedBooks = suggestedBooksArray;
-    
-    NSMutableArray *favouriteBooksArray = [[NSMutableArray alloc] init];
-    self.favouriteBooks = favouriteBooksArray;
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -128,37 +125,6 @@
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
     
-    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
-        //Get the primary key for all the books
-        
-        //mock here the tableName (bookList)
-        NSString *tableName = @"favouriteBooks";
-        
-        const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@", tableName] UTF8String];
-        NSLog(@"%s",sql);
-        sqlite3_stmt *statement;
-        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
-            // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
-            while (sqlite3_step(statement) == SQLITE_ROW) {
-                
-                NSLog(@"in SQL");
-                int ID = sqlite3_column_int(statement, 0);
-                NSLog(@"ID is %i", ID);
-                BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKey:ID database:database table:tableName];
-                [favouriteBooks addObject:bDB];
-            }
-        }
-        NSLog(@"Number of items from the DB: %lu", (unsigned long)favouriteBooks.count);
-        // finalize the statement
-        sqlite3_finalize(statement);
-        sqlite3_close(database);
-    } else {
-        //even though the open failed, call close to properly clean up resources.
-        sqlite3_close(database);
-        NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
-    }
-   
 }
 
 - (void)createNewCustomListInTheDatabase:(NSString *)name {
@@ -172,7 +138,7 @@
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         //Get the primary key for all the books
         
-        const char *sql = [[NSString stringWithFormat:@"create table if not exists %@Books (ID INTEGER PRIMARY KEY, TITLE VARCHAR(300), AUTHORS VARCHAR(300), EDITOR VARCHAR(300), COVERLINK VARCHAR(300), DUEDATE VARCHAR(50))", tableName] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"create table if not exists %@Books (ID INTEGER PRIMARY KEY, TITLE VARCHAR(300), AUTHORS VARCHAR(300), EDITOR VARCHAR(300), COVERLINK VARCHAR(300), DUEDATE VARCHAR(50), RATING REAL DEFAULT 0)", tableName] UTF8String];
         NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
@@ -195,7 +161,7 @@
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
-
+    
     
 }
 
@@ -222,11 +188,11 @@
                 NSLog(@"in SQL");
                 int ID = sqlite3_column_int(statement, 0);
                 NSLog(@"ID is %i", ID);
-               
-                    [tableNames addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)]];
-
-                    NSLog(@"DONE");
-                                         }
+                
+                [tableNames addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)]];
+                
+                NSLog(@"DONE");
+            }
         }
         NSLog(@"Number of items from the DB: %lu", (unsigned long)tableNames.count);
         // finalize the statement
@@ -237,7 +203,7 @@
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
-
+    
     
 }
 
@@ -279,8 +245,50 @@
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
-
+    
 }
+
+- (void)loadFavouriteDatabase {
+    
+    self.favouriteBooks = nil;
+    
+    NSMutableArray *favouriteListBooksArray = [[NSMutableArray alloc] init];
+    self.favouriteBooks = favouriteListBooksArray;
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
+    
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
+        //Get the primary key for all the books
+        
+        const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@", @"favouriteBooks"] UTF8String];
+        NSLog(@"%s",sql);
+        sqlite3_stmt *statement;
+        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+            // We step through the results once for each row.
+            NSLog(@"in sql results app delegate");
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                
+                NSLog(@"in SQL");
+                int ID = sqlite3_column_int(statement, 0);
+                NSLog(@"ID is %i", ID);
+                BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKey:ID database:database table:@"favouriteBooks"];
+                [favouriteBooks addObject:bDB];
+            }
+        }
+        NSLog(@"Number of items from the DB: %lu", (unsigned long)favouriteBooks.count);
+        // finalize the statement
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    } else {
+        //even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
+    }
+    
+}
+
 
 - (void)moveBooksToReadInTheDatabase:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath{
     
@@ -290,22 +298,27 @@
     
     NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
-
+    
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO readBooks(TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE) SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE FROM %@ WHERE ID = %lu", tableName, (unsigned long)ID] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO readBooks(TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING) SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING FROM %@ WHERE ID = %lu ", tableName, (unsigned long)ID] UTF8String];
         NSLog(@"%s",sql);
+        
+        if ([tableName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            
+            if (indexPath < self.favouriteBooks.count && self.favouriteBooks.count !=0) {
+                [self.favouriteBooks removeObjectAtIndex:indexPath];
+            }
+        } else {
+            if (indexPath < self.customListBooks.count && self.customListBooks.count !=0)
+                [self.customListBooks removeObjectAtIndex:indexPath];
+        }
+        
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             if (sqlite3_step(statement) != SQLITE_DONE)
                 return;
         }
         
-        if ([tableName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            [self.favouriteBooks removeObjectAtIndex:indexPath];
-        } else {
-            [self.customListBooks removeObjectAtIndex:indexPath];
-        }
-      
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -314,8 +327,38 @@
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
-
+    
 }
+
+- (void)deleteBooksToReadFromOriginalTableWithoutDeletingFromTable:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath{
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
+    
+    NSLog(@"path %@", path);
+    //Open the db. The db was prepared outside the application
+    
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
+        const char *sql = [[NSString stringWithFormat:@"DELETE FROM %@ WHERE ID = %lu", tableName, (unsigned long)ID] UTF8String];
+        NSLog(@"%s",sql);
+        sqlite3_stmt *statement;
+        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+            if (sqlite3_step(statement) != SQLITE_DONE)
+                return;
+        }
+        
+        // finalize the statement
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    } else {
+        //even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
+    }
+    
+}
+
 
 - (void)deleteBooksToReadFromOriginalTable:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath{
     
@@ -335,13 +378,14 @@
                 return;
         }
         if ([tableName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            if (self.favouriteBooks.count != 0)
-                [self.favouriteBooks removeObjectAtIndex:indexPath];
+                if (indexPath < self.favouriteBooks.count && self.favouriteBooks.count !=0) {
+                    [self.favouriteBooks removeObjectAtIndex:indexPath];
+                }
         } else {
-            if (self.customListBooks.count != 0)
-                [self.customListBooks removeObjectAtIndex:indexPath];
+                if (indexPath < self.customListBooks.count && self.customListBooks.count != 0)
+                    [self.customListBooks removeObjectAtIndex:indexPath];
         }
-
+      
         
         // finalize the statement
         sqlite3_finalize(statement);
@@ -354,7 +398,7 @@
     
 }
 
-- (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink {
+- (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink rating:(double )rating{
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -364,7 +408,7 @@
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO %@Books (TITLE,AUTHORS,EDITOR,COVERLINK,DUEDATE) VALUES('%@','%@','%@','%@','')", tableName, bookTitle, bookAuthors, publisher, coverLink] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO %@Books (TITLE,AUTHORS,EDITOR,COVERLINK,DUEDATE,RATING) VALUES('%@','%@','%@','%@','',%f)", tableName, bookTitle, bookAuthors, publisher, coverLink, rating] UTF8String];
         NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
@@ -379,7 +423,7 @@
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
-
+    
     
 }
 
@@ -397,7 +441,7 @@
         const char *sql = [[NSString stringWithFormat:@"SELECT COUNT(*) from readBooks"] UTF8String];
         NSLog(@"%s",sql);
         sqlite3_stmt *statement;
-
+        
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             
             // THIS IS WHERE IT FAILS:
@@ -418,11 +462,11 @@
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
-
+    
     return readBooksNB;
     
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -431,7 +475,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 

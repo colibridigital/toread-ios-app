@@ -7,10 +7,8 @@
 //
 
 #import "SearchResultsCell.h"
-#import "CustomBookListView.h"
 
-@implementation SearchResultsCell
-
+@implementation SearchResultsCell 
 - (void)awakeFromNib
 {
     // Initialization code
@@ -48,11 +46,12 @@
     self.tableNames = [self.appDelegate.tableNames mutableCopy];
     
     [self.tableNames insertObject:@"" atIndex:0];
+    [self.tableNames insertObject:@"Create New List" atIndex:1];
     
     NSMutableArray *newTable = [NSMutableArray array];
     
     for (NSString* name in self.tableNames) {
-        if ([name rangeOfString:@"suggested"].location != NSNotFound || [name rangeOfString:@"read"].location != NSNotFound || [name rangeOfString:@"favourite"].location != NSNotFound) {
+        if ([name rangeOfString:@"suggested"].location != NSNotFound || [name rangeOfString:@"read"].location != NSNotFound) {
             continue;
         } else{
             [newTable addObject:[[name stringByReplacingOccurrencesOfString:@"Books" withString:@""] capitalizedString]];
@@ -86,10 +85,13 @@
     if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Create New List"]) {
         
         NSLog(@"here");
-        // CustomBookListView *customBookListView = [[CustomBookListView alloc] initWithNibName:@"CustomBookListView" bundle:nil];
         
+        self.av = [[UIAlertView alloc] initWithTitle:@"Create New List" message:@"Would you like to create a new list called?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
         
-        //[self.contentView addSubview:customBookListView.view];
+        [self.av setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        
+        [self.av show];
+     
         
     } else {
         //add in the specific table in the database the book with the given book details
@@ -97,12 +99,33 @@
         
         NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
-        [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink];
+        [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating];
         
     }
     
+    NSLog(@"adding book to the database");
+    
+    
+    
     [self.pickerView removeFromSuperview];
     
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0)
+    {
+        NSLog(@"You have clicked No");
+    }
+    else if(buttonIndex == 1)
+    {
+        NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
+        self.customListTitle = [[self.av textFieldAtIndex:0] text];
+        NSLog(@"%@", self.customListTitle);
+        
+        [self.appDelegate createNewCustomListInTheDatabase:[[self.av textFieldAtIndex:0] text]];
+        [self.appDelegate addBookToTheDatabaseBookList:[self.customListTitle lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating];
+    }
+
 }
 
 

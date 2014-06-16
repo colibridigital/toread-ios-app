@@ -123,7 +123,6 @@
     BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:bookDetails.indexPath];
     
     bookDetails.tableName = @"readBooks";
-    bookDetails.bookImages = self.booksImages;
     bookDetails.cellID = cell.ID;
     
     

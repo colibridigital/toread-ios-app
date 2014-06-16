@@ -18,6 +18,7 @@
     NSString *editor;
     NSString *coverLink;
     NSString *dueDate;
+    double rating;
 }
 
 @property (assign, nonatomic, readonly) NSInteger ID;
@@ -26,6 +27,7 @@
 @property (nonatomic, retain) NSString *editor;
 @property (nonatomic, retain) NSString *coverLink;
 @property (nonatomic, retain) NSString *dueDate;
+@property (nonatomic) double rating;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db table:(NSString *)tableName;
 

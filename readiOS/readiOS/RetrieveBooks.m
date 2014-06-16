@@ -79,6 +79,8 @@
         NSLog(@"Item %.2i - Authors  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"authors"]);
         NSLog(@"Item %.2i - Publisher  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"publisher"]);
         NSLog(@"Item %.2i - Image Link  - %@", i+1, [[[items[i] objectForKey:@"volumeInfo"] objectForKey:@"imageLinks"] objectForKey:@"thumbnail"]);
+        NSLog(@"Item %.2i - Rating  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"averageRating"]);
+
         
     }
     
