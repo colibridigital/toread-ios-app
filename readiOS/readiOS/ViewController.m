@@ -98,9 +98,11 @@
     
     NSLog(@"show view");
     
+    self.searchBar.text = nil;
+    
     [self initiatePickerViewWithTableNames];
-   [self loadCustomListDatabaseAndRefreshView:self.customListButton.titleLabel.text];
-   [self.appDelegate loadFavouriteDatabase];
+    [self loadCustomListDatabaseAndRefreshView:self.customListButton.titleLabel.text];
+    [self.appDelegate loadFavouriteDatabase];
     [self.favouriteCollectionView reloadData];
 }
 
@@ -111,17 +113,25 @@
     NSString* searchBarText = self.searchBar.text;
     NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     
-    NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
-                           [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=30", urlString]];
     
-    SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
-    
-    [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
-    
-    [self presentViewController:searchResController animated:NO completion:nil];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+        
+        NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
+                               [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=30", urlString]];
+        
+        
+        dispatch_sync(dispatch_get_main_queue(), ^(void) {
+            SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
+            
+            [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
+            
+            [self presentViewController:searchResController animated:NO completion:nil];
+            
+        });
+    });
     
     [self.searchBar resignFirstResponder];
-    self.searchBar.text = nil;
+    //self.searchBar.text = nil;
 }
 
 
@@ -224,7 +234,7 @@
     self.collView = collView;
     self.indexPath = indexPath;
     self.collName = tableName;
-  
+    
 }
 
 
@@ -243,9 +253,9 @@
     if (collectionView == self.suggestedBooksView) {
         return self.appDelegate.suggestedBooks.count;
     } else if (collectionView == self.favouriteCollectionView) {
-            return self.appDelegate.favouriteBooks.count;
+        return self.appDelegate.favouriteBooks.count;
     } else if (collectionView == self.customCollectionView) {
-            return self.appDelegate.customListBooks.count;
+        return self.appDelegate.customListBooks.count;
     }
     
     else return 0;
@@ -327,7 +337,7 @@
         
         NSLog(@"%@", imageName);
         
-         NSLog(@"%@", pngFilePath);
+        NSLog(@"%@", pngFilePath);
         
         if ([fileManager fileExistsAtPath:pngFilePath])
         {
@@ -345,17 +355,17 @@
             
             cell.ID = bDB.ID;
             
-                NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                
-                // If you go to the folder below, you will find those pictures
-                NSLog(@"%@",docDir);
-                
-                NSLog(@"saving png");
-                NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)cell.ID];
-                NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
-                NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
-                [data1 writeToFile:pngFilePath atomically:YES];
-           
+            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            // If you go to the folder below, you will find those pictures
+            NSLog(@"%@",docDir);
+            
+            NSLog(@"saving png");
+            NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)cell.ID];
+            NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
+            [data1 writeToFile:pngFilePath atomically:YES];
+            
         }
         
         NSLog(@"favourite collection view book images %lu", self.favouriteCollectionView.bookImages.count);
@@ -451,7 +461,7 @@
         NSLog(@"%@", pngFilePathh);
         [self.appDelegate moveBooksToReadInTheDatabase:self.collName ID:cell.ID indexPath:self.indexPath.row];
         [self.appDelegate deleteBooksToReadFromOriginalTableWithoutDeletingFromTable:self.collName ID:cell.ID indexPath:self.indexPath.row];
-
+        
         [self removeImage:pngFilePathh];
     }
     
@@ -480,7 +490,7 @@
         }
         
         NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-
+        
         
         NSString *imageN = [NSString stringWithFormat:@"%@%ld.png",self.collName,(long)self.indexPath.row];
         
@@ -490,7 +500,7 @@
         NSLog(@"%@", pngFilePathh);
         [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID indexPath:self.indexPath.row];
         [self removeImage:pngFilePathh];
-      }
+    }
     
     
     [self.collView reloadData];
@@ -540,7 +550,7 @@
         
         NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
-          }
+    }
     
     [self.customCollectionView reloadData];
     
