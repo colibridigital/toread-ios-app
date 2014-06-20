@@ -139,6 +139,9 @@
         
         [self.av show];
         
+        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:1];
+        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:2];
+        
     }
     else if (selectedSegment == 1){
         //toggle the correct view to be visible
@@ -150,6 +153,9 @@
         self.av.tag = 2;
         
         [self.av show];
+        
+        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:0];
+        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:1];
         
         NSLog(@"third segment selected");
     }
@@ -233,7 +239,8 @@
     notification.fireDate = self.datePicker.date;
     //notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
     notification.timeZone = [NSTimeZone defaultTimeZone];
-    notification.alertBody = @"Finish reading book ";
+    //make this customisable?
+    notification.alertBody = [NSString stringWithFormat:@"Finish reading book %@", self.bookTitle.text];
     notification.soundName = UILocalNotificationDefaultSoundName;
     notification.alertAction= @"View";
     

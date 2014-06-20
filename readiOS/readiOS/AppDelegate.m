@@ -138,7 +138,7 @@
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         //Get the primary key for all the books
         
-        const char *sql = [[NSString stringWithFormat:@"create table if not exists %@Books (ID INTEGER PRIMARY KEY, TITLE VARCHAR(300), AUTHORS VARCHAR(300), EDITOR VARCHAR(300), COVERLINK VARCHAR(300), DUEDATE VARCHAR(50), RATING REAL DEFAULT 0)", tableName] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"create table if not exists %@Books (ID INTEGER PRIMARY KEY, TITLE VARCHAR(300), AUTHORS VARCHAR(300), EDITOR VARCHAR(300), COVERLINK VARCHAR(300) UNIQUE, DUEDATE VARCHAR(50), RATING REAL DEFAULT 0)", tableName] UTF8String];
         NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {

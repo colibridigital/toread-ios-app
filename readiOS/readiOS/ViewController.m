@@ -112,16 +112,13 @@
     NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     
     NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
-                           [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=20", urlString]];
+                           [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=30", urlString]];
     
     SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
     
     [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
     
-    NSLog(@" THE ALLOCATED ONE %@", searchResController.tableData);
-    
     [self presentViewController:searchResController animated:NO completion:nil];
-    
     
     [self.searchBar resignFirstResponder];
     self.searchBar.text = nil;
@@ -530,7 +527,7 @@
         
         NSLog(@"here");
         
-        self.av = [[UIAlertView alloc] initWithTitle:@"Create New List" message:@"Would you like to create a new list called?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        self.av = [[UIAlertView alloc] initWithTitle:@"Create New List" message:@"Would you like to create a new list called?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
         
         [self.av setAlertViewStyle:UIAlertViewStylePlainTextInput];
         
@@ -561,9 +558,12 @@
     {
         NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
         self.customListTitle = [[self.av textFieldAtIndex:0] text];
+        
+        self.customListTitle = [self.customListTitle stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        
         NSLog(@"%@", self.customListTitle);
         
-        [self.appDelegate createNewCustomListInTheDatabase:[[self.av textFieldAtIndex:0] text]];
+        [self.appDelegate createNewCustomListInTheDatabase:self.customListTitle];
         [self.customListButton setTitle:[self.customListTitle capitalizedString] forState:UIControlStateNormal];
         [self loadCustomListDatabaseAndRefreshView:self.customListTitle];
         [self initiatePickerViewWithTableNames];
