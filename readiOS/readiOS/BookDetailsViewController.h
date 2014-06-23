@@ -10,8 +10,14 @@
 #import "BookCollectionView.h"
 #import "EDStarRating.h"
 #import "AppDelegate.h"
+#import "MBProgressHUD.h"
 
-@interface BookDetailsViewController : UIViewController<UIGestureRecognizerDelegate, EDStarRatingProtocol, UIAlertViewDelegate>
+@interface BookDetailsViewController : UIViewController<UIGestureRecognizerDelegate, EDStarRatingProtocol, UIAlertViewDelegate, MBProgressHUDDelegate> {
+    MBProgressHUD *HUD;
+}
+
+- (void)showWithCustomView:(NSString*)message;
+
 - (IBAction)dismissDetailsView:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *bookTitle;
 @property (weak, nonatomic) IBOutlet UILabel *bookAuthors;

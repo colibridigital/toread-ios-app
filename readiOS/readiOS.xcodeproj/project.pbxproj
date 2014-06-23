@@ -21,6 +21,9 @@
 		15368BDE194672C300E11AC0 /* EDStarRating.m in Sources */ = {isa = PBXBuildFile; fileRef = 15368BDD194672C300E11AC0 /* EDStarRating.m */; };
 		15368BE01946757C00E11AC0 /* star-template.png in Resources */ = {isa = PBXBuildFile; fileRef = 15368BDF1946757C00E11AC0 /* star-template.png */; };
 		15368BE21946758700E11AC0 /* star-highlighted-template.png in Resources */ = {isa = PBXBuildFile; fileRef = 15368BE11946758700E11AC0 /* star-highlighted-template.png */; };
+		159D8BBB19585B34002BC84A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 159D8BBA19585B34002BC84A /* MBProgressHUD.m */; };
+		159D8BBD19585B4E002BC84A /* Icon-iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 159D8BBC19585B4E002BC84A /* Icon-iOS7@2x.png */; };
+		159D8BC119585CA7002BC84A /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 159D8BC019585CA7002BC84A /* 37x-Checkmark@2x.png */; };
 		15ABDB511907C0A500C1FE32 /* Calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 15ABDB501907C0A500C1FE32 /* Calendar.png */; };
 		15ABDB531908359A00C1FE32 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15ABDB521908359A00C1FE32 /* libsqlite3.0.dylib */; };
 		15ABDB5A1909344E00C1FE32 /* BooksDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 15ABDB591909344E00C1FE32 /* BooksDatabase.m */; };
@@ -102,6 +105,10 @@
 		15368BDD194672C300E11AC0 /* EDStarRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDStarRating.m; sourceTree = "<group>"; };
 		15368BDF1946757C00E11AC0 /* star-template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-template.png"; sourceTree = "<group>"; };
 		15368BE11946758700E11AC0 /* star-highlighted-template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-highlighted-template.png"; sourceTree = "<group>"; };
+		159D8BB919585B34002BC84A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		159D8BBA19585B34002BC84A /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		159D8BBC19585B4E002BC84A /* Icon-iOS7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iOS7@2x.png"; sourceTree = "<group>"; };
+		159D8BC019585CA7002BC84A /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
 		15ABDB501907C0A500C1FE32 /* Calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Calendar.png; sourceTree = "<group>"; };
 		15ABDB521908359A00C1FE32 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		15ABDB581909344E00C1FE32 /* BooksDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksDatabase.h; sourceTree = "<group>"; };
@@ -233,6 +240,15 @@
 			path = EDStarRating;
 			sourceTree = "<group>";
 		};
+		159D8BB819585B11002BC84A /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				159D8BB919585B34002BC84A /* MBProgressHUD.h */,
+				159D8BBA19585B34002BC84A /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		15A41DA7190FE0A600F28FBA /* ReadBooks */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,6 +304,7 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				159D8BB819585B11002BC84A /* MBProgressHUD */,
 				15368BDB194672C300E11AC0 /* EDStarRating */,
 				1507C3C8192BE5BD002F81C2 /* GoogleBooksSearchResults */,
 				1507C3C4192BA99E002F81C2 /* GoogleBooks */,
@@ -361,6 +378,8 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				159D8BC019585CA7002BC84A /* 37x-Checkmark@2x.png */,
+				159D8BBC19585B4E002BC84A /* Icon-iOS7@2x.png */,
 				15368BE11946758700E11AC0 /* star-highlighted-template.png */,
 				15368BDF1946757C00E11AC0 /* star-template.png */,
 				1507C3D8192BEDBA002F81C2 /* addIcon.png */,
@@ -499,6 +518,7 @@
 				15B08D2F188B1D0A00FE1C17 /* logic.jpg in Resources */,
 				15B08D2D188B1D0A00FE1C17 /* design.jpg in Resources */,
 				15C2C84F19102028009C9361 /* ReadBooksViewController.xib in Resources */,
+				159D8BC119585CA7002BC84A /* 37x-Checkmark@2x.png in Resources */,
 				15368BE21946758700E11AC0 /* star-highlighted-template.png in Resources */,
 				15B08CE718783CD000FE1C17 /* Main_iPad.storyboard in Resources */,
 				1507C3D9192BEDBA002F81C2 /* addIcon.png in Resources */,
@@ -507,6 +527,7 @@
 				15B08D161878423F00FE1C17 /* four.jpg in Resources */,
 				152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */,
 				15B08CEC18783CD000FE1C17 /* Images.xcassets in Resources */,
+				159D8BBD19585B4E002BC84A /* Icon-iOS7@2x.png in Resources */,
 				1507C3C3192A48DE002F81C2 /* barcode.png in Resources */,
 				15ABDB511907C0A500C1FE32 /* Calendar.png in Resources */,
 				1507C3D2192BE62E002F81C2 /* SearchResultsController.xib in Resources */,
@@ -559,6 +580,7 @@
 				15ABDB5A1909344E00C1FE32 /* BooksDatabase.m in Sources */,
 				1507C3C7192BA9D9002F81C2 /* RetrieveBooks.m in Sources */,
 				15EF459518FBE93D00A77569 /* MFSideMenuContainerViewController.m in Sources */,
+				159D8BBB19585B34002BC84A /* MBProgressHUD.m in Sources */,
 				15EF459718FBE93D00A77569 /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */,
 				15B08CDD18783CD000FE1C17 /* main.m in Sources */,

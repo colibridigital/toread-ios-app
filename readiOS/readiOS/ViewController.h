@@ -10,10 +10,17 @@
 #import "BookCollectionView.h"
 #import "AppDelegate.h"
 #import "RetrieveBooks.h"
+#import "MBProgressHUD.h"
 
 
 @interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,UIAlertViewDelegate,
-UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate>
+UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate, MBProgressHUDDelegate> {
+    MBProgressHUD *HUD;
+}
+
+- (void)showSimple:(NSString*)urlString;
+- (void)showWithCustomView:(NSString*)message;
+
 @property (weak, nonatomic) IBOutlet UIButton *QRreader;
 
 @property (weak, nonatomic) IBOutlet UIButton *customListButton;

@@ -32,6 +32,27 @@
     return self;
 }
 
+- (void)showWithCustomView:(NSString*)message {
+	
+	HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+	
+	// The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
+	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
+	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark@2x.png"]];
+	
+	// Set custom view mode
+	HUD.mode = MBProgressHUDModeCustomView;
+	
+	HUD.delegate = self;
+    //modify this according to the needs
+	HUD.labelText = message;
+	
+	[HUD show:YES];
+	[HUD hide:YES afterDelay:1.5];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -195,6 +216,8 @@
             [self.appDelegate deleteBooksToReadFromOriginalTableWithoutDeletingFromTable:self.tableName ID:self.cellID indexPath:self.indexPath.row];
             
             [self removeImage:pngFilePathh];
+            
+            [self showWithCustomView:@"The book was marked as read"];
 
         }
     }
@@ -218,6 +241,8 @@
             NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];            
             NSLog(@"%@", pngFilePath);
             [self removeImage:pngFilePath];
+            
+            [self showWithCustomView:@"The book was deleted"];
             
         }
 
