@@ -23,11 +23,16 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.searchBar.delegate = self;
+    
+    self.retrieveBooks = [[RetrieveBooks alloc] init];
 }
 
 
 - (void)setTableDataArray:(NSArray *)table {
-    self.tableData = [[NSArray alloc] initWithArray:table];
+   
+        self.tableData = [[NSArray alloc] initWithArray:table];
+    
 }
 
 - (IBAction)dismissView:(id)sender {
@@ -134,6 +139,49 @@
     return 136;
 }
 
+
+- (void)searchInBackground:(NSString *)urlString {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+        
+        NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
+                               [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=30", urlString]];
+        
+        
+        dispatch_sync(dispatch_get_main_queue(), ^(void) {
+            [self setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
+            [self.tableView reloadData];
+            
+        });
+    });
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
+    NSLog(@"in here");
+    
+    NSString* searchBarText = self.searchBar.text;
+    NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    
+    [self showSimple:urlString];
+    
+    [self searchInBackground:urlString];
+    
+    [self.searchBar resignFirstResponder];
+    
+    //self.searchBar.text = nil;
+}
+
+- (void)showSimple:(NSString*)urlString {
+	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+	HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+	
+	// Regiser for HUD callbacks so we can remove it from the window at the right time
+	HUD.delegate = self;
+	
+	// Show the HUD while the provided method executes in a new thread
+	[HUD showWhileExecuting:@selector(searchInBackground:) onTarget:self withObject:urlString animated:YES];
+}
 
 /*
  // Override to support conditional editing of the table view.
