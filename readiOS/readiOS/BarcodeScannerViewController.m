@@ -7,13 +7,16 @@
 //
 
 #import "BarcodeScannerViewController.h"
+#import "BookDetailsViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
 @interface BarcodeScannerViewController ()  <AVCaptureMetadataOutputObjectsDelegate>
 {
-    AVCaptureSession *mCaptureSession;
+    AVCaptureSession *_session;
+    AVCaptureDevice *_device;
+    AVCaptureDeviceInput *_input;
+    AVCaptureMetadataOutput *_output;
     AVCaptureVideoPreviewLayer *_prevLayer;
-    NSMutableString *mCode;
     
     UIView *_highlightView;
     UILabel *_label;
@@ -30,74 +33,115 @@
     }
     return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    // 1
-    mCaptureSession = [[AVCaptureSession alloc] init];
+    self.retrieveBooks = [[RetrieveBooks alloc] init];
     
-    // 2
-    AVCaptureDevice *videoCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    _highlightView = [[UIView alloc] init];
+    _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
+    _highlightView.layer.borderColor = [UIColor greenColor].CGColor;
+    _highlightView.layer.borderWidth = 3;
+    [self.view addSubview:_highlightView];
+    
+    _label = [[UILabel alloc] init];
+    _label.frame = CGRectMake(0, self.view.bounds.size.height - 40, self.view.bounds.size.width, 40);
+    _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    _label.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
+    _label.textColor = [UIColor whiteColor];
+    _label.textAlignment = NSTextAlignmentCenter;
+    _label.text = @"(none)";
+    [self.view addSubview:_label];
+    
+    _session = [[AVCaptureSession alloc] init];
+    _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     NSError *error = nil;
     
-    // 3
-    AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:videoCaptureDevice error:&error];
-    
-    if ([mCaptureSession canAddInput:videoInput]) {
-        [mCaptureSession addInput:videoInput];
+    _input = [AVCaptureDeviceInput deviceInputWithDevice:_device error:&error];
+    if (_input) {
+        [_session addInput:_input];
     } else {
-        NSLog(@"Could not add video input: %@", [error localizedDescription]);
+        NSLog(@"Error: %@", error);
     }
     
-    // 4
-    AVCaptureMetadataOutput *metadataOutput = [[AVCaptureMetadataOutput alloc] init];
+    _output = [[AVCaptureMetadataOutput alloc] init];
+    [_output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+    [_session addOutput:_output];
     
-    if ([mCaptureSession canAddOutput:metadataOutput]) {
-        [mCaptureSession addOutput:metadataOutput];
-        
-        // 5
-        [metadataOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
-        [metadataOutput setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode, AVMetadataObjectTypeEAN13Code]];
-    } else {
-        NSLog(@"Could not add metadata output.");
-    }
+    _output.metadataObjectTypes = [_output availableMetadataObjectTypes];
     
-    // 6
-    AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:mCaptureSession];
-    previewLayer.frame = self.view.layer.bounds;
-    [self.view.layer addSublayer:previewLayer];
+    _prevLayer = [AVCaptureVideoPreviewLayer layerWithSession:_session];
+    _prevLayer.frame = self.view.bounds;
+    _prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    [self.view.layer addSublayer:_prevLayer];
     
-    // 7
-    [mCaptureSession startRunning];
+    [_session startRunning];
+    
+    [self.view bringSubviewToFront:_highlightView];
+    [self.view bringSubviewToFront:_label];
 }
 
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
-    // 1
-    if (mCode == nil) {
-        mCode = [[NSMutableString alloc] initWithString:@""];
-    }
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
+{
+    CGRect highlightViewRect = CGRectZero;
+    AVMetadataMachineReadableCodeObject *barCodeObject;
+    NSString *detectionString = nil;
+    NSArray *barCodeTypes = @[AVMetadataObjectTypeUPCECode, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode39Mod43Code,
+                              AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeCode128Code,
+                              AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeAztecCode];
     
-    // 2
-    [mCode setString:@""];
-    
-    // 3
-    for (AVMetadataObject *metadataObject in metadataObjects) {
-        AVMetadataMachineReadableCodeObject *readableObject = (AVMetadataMachineReadableCodeObject *)metadataObject;
-        
-        // 4
-        if([metadataObject.type isEqualToString:AVMetadataObjectTypeQRCode]) {
-            [mCode appendFormat:@"%@ (QR)", readableObject.stringValue];
-        } else if ([metadataObject.type isEqualToString:AVMetadataObjectTypeEAN13Code]) {
-            [mCode appendFormat:@"%@ (EAN 13)", readableObject.stringValue];
+    for (AVMetadataObject *metadata in metadataObjects) {
+        for (NSString *type in barCodeTypes) {
+            if ([metadata.type isEqualToString:type])
+            {
+                barCodeObject = (AVMetadataMachineReadableCodeObject *)[_prevLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
+                highlightViewRect = barCodeObject.bounds;
+                detectionString = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
+                break;
+            }
         }
+        
+        if (detectionString != nil)
+        {
+            
+            [self processBarcode:detectionString];
+            break;
+        }
+        else
+            _label.text = @"(none)";
     }
     
-    // 5
-    if (![mCode isEqualToString:@""]) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-}
+    _highlightView.frame = highlightViewRect;
+    
+    }
+
+-(void)processBarcode:(NSString*)detectionString {
+    // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+    
+    NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
+                           [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=isbn:%@", detectionString]];
+    
+    // dispatch_sync(dispatch_get_main_queue(), ^(void) {
+    
+    
+    self.results = [self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]];
+    
+    _label.text = [[[self.results objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"title"];
+    
+    NSLog(@"%@", _label.text);
+    
+    
+    //  SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
+    
+    //  [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
+    
+    //   [self presentViewController:searchResController animated:NO completion:nil];
+    
+    // });
+    // });
+   
+    //and then close session;
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,29 +150,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    if ([mCaptureSession isRunning] == NO)
-        [mCaptureSession startRunning];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    if ([mCaptureSession isRunning])
-        [mCaptureSession stopRunning];
-}
-
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

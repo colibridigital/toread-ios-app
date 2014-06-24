@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RetrieveBooks.h"
 
 @interface BarcodeScannerViewController : UIViewController
+@property (retain) RetrieveBooks *retrieveBooks;
+@property (strong, nonatomic) NSArray *results;
+
 
 @end
