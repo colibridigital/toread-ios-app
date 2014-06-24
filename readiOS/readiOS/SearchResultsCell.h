@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "MBProgressHUD.h"
 
-@interface SearchResultsCell : UITableViewCell<UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate>
+@interface SearchResultsCell : UITableViewCell<UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate, MBProgressHUDDelegate> {
+    MBProgressHUD *HUD;
+}
+
+
+- (void)showWithCustomView:(NSString*)message;
+
 
 @property (weak, nonatomic) IBOutlet UIImageView *bookCover;
 

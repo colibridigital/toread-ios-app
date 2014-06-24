@@ -41,6 +41,28 @@
     
 }
 
+
+- (void)showWithCustomView:(NSString*)message {
+	
+	HUD = [[MBProgressHUD alloc] initWithView:self.viewForBaselineLayout];
+	[self.viewForBaselineLayout addSubview:HUD];
+	
+	// The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
+	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
+	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark@2x.png"]];
+	
+	// Set custom view mode
+	HUD.mode = MBProgressHUDModeCustomView;
+	
+	HUD.delegate = self;
+    //modify this according to the needs
+	HUD.labelText = message;
+	
+	[HUD show:YES];
+	[HUD hide:YES afterDelay:1.5];
+}
+
+
 - (void) initiatePickerViewWithTableNames {
     [self.appDelegate getAllDatabaseTableNames];
     self.tableNames = [self.appDelegate.tableNames mutableCopy];
@@ -94,9 +116,6 @@
      
         
     } else {
-        //add in the specific table in the database the book with the given book details
-        
-        
         NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
         [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating];
@@ -105,7 +124,7 @@
     
     NSLog(@"adding book to the database");
     
-    
+    [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", [self.pickerViewData objectAtIndex:row]]];
     
     [self.pickerView removeFromSuperview];
     
@@ -124,6 +143,9 @@
         
         [self.appDelegate createNewCustomListInTheDatabase:[[self.av textFieldAtIndex:0] text]];
         [self.appDelegate addBookToTheDatabaseBookList:[self.customListTitle lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating];
+        
+        [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
+
     }
 
 }
