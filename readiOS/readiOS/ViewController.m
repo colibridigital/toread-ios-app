@@ -5,13 +5,13 @@
 //  Created by Ingrid Funie on 04/01/2014.
 //  Copyright (c) 2014 colibri. All rights reserved.
 //
-
 #import "ViewController.h"
 #import "BookCollectionViewCell.h"
 #import "BookDetailsViewController.h"
 #import "BooksDatabase.h"
 #import "MFSideMenu.h"
 #import "SearchResultsController.h"
+#import "BarcodeScannerViewController.h"
 
 @interface ViewController ()
 
@@ -653,6 +653,11 @@
 }
 
 - (IBAction)showQRReader:(id)sender {
+    
+    BarcodeScannerViewController *barcodeScanner = [[BarcodeScannerViewController alloc] initWithNibName:nil bundle:nil];
+    
+    [self presentViewController:barcodeScanner animated:NO completion:nil];
+    
 }
 
 - (IBAction)showMenu:(id)sender {

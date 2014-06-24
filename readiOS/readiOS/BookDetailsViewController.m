@@ -168,6 +168,9 @@
         //toggle the correct view to be visible
         
         NSLog(@"second segment selected");
+        
+        
+        
     } else {
         
         self.av = [[UIAlertView alloc] initWithTitle:@"Delete" message:@"Do you really want to delete this?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];

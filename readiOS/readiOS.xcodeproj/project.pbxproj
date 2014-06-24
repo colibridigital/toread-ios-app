@@ -63,6 +63,8 @@
 		15B08D30188B1D0A00FE1C17 /* math.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D2B188B1D0A00FE1C17 /* math.jpg */; };
 		15C2C84E19102028009C9361 /* ReadBooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C2C84C19102028009C9361 /* ReadBooksViewController.m */; };
 		15C2C84F19102028009C9361 /* ReadBooksViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15C2C84D19102028009C9361 /* ReadBooksViewController.xib */; };
+		15CF4F03195A044B00BDF404 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15CF4F02195A044B00BDF404 /* AVFoundation.framework */; };
+		15CF4F06195A049A00BDF404 /* BarcodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CF4F05195A049A00BDF404 /* BarcodeScannerViewController.m */; };
 		15CFECE418FEC5560086207B /* home-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15CFECE318FEC5560086207B /* home-icon.png */; };
 		15D4935218FC93F1008460D4 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 15D4935118FC93F1008460D4 /* menu.png */; };
 		15EF457E18F5B5BF00A77569 /* read.png in Resources */ = {isa = PBXBuildFile; fileRef = 15EF457D18F5B5BF00A77569 /* read.png */; };
@@ -157,6 +159,9 @@
 		15C2C84B19102028009C9361 /* ReadBooksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadBooksViewController.h; sourceTree = "<group>"; };
 		15C2C84C19102028009C9361 /* ReadBooksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadBooksViewController.m; sourceTree = "<group>"; };
 		15C2C84D19102028009C9361 /* ReadBooksViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadBooksViewController.xib; sourceTree = "<group>"; };
+		15CF4F02195A044B00BDF404 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		15CF4F04195A049A00BDF404 /* BarcodeScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarcodeScannerViewController.h; sourceTree = "<group>"; };
+		15CF4F05195A049A00BDF404 /* BarcodeScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarcodeScannerViewController.m; sourceTree = "<group>"; };
 		15CFECE318FEC5560086207B /* home-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home-icon.png"; sourceTree = "<group>"; };
 		15D4935118FC93F1008460D4 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		15EF457D18F5B5BF00A77569 /* read.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = read.png; sourceTree = "<group>"; };
@@ -178,6 +183,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15CF4F03195A044B00BDF404 /* AVFoundation.framework in Frameworks */,
 				15ABDB531908359A00C1FE32 /* libsqlite3.0.dylib in Frameworks */,
 				15EF459D18FBEE6700A77569 /* QuartzCore.framework in Frameworks */,
 				15B08CD318783CD000FE1C17 /* CoreGraphics.framework in Frameworks */,
@@ -291,6 +297,7 @@
 		15B08CCF18783CD000FE1C17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15CF4F02195A044B00BDF404 /* AVFoundation.framework */,
 				15ABDB521908359A00C1FE32 /* libsqlite3.0.dylib */,
 				15EF459C18FBEE6700A77569 /* QuartzCore.framework */,
 				15B08CD018783CD000FE1C17 /* Foundation.framework */,
@@ -304,6 +311,7 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				15CF4EFE195A03C100BDF404 /* BarcodeReader */,
 				159D8BB819585B11002BC84A /* MBProgressHUD */,
 				15368BDB194672C300E11AC0 /* EDStarRating */,
 				1507C3C8192BE5BD002F81C2 /* GoogleBooksSearchResults */,
@@ -409,6 +417,15 @@
 			);
 			name = resources;
 			path = readiOS;
+			sourceTree = "<group>";
+		};
+		15CF4EFE195A03C100BDF404 /* BarcodeReader */ = {
+			isa = PBXGroup;
+			children = (
+				15CF4F04195A049A00BDF404 /* BarcodeScannerViewController.h */,
+				15CF4F05195A049A00BDF404 /* BarcodeScannerViewController.m */,
+			);
+			name = BarcodeReader;
 			sourceTree = "<group>";
 		};
 		15EF458D18FBE8FA00A77569 /* MFSideMenu */ = {
@@ -575,6 +592,7 @@
 				15B08CEA18783CD000FE1C17 /* ViewController.m in Sources */,
 				15B08D0B18783E7900FE1C17 /* BookCollectionViewCell.m in Sources */,
 				15B08CE118783CD000FE1C17 /* AppDelegate.m in Sources */,
+				15CF4F06195A049A00BDF404 /* BarcodeScannerViewController.m in Sources */,
 				15EF459618FBE93D00A77569 /* MFSideMenuShadow.m in Sources */,
 				15B08D111878408200FE1C17 /* BookCollectionView.m in Sources */,
 				15ABDB5A1909344E00C1FE32 /* BooksDatabase.m in Sources */,
