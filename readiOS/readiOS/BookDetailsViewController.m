@@ -369,8 +369,19 @@
     
         NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
-   // [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating];
-    //delete from original table
+    [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating];
+    
+    [self.appDelegate deleteBooksToReadFromOriginalTable:self.tableName ID:self.cellID indexPath:self.indexPath.row];
+    
+    NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)self.cellID];
+    
+    NSLog(@"imageNAme %@", imageName);
+    
+    NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+    NSLog(@"%@", pngFilePath);
+    [self removeImage:pngFilePath];
+    
     //sort images out
     //add alert to ask if we do want or not
     
