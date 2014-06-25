@@ -83,10 +83,8 @@
         
     } else {
         
-        ViewController *demoController = [[ViewController alloc] init];
+        UIViewController *demoController = [[UIViewController alloc] init];
         demoController.title = [NSString stringWithFormat:@"Demo #%ld-%ld", (long)indexPath.section, (long)indexPath.row];
-        
-        
         
         UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
         NSArray *controllers = [NSArray arrayWithObject:demoController];

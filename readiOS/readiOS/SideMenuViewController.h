@@ -9,6 +9,6 @@
 
 @interface SideMenuViewController : UITableViewController
 
-@property(weak, nonatomic) ViewController *viewController;
+//@property(weak, nonatomic) ViewController *viewController;
 
 @end

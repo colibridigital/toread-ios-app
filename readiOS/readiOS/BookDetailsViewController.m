@@ -367,8 +367,8 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
     
-        NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
-        
+    NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
+    
     [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating];
     
     [self.appDelegate deleteBooksToReadFromOriginalTable:self.tableName ID:self.cellID indexPath:self.indexPath.row];
@@ -382,9 +382,6 @@
     NSLog(@"%@", pngFilePath);
     [self removeImage:pngFilePath];
     
-    //sort images out
-    //add alert to ask if we do want or not
-    
     NSLog(@"moving book to the database");
     
     [self showWithCustomView:[NSString stringWithFormat:@"Moved to : %@", [self.pickerViewData objectAtIndex:row]]];
@@ -393,8 +390,6 @@
     
     [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:0];
     [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:2];
-   // [self.segmentedControl setSelected:FALSE];
-
     
 }
 
