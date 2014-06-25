@@ -9,7 +9,6 @@
 #import "BookDetailsViewController.h"
 #import "BookCollectionViewCell.h"
 #import "EDStarRating.h"
-#import "BooksDatabase.h"
 #import <sqlite3.h>
 
 @interface BookDetailsViewController ()
@@ -59,6 +58,9 @@
     NSLog(@"show view");
     //i need to pass the table name
     [self initializeViewWithBookDetailsFromDB];
+    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [self initiatePickerViewWithTableNames];
+
     
     _starRating.backgroundColor  = [UIColor blackColor];
     _starRating.starImage = [[UIImage imageNamed:@"star-template"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -78,6 +80,28 @@
     
 }
 
+
+- (void) initiatePickerViewWithTableNames {
+    [self.appDelegate getAllDatabaseTableNames];
+    self.tableNames = [self.appDelegate.tableNames mutableCopy];
+    
+    [self.tableNames insertObject:@"" atIndex:0];
+    
+    NSMutableArray *newTable = [NSMutableArray array];
+    
+    for (NSString* name in self.tableNames) {
+        if ([name rangeOfString:@"suggested"].location != NSNotFound || [name rangeOfString:@"read"].location != NSNotFound) {
+            continue;
+        } else{
+            [newTable addObject:[[name stringByReplacingOccurrencesOfString:@"Books" withString:@""] capitalizedString]];
+        }
+    }
+    
+    self.pickerViewData = [newTable mutableCopy];
+    
+}
+
+
 - (void) initializeViewWithBookDetailsFromDB{
     
     NSLog(@"entering initialisation for details");
@@ -93,14 +117,14 @@
     //Open the db. The db was prepared outside the application
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         
-        BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:self.cellID database:database table:self.tableName];
-        self.bookTitle.text = bDB.title;
-        self.bookAuthors.text = bDB.authors;
+        self.bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:self.cellID database:database table:self.tableName];
+        self.bookTitle.text = self.bDB.title;
+        self.bookAuthors.text = self.bDB.authors;
         
-        NSLog(@"rating: %f", bDB.rating);
+        NSLog(@"rating: %f", self.bDB.rating);
         
         NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)bDB.ID];
+        NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)self.bDB.ID];
         
         NSLog(@"imageNAme %@ from table %@", imageName, self.tableName);
         
@@ -108,9 +132,9 @@
         
         UIImage *bookImage = [UIImage imageWithContentsOfFile:pngFilePath];
         self.bookCover.image = bookImage;
-        _starRating.rating= bDB.rating;
+        _starRating.rating= self.bDB.rating;
         
-        NSString *ratingString = [NSString stringWithFormat:@"Rating: %.1f", bDB.rating];
+        NSString *ratingString = [NSString stringWithFormat:@"Rating: %.1f", self.bDB.rating];
         
         _starRatingLabel.text = ratingString;
         
@@ -146,6 +170,30 @@
     [self.view addSubview:self.datePicker];
 }
 
+- (void)showPickerView {
+    //show picker view with the database to move the book to
+    self.pickerView = [[UIPickerView alloc] init];
+    
+    // Calculate the screen's width.
+    float screenWidth = [UIScreen mainScreen].bounds.size.width;
+    float pickerWidth = screenWidth * 3 / 4;
+    
+    // Calculate the starting x coordinate.
+    float xPoint = screenWidth / 2 - pickerWidth / 2;
+    
+    // Set the picker's frame. We set the y coordinate to 50px.
+    [self.pickerView setFrame: CGRectMake(xPoint, 245.0f, pickerWidth, 130.0f)];
+    
+    [self.pickerView setDataSource:self];
+    [self.pickerView setDelegate:self];
+    self.pickerView.showsSelectionIndicator = YES;
+    self.pickerView.backgroundColor = [UIColor whiteColor];
+    
+    [self.pickerView selectRow:0 inComponent:0 animated:NO];
+    
+    [self.view addSubview:self.pickerView];
+}
+
 - (IBAction)pickAction:(id)sender {
     
     
@@ -159,9 +207,7 @@
         self.av.tag = 1;
         
         [self.av show];
-        
-        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:1];
-        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:2];
+       
         
     }
     else if (selectedSegment == 1){
@@ -169,7 +215,7 @@
         
         NSLog(@"second segment selected");
         
-        
+        [self showPickerView];
         
     } else {
         
@@ -178,13 +224,11 @@
         
         [self.av show];
         
-        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:0];
-        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:1];
-        
         NSLog(@"third segment selected");
     }
     
 }
+
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"Button Index =%ld",buttonIndex);
@@ -194,6 +238,7 @@
         if (buttonIndex == 0)
         {
             NSLog(@"You have clicked No");
+            [self.segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
         }
         else if(buttonIndex == 1)
         {
@@ -221,6 +266,9 @@
             [self removeImage:pngFilePathh];
             
             [self showWithCustomView:@"The book was marked as read"];
+            
+            [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:1];
+            [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:2];
 
         }
     }
@@ -228,7 +276,8 @@
     if (self.av.tag == 2) {
         if (buttonIndex == 0)
         {
-            NSLog(@"You have clicked No2");
+            NSLog(@"You have clicked NO");
+            [self.segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
         }
         else if(buttonIndex == 1)
         {
@@ -246,6 +295,9 @@
             [self removeImage:pngFilePath];
             
             [self showWithCustomView:@"The book was deleted"];
+            
+            [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:0];
+            [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:1];
             
         }
 
@@ -291,6 +343,49 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.datePicker removeFromSuperview];
+    [self.pickerView removeFromSuperview];
+    [self.segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
 }
+
+
+// Number of components.
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1;
+}
+
+// Total rows in our component.
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    return [self.pickerViewData count];
+}
+
+// Display each row's data.
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    return [self.pickerViewData objectAtIndex: row];
+}
+
+//fix the create new list
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
+    
+        NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
+        
+   // [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating];
+    //delete from original table
+    //sort images out
+    //add alert to ask if we do want or not
+    
+    NSLog(@"moving book to the database");
+    
+    [self showWithCustomView:[NSString stringWithFormat:@"Moved to : %@", [self.pickerViewData objectAtIndex:row]]];
+    
+    [self.pickerView removeFromSuperview];
+    
+    [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:0];
+    [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:2];
+   // [self.segmentedControl setSelected:FALSE];
+
+    
+}
+
 
 @end

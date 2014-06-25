@@ -10,9 +10,10 @@
 #import "BookCollectionView.h"
 #import "EDStarRating.h"
 #import "AppDelegate.h"
+#import "BooksDatabase.h"
 #import "MBProgressHUD.h"
 
-@interface BookDetailsViewController : UIViewController<UIGestureRecognizerDelegate, EDStarRatingProtocol, UIAlertViewDelegate, MBProgressHUDDelegate> {
+@interface BookDetailsViewController : UIViewController<UIGestureRecognizerDelegate, EDStarRatingProtocol, UIAlertViewDelegate, MBProgressHUDDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
     MBProgressHUD *HUD;
 }
 
@@ -35,9 +36,14 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
+@property (nonatomic) BooksDatabase *bDB;
 
 @property (nonatomic) int uniqueID;
 @property(retain) UIAlertView *av;
+
+@property (strong, nonatomic) UIPickerView *pickerView;
+@property (strong, nonatomic) NSArray *pickerViewData;
+@property (strong, nonatomic) NSMutableArray *tableNames;
 
 - (IBAction)showCalendarPicker:(id)sender;
 - (IBAction)pickAction:(id)sender;

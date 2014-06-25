@@ -104,7 +104,6 @@
         
         if (detectionString != nil)
         {
-            
             [self processBarcode:detectionString];
             break;
         }
