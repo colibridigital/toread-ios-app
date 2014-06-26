@@ -231,7 +231,7 @@
 
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"Button Index =%ld",buttonIndex);
+    NSLog(@"Button Index =%ld",(long)buttonIndex);
     
     if (self.av.tag == 1) {
         
@@ -281,7 +281,7 @@
         }
         else if(buttonIndex == 1)
         {
-            NSLog(@"You have clicked Yes to delete image %lu at imagePath: from tableName :%@", self.indexPath.row, self.tableName);
+            NSLog(@"You have clicked Yes to delete image %lu at imagePath: from tableName :%@", (long)self.indexPath.row, self.tableName);
             //delete from database
             [self.appDelegate deleteBooksToReadFromOriginalTable:self.tableName ID:self.cellID indexPath:self.indexPath.row];
             

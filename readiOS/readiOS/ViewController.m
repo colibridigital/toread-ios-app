@@ -99,7 +99,7 @@
 - (void)loadCustomListDatabaseAndRefreshView:(NSString *)customListButtonTitle {
     [self loadCustomListDatabase:customListButtonTitle];
     [self.customCollectionView reloadData];
-    NSLog(@"books images count %lu", self.customCollectionView.bookImages.count);
+    NSLog(@"books images count %lu", (unsigned long)self.customCollectionView.bookImages.count);
 }
 
 - (void)viewDidLoad
@@ -178,7 +178,7 @@
 - (void)addGestureRecognizer:(BookCollectionView *)collView{
     UILongPressGestureRecognizer *lpgr
     = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 0.5; //seconds
+    lpgr.minimumPressDuration = 1.0; //seconds
     lpgr.delaysTouchesBegan = YES;
     lpgr.delegate = self;
     [collView addGestureRecognizer:lpgr];
@@ -214,7 +214,6 @@
         BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.customCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
         
         bookDetails.tableName = [NSString stringWithFormat:@"%@Books",self.tableName];
-        NSLog(@"count:%lu", (unsigned long)self.customCollectionView.bookImages.count);
         bookDetails.cellID = cell.ID;
     } else if ([gestureRecognizer.view isEqual:self.suggestedBooksView]) {
         bookDetails.indexPath = [self.suggestedBooksView indexPathForItemAtPoint:p];
@@ -225,7 +224,7 @@
     }
     
     if (!bookDetails.cellID == 0) {
-        NSLog(@"cellID :%lu", bookDetails.cellID);
+        NSLog(@"cellID :%lu", (long)bookDetails.cellID);
         [self presentViewController:bookDetails animated:YES completion:nil];
     }
     
@@ -304,21 +303,47 @@
     else return 0;
 }
 
+- (void)willPresentActionSheet:(UIActionSheet *)actionSheet
+{
+    UIColor *customTitleColor = [UIColor blackColor];
+    for (UIView *subview in actionSheet.subviews) {
+        if ([subview isKindOfClass:[UIButton class]]) {
+            UIButton *button = (UIButton *)subview;
+            
+            [button setTitleColor:customTitleColor forState:UIControlStateHighlighted];
+            [button setTitleColor:customTitleColor forState:UIControlStateNormal];
+            [button setTitleColor:customTitleColor forState:UIControlStateSelected];
+        }
+    }
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BookCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
     
+    //to test the action sheet
+    cell.deleteButton.hidden = YES;
+    cell.readButton.hidden = YES;
+    
     if ([indexPath isEqual:self.indexPath] && self.isEditMode && [collectionView isEqual:self.collView]) {
-        cell.deleteButton.hidden = NO;
+        
+        UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:@"What would you like to do?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
+                                @"Mark as Read",
+                                @"Delete",
+                                nil];
+        popup.tag = 1;
+        [popup showInView:[UIApplication sharedApplication].keyWindow];
+        
+       /* cell.deleteButton.hidden = NO;
         cell.readButton.hidden = NO;
         [cell.readButton addTarget:self action:@selector(markBookAsRead:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.deleteButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
-    } else {
+        [cell.deleteButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];*/
+    } /*else {
         cell.deleteButton.hidden = YES;
-        cell.readButton.hidden = YES;
-        [cell.readButton addTarget:self action:@selector(markBookAsRead:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.deleteButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
-    }
+        cell.readButton.hidden = YES;*/
+       // [cell.readButton addTarget:self action:@selector(markBookAsRead:) forControlEvents:UIControlEventTouchUpInside];
+       // [cell.deleteButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
+    //}
     
     
     NSLog(@"showing book");
@@ -368,7 +393,7 @@
         
     } else if (collectionView == self.favouriteCollectionView) {
         
-        NSLog(@"favourite count %lu", self.appDelegate.favouriteBooks.count);
+        NSLog(@"favourite count %lu", (unsigned long)self.appDelegate.favouriteBooks.count);
         
         BooksDatabase *bDB = [self.appDelegate.favouriteBooks objectAtIndex:indexPath.row];
         
@@ -411,7 +436,7 @@
             
         }
         
-        NSLog(@"favourite collection view book images %lu", self.favouriteCollectionView.bookImages.count);
+        NSLog(@"favourite collection view book images %lu", (unsigned long)self.favouriteCollectionView.bookImages.count);
         
         //make this customizable pls
     } else if (collectionView == self.customCollectionView) {
@@ -460,6 +485,27 @@
     return cell;
 }
 
+- (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (popup.tag) {
+        case 1: {
+            switch (buttonIndex) {
+                case 0:
+                    [self markBookAsRead];
+                    break;
+                case 1:
+                    [self deleteCell];
+                    break;
+                default:
+                    break;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 - (void)removeImage:(NSString *)filePath
 {
     NSError *error;
@@ -470,8 +516,8 @@
     }
 }
 
-- (void)markBookAsRead:(UIButton *)sender {
-    
+//- (void)markBookAsRead:(UIButton *)sender {
+- (void)markBookAsRead{
     NSLog(@"marked as read");
     if (self.indexPath != nil) {
         
@@ -483,9 +529,6 @@
         } else {
             cell = (BookCollectionViewCell*)[self.customCollectionView cellForItemAtIndexPath:self.indexPath];
         }
-        //then remove it from the orifinal book list and from the specific view
-        
-       // NSLog(@"saving png from indexPath: %lu", self.indexPath.row);
         
         NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         
@@ -519,9 +562,8 @@
     
 }
 
-
--(void)deleteCell:(UIButton *)sender {
-    
+//-(void)deleteCell:(UIButton *)sender {
+-(void)deleteCell{
     NSLog(@"here to delete");
     
     if (self.indexPath != nil) {
@@ -556,9 +598,6 @@
     self.collName = nil;
     
 }
-
-
-
 
 // Number of components.
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{

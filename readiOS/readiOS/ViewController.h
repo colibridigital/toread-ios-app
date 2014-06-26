@@ -13,7 +13,7 @@
 #import "MBProgressHUD.h"
 
 
-@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,UIAlertViewDelegate,
+@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,UIAlertViewDelegate, UIActionSheetDelegate,
 UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate, MBProgressHUDDelegate> {
     MBProgressHUD *HUD;
 }
