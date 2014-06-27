@@ -8,6 +8,7 @@
 
 #import "BarcodeScannerViewController.h"
 #import "BookDetailsViewController.h"
+#import "BarcodeScannerResultDetails.h"
 #import <AVFoundation/AVFoundation.h>
 
 @interface BarcodeScannerViewController ()  <AVCaptureMetadataOutputObjectsDelegate>
@@ -19,11 +20,12 @@
     AVCaptureVideoPreviewLayer *_prevLayer;
     
     UIView *_highlightView;
-    UILabel *_label;
 }
 @end
 
 @implementation BarcodeScannerViewController
+
+@synthesize results;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,14 +47,14 @@
     _highlightView.layer.borderWidth = 3;
     [self.view addSubview:_highlightView];
     
-    _label = [[UILabel alloc] init];
-    _label.frame = CGRectMake(0, self.view.bounds.size.height - 40, self.view.bounds.size.width, 40);
-    _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    _label.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
-    _label.textColor = [UIColor whiteColor];
-    _label.textAlignment = NSTextAlignmentCenter;
-    _label.text = @"(none)";
-    [self.view addSubview:_label];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(self.view.bounds.size.width * 0.3, self.view.bounds.size.height - 40, self.view.bounds.size.width * 0.4, 40);
+    [button addTarget:self
+               action:@selector(buttonClicked:)
+     forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"Cancel" forState:UIControlStateNormal];
+    [button.titleLabel setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:button];
     
     _session = [[AVCaptureSession alloc] init];
     _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -79,7 +81,60 @@
     [_session startRunning];
     
     [self.view bringSubviewToFront:_highlightView];
-    [self.view bringSubviewToFront:_label];
+    [self.view bringSubviewToFront:button];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    
+    NSLog(@"show view2");
+    
+    self.retrieveBooks = [[RetrieveBooks alloc] init];
+    
+    _highlightView = [[UIView alloc] init];
+    _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
+    _highlightView.layer.borderColor = [UIColor greenColor].CGColor;
+    _highlightView.layer.borderWidth = 3;
+    [self.view addSubview:_highlightView];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(self.view.bounds.size.width * 0.3, self.view.bounds.size.height - 40, self.view.bounds.size.width * 0.4, 40);
+    [button addTarget:self
+               action:@selector(buttonClicked:)
+     forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"Cancel" forState:UIControlStateNormal];
+    [button.titleLabel setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:button];
+    
+    _session = [[AVCaptureSession alloc] init];
+    _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    NSError *error = nil;
+    
+    _input = [AVCaptureDeviceInput deviceInputWithDevice:_device error:&error];
+    if (_input) {
+        [_session addInput:_input];
+    } else {
+        NSLog(@"Error: %@", error);
+    }
+    
+    _output = [[AVCaptureMetadataOutput alloc] init];
+    [_output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+    [_session addOutput:_output];
+    
+    _output.metadataObjectTypes = [_output availableMetadataObjectTypes];
+    
+    _prevLayer = [AVCaptureVideoPreviewLayer layerWithSession:_session];
+    _prevLayer.frame = self.view.bounds;
+    _prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    [self.view.layer addSublayer:_prevLayer];
+    
+    [_session startRunning];
+    
+    [self.view bringSubviewToFront:_highlightView];
+    [self.view bringSubviewToFront:button];
+}
+
+-(void)buttonClicked:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
@@ -104,43 +159,30 @@
         
         if (detectionString != nil)
         {
+            [_session stopRunning];
+            
             [self processBarcode:detectionString];
+
+            BarcodeScannerResultDetails *resultView = [[BarcodeScannerResultDetails alloc] initWithNibName:@"BarcodeScannerResultDetails" bundle:nil];
+            
+            [resultView setScanResult:self.results];
+            
+           [self presentViewController:resultView animated:YES completion:nil];
+            
             break;
         }
-        else
-            _label.text = @"(none)";
+        
     }
     
     _highlightView.frame = highlightViewRect;
-    
     }
 
 -(void)processBarcode:(NSString*)detectionString {
-    // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
     
     NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
                            [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=isbn:%@", detectionString]];
     
-    // dispatch_sync(dispatch_get_main_queue(), ^(void) {
-    
-    
-    self.results = [self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]];
-    
-    _label.text = [[[self.results objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"title"];
-    
-    NSLog(@"%@", _label.text);
-    
-    
-    //  SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
-    
-    //  [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
-    
-    //   [self presentViewController:searchResController animated:NO completion:nil];
-    
-    // });
-    // });
-   
-    //and then close session;
+    [self setResults:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
 }
 
 - (void)didReceiveMemoryWarning
