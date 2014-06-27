@@ -25,6 +25,7 @@
 		15928413195CAEB80069FA8B /* BarcodeScannerResultDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 15928411195CAEB80069FA8B /* BarcodeScannerResultDetails.m */; };
 		15928414195CAEB80069FA8B /* BarcodeScannerResultDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15928412195CAEB80069FA8B /* BarcodeScannerResultDetails.xib */; };
 		15928416195CBD860069FA8B /* books.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 15928415195CBD860069FA8B /* books.sqlite */; };
+		1592841A195E08230069FA8B /* EmailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 15928419195E08230069FA8B /* EmailManager.m */; };
 		159D8BBB19585B34002BC84A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 159D8BBA19585B34002BC84A /* MBProgressHUD.m */; };
 		159D8BBD19585B4E002BC84A /* Icon-iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 159D8BBC19585B4E002BC84A /* Icon-iOS7@2x.png */; };
 		159D8BC119585CA7002BC84A /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 159D8BC019585CA7002BC84A /* 37x-Checkmark@2x.png */; };
@@ -115,6 +116,8 @@
 		15928411195CAEB80069FA8B /* BarcodeScannerResultDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarcodeScannerResultDetails.m; sourceTree = "<group>"; };
 		15928412195CAEB80069FA8B /* BarcodeScannerResultDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BarcodeScannerResultDetails.xib; sourceTree = "<group>"; };
 		15928415195CBD860069FA8B /* books.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = books.sqlite; sourceTree = "<group>"; };
+		15928418195E08230069FA8B /* EmailManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailManager.h; sourceTree = "<group>"; };
+		15928419195E08230069FA8B /* EmailManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailManager.m; sourceTree = "<group>"; };
 		159D8BB919585B34002BC84A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		159D8BBA19585B34002BC84A /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		159D8BBC19585B4E002BC84A /* Icon-iOS7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iOS7@2x.png"; sourceTree = "<group>"; };
@@ -263,6 +266,15 @@
 			name = BarcodeScannerResultDetails;
 			sourceTree = "<group>";
 		};
+		15928417195E08080069FA8B /* EmailManager */ = {
+			isa = PBXGroup;
+			children = (
+				15928418195E08230069FA8B /* EmailManager.h */,
+				15928419195E08230069FA8B /* EmailManager.m */,
+			);
+			name = EmailManager;
+			sourceTree = "<group>";
+		};
 		159D8BB819585B11002BC84A /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,6 +340,7 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				15928417195E08080069FA8B /* EmailManager */,
 				1592840F195CAE860069FA8B /* BarcodeScannerResultDetails */,
 				15CF4EFE195A03C100BDF404 /* BarcodeReader */,
 				159D8BB819585B11002BC84A /* MBProgressHUD */,
@@ -615,6 +628,7 @@
 				15B08D0B18783E7900FE1C17 /* BookCollectionViewCell.m in Sources */,
 				15B08CE118783CD000FE1C17 /* AppDelegate.m in Sources */,
 				15CF4F06195A049A00BDF404 /* BarcodeScannerViewController.m in Sources */,
+				1592841A195E08230069FA8B /* EmailManager.m in Sources */,
 				15EF459618FBE93D00A77569 /* MFSideMenuShadow.m in Sources */,
 				15B08D111878408200FE1C17 /* BookCollectionView.m in Sources */,
 				15ABDB5A1909344E00C1FE32 /* BooksDatabase.m in Sources */,

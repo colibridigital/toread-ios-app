@@ -76,12 +76,12 @@ static sqlite3_stmt *init_statement = nil;
             self.rating = sqlite3_column_double(init_statement, 5);
             
         } else {
-            self.title = @"Nothing";
-            self.authors = @"Nothing";
-            self.editor = @"Nothing";
-            self.coverLink = @"Nothing";
+            self.title = @"";
+            self.authors = @"";
+            self.editor = @"";
+            self.coverLink = @"";
             self.dueDate = @"";
-            self.rating = 0;
+            self.rating = 0.0;
         }
         // reset the statement for future reuse
         sqlite3_reset(init_statement);

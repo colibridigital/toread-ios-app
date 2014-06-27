@@ -6,8 +6,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface SideMenuViewController : UITableViewController
+@interface SideMenuViewController : UITableViewController<MFMailComposeViewControllerDelegate>
 
 //@property(weak, nonatomic) ViewController *viewController;
 

@@ -42,5 +42,6 @@
 -(int)getNumberOfReadBooksFromDB;
 
 -(void)loadFavouriteDatabase;
+- (void)loadFavouriteDatabaseAllDetails;
 
 @end

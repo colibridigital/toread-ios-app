@@ -7,6 +7,7 @@
 #import "SideMenuViewController.h"
 #import "MFSideMenu.h"
 #import "ReadBooksViewController.h"
+#import "EmailManager.h"
 
 @implementation SideMenuViewController
 
@@ -48,7 +49,7 @@
     } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:1]]) {
         cell.textLabel.text = [NSString stringWithFormat:@"My Account"];
     } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:1 inSection:1]]) {
-        cell.textLabel.text = [NSString stringWithFormat:@"Login on Facebook"];
+        cell.textLabel.text = [NSString stringWithFormat:@"Send List via Email"];
     } else {
         cell.textLabel.text = [NSString stringWithFormat:@"Refresh Reading List"];
     }
@@ -80,6 +81,23 @@
     } else if ([indexPath  isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
          NSLog(@"in What I want to read");
         
+    } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:1 inSection:1]]) {
+        
+        EmailManager *emailManager =[[EmailManager alloc] init];
+        
+        [emailManager saveDetailsFromDatabaseList:@"favouriteBooks"];
+        
+        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+
+        NSLog(@"will show view");
+        
+        MFMailComposeViewController *mailComposer = [emailManager displayComposerSheet];
+        
+        mailComposer.mailComposeDelegate = self;
+        
+        [navigationController presentViewController:mailComposer animated:NO completion:nil];
+        
+        [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
         
     } else {
         
@@ -92,5 +110,34 @@
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
     }
 }
+
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    NSLog(@"what is the result");
+    
+    // Notifies users about errors associated with the interface
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Result: canceled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Result: saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Result: sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Result: failed");
+            break;
+        default:
+            NSLog(@"Result: not sent");
+            break;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    return;
+}
+
 
 @end
