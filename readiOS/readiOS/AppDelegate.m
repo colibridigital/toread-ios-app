@@ -16,7 +16,7 @@
 @interface AppDelegate (Private)
 
 - (void)createEditableCopyOfDatabaseIfNeeded;
-- (void)initializeDatabase;
+- (void)initializeSuggestedBooksDatabase;
 
 @end
 
@@ -31,8 +31,8 @@
         [self authenticateWithServer];
     
     [self createEditableCopyOfDatabaseIfNeeded];
-    [self initializeDatabase];
-    
+   
+    [self performSingleAuthentication];
     UIStoryboard *mainStoryboard;
     
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
@@ -101,17 +101,70 @@
     NSError *err;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
     
-    // Parse response
-    // id jsonResponseData = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-    
-    NSString *responseS = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-    
-    NSLog(@"ressponse from server: %@", responseS);
+    [self parseResponse:responseData];
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)performSingleAuthentication {
+        NSMutableDictionary *json= [[NSMutableDictionary alloc] init];
+        
+        NSMutableDictionary *authDetails= [[NSMutableDictionary alloc] init];
+        
+        [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_name"] forKey:@"username"];
+        [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] forKey:@"token"];
+        [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceID"] forKey:@"device_id"];
+        [json setObject:authDetails forKey:@"auth_data"];
+        
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json
+                                                           options:NSJSONWritingPrettyPrinted
+                                                             error:&error];
+        
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
+        NSLog(@"%@", jsonString);
+        
+        //perform post
+        NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/suggest/bestsell"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
+        NSURLResponse *response;
+        NSError *err;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+        
+    [self requestSuggestedBooksAndAddThemToTheDatabase:responseData];
+    
+}
+
+- (void) parseResponse:(NSData*)jsonResponseData {
+    
+    NSError *error;
+    
+    NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
+    
+    NSDictionary* jsonResponseDict = [NSJSONSerialization
+                            JSONObjectWithData:jsonResponseData
+                            options:0
+                            error:&error];
+    
+    NSLog(@"dict %@", jsonResponseDict);
+    
+    NSString *userName = [jsonResponseDict objectForKey:@"user_name"];
+    NSString *authToken = [[jsonResponseDict objectForKey:@"devices"][0] objectForKey:@"auth_token"];
+    NSString *deviceID = [[jsonResponseDict objectForKey:@"devices"][0] objectForKey:@"tr_device_id"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:userName forKey:@"user_name"];
+    [[NSUserDefaults standardUserDefaults] setObject:authToken forKey:@"auth_token"];
+    [[NSUserDefaults standardUserDefaults] setObject:deviceID forKey:@"deviceID"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    //NSLog(@"USER %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"user_name"]);
+    
+}
 
 - (void)setupMenu:(UIViewController *)mainViewController {
     SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
@@ -142,11 +195,63 @@
     }
 }
 
-//open the db connection and retrieve minimal information for all objects
-- (void)initializeDatabase {
+- (void)requestSuggestedBooksAndAddThemToTheDatabase:(NSData*)jsonResponseData {
+    [self createNewCustomListInTheDatabase:@"suggested"];
     
+    self.suggestedBooks = nil;
     NSMutableArray *suggestedBooksArray = [[NSMutableArray alloc] init];
     self.suggestedBooks = suggestedBooksArray;
+
+    
+    NSError *error;
+    
+    NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
+    
+    NSDictionary* jsonResponseDict = [NSJSONSerialization
+                                      JSONObjectWithData:jsonResponseData
+                                      options:0
+                                      error:&error];
+    
+    NSLog(@"dict %@", jsonResponseDict);
+
+    NSArray *items = [jsonResponseDict objectForKey:@"best_sellers"];
+    
+    for (int i=0; i < [items count]; i++) {
+        NSString *title = [items[i] objectForKey:@"title"];
+        
+        NSString* authors = @"";
+        
+        NSArray *authorsArray = [items[i] objectForKey:@"authors"];
+            
+            NSLog(@" authors %@", authorsArray);
+            
+            for (NSDictionary* author in authorsArray) {
+                
+                authors = [authors stringByAppendingString:[NSString stringWithFormat:@"%@; ",[author objectForKey:@"Name"]]];
+            }
+            
+            authors = [authors substringToIndex:[authors length] - 2];
+
+        NSString *coverLink = [items[i] objectForKey:@"cover_url"];
+        NSString *isbn = [items[i] objectForKey:@"ISBN"];
+        
+        
+        double rating = 0.0;
+        NSString* publisher = @"";
+        
+        
+        [self addBookToTheDatabaseBookList:@"suggested" bookTitle:title bookAuthors:authors publisher:publisher coverLink:coverLink rating:rating isbn:isbn];
+        NSLog(@"ADDED");
+
+    }
+    
+    NSLog(@"INITIALIZE SUGGESTED");
+    [self initializeSuggestedBooksDatabase];
+}
+
+//open the db connection and retrieve minimal information for all objects
+- (void)initializeSuggestedBooksDatabase {
+    
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -171,11 +276,11 @@
                 NSLog(@"in SQL");
                 int ID = sqlite3_column_int(statement, 0);
                 NSLog(@"ID is %i", ID);
-                BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKey:ID database:database table:tableName];
+                BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:ID database:database table:tableName];
                 [suggestedBooks addObject:bDB];
             }
         }
-        NSLog(@"Number of items from the DB: %lu", (unsigned long)suggestedBooks.count);
+        NSLog(@"Number of SUGGESTED from the DB: %lu", (unsigned long)suggestedBooks.count);
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -553,7 +658,7 @@
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO %@Books (TITLE,AUTHORS,EDITOR,COVERLINK,DUEDATE,RATING, ISBN) VALUES('%@','%@','%@','%@','',%f, '%@')", tableName, bookTitle, bookAuthors, publisher, coverLink, rating, isbn] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO %@Books (TITLE,AUTHORS,EDITOR,COVERLINK,DUEDATE,RATING,ISBN) VALUES('%@','%@','%@','%@','',%f, '%@')", tableName, bookTitle, bookAuthors, publisher, coverLink, rating, isbn] UTF8String];
         NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {

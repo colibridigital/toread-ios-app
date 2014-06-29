@@ -44,5 +44,4 @@
 
 -(void)loadFavouriteDatabase;
 - (void)loadFavouriteDatabaseAllDetails;
-
 @end

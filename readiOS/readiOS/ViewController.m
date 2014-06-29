@@ -24,7 +24,7 @@
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     [self initiatePickerViewWithTableNames];
-    self.suggestedBooksView.bookImages = [@[] mutableCopy];
+   // self.suggestedBooksView.bookImages = [@[] mutableCopy];
     [self.customListButton setTitle:[self.pickerViewData objectAtIndex:1] forState:UIControlStateNormal];
     
     self.retrieveBooks = [[RetrieveBooks alloc] init];
@@ -120,7 +120,7 @@
     [self.customCollectionView reloadData];
     [self.favouriteCollectionView reloadData];
     
-    [self addGestureRecognizer:self.suggestedBooksView ];
+    [self addGestureRecognizer:self.suggestedBooksView];
     [self addGestureRecognizer:self.favouriteCollectionView];
     [self addGestureRecognizer:self.customCollectionView];
     
@@ -217,10 +217,11 @@
         bookDetails.cellID = cell.ID;
     } else if ([gestureRecognizer.view isEqual:self.suggestedBooksView]) {
         bookDetails.indexPath = [self.suggestedBooksView indexPathForItemAtPoint:p];
-        BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.customCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
+        BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.suggestedBooksView cellForItemAtIndexPath:bookDetails.indexPath];
         
         bookDetails.tableName = @"suggestedBooks";
         bookDetails.cellID = cell.ID;
+        NSLog(@"CELL ID: %lu", (long)cell.ID);
     }
     
     if (!bookDetails.cellID == 0) {
@@ -350,6 +351,8 @@
     
     if (collectionView == self.suggestedBooksView) {
         
+         NSLog(@"favourite count %lu", (unsigned long)self.appDelegate.suggestedBooks.count);
+        
         BooksDatabase *bDB = [self.appDelegate.suggestedBooks objectAtIndex:indexPath.row];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -361,9 +364,9 @@
             UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
             cell.bookImage.image = bookImage;
             cell.ID = bDB.ID;
-            NSLog(@"loading from memory");
+           /* NSLog(@"loading from memory");
             if (![self.suggestedBooksView.bookImages containsObject:pngFilePath])
-                [self.suggestedBooksView.bookImages addObject:pngFilePath];
+                [self.suggestedBooksView.bookImages addObject:pngFilePath];*/
         } else {
             
             
@@ -374,8 +377,8 @@
             
             cell.ID = bDB.ID;
             
-            if (![self.suggestedBooksView.bookImages containsObject:pngFilePath] && data!=NULL) {
-                [self.suggestedBooksView.bookImages addObject:pngFilePath];
+            /*if (![self.suggestedBooksView.bookImages containsObject:pngFilePath] && data!=NULL) {
+                [self.suggestedBooksView.bookImages addObject:pngFilePath];*/
                 
                 NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 
@@ -387,7 +390,7 @@
                 NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
                 NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
                 [data1 writeToFile:pngFilePath atomically:YES];
-            }
+            
             
         }
         
