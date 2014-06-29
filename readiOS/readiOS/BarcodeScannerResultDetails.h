@@ -25,6 +25,7 @@
 @property (nonatomic) NSString *tableName;
 @property (nonatomic) NSString *editor;
 @property (nonatomic) NSString *coverLink;
+@property (nonatomic) NSString *isbn;
 
 @property (weak, nonatomic) IBOutlet UIImageView *bookCover;
 

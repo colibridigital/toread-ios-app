@@ -125,8 +125,11 @@
     bookDetails.tableName = @"readBooks";
     bookDetails.cellID = cell.ID;
     
+    if (!bookDetails.cellID == 0) {
+        NSLog(@"cellID :%lu", (long)bookDetails.cellID);
+        [self presentViewController:bookDetails animated:YES completion:nil];
+    }
     
-    [self presentViewController:bookDetails animated:YES completion:nil];
 }
 
 

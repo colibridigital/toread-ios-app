@@ -35,6 +35,7 @@
 @property (nonatomic, retain) NSString *authors;
 @property (nonatomic, retain) NSString *editor;
 @property (nonatomic, retain) NSString *coverLink;
+@property (nonatomic, retain) NSString *isbn;
 @property (nonatomic) double rating;
 @property (nonatomic) NSString *customListTitle;
 

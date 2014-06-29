@@ -150,6 +150,10 @@
     
     self.starRatingLabel.text = [NSString stringWithFormat:@"%f", self.starRating.rating];
     
+    self.isbn = [[[[self.scanResult objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"industryIdentifiers"][0] objectForKey:@"identifier"];
+    
+    NSLog(@"isbn %@", self.isbn);
+    
 }
 
 
@@ -250,7 +254,7 @@
     
     self.tableName = [self.pickerViewData objectAtIndex:row];
     
-    [self.appDelegate addBookToTheDatabaseBookList:[self.tableName lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating];
+    [self.appDelegate addBookToTheDatabaseBookList:[self.tableName lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn];
     
     [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.tableName]];
     

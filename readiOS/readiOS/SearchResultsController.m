@@ -130,6 +130,8 @@
         cell.rating = 0.0;
     }
     
+    cell.isbn = [[[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"industryIdentifiers"][0] objectForKey:@"identifier"];
+    
     
     return cell;
 }

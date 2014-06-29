@@ -145,7 +145,7 @@
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         //Get the primary key for all the books
         
-        const char *sql = [[NSString stringWithFormat:@"create table if not exists %@Books (ID INTEGER PRIMARY KEY, TITLE VARCHAR(300), AUTHORS VARCHAR(300), EDITOR VARCHAR(300), COVERLINK VARCHAR(300) UNIQUE, DUEDATE VARCHAR(50), RATING REAL DEFAULT 0)", tableName] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"create table if not exists %@Books (ID INTEGER PRIMARY KEY, TITLE VARCHAR(300), AUTHORS VARCHAR(300), EDITOR VARCHAR(300), COVERLINK VARCHAR(300), DUEDATE VARCHAR(50), RATING REAL DEFAULT 0, ISBN VARCHAR(30) UNIQUE)", tableName] UTF8String];
         NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
@@ -392,7 +392,7 @@
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO readBooks(TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING) SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING FROM %@ WHERE ID = %lu ", tableName, (unsigned long)ID] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO readBooks(TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN) SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN FROM %@ WHERE ID = %lu ", tableName, (unsigned long)ID] UTF8String];
         NSLog(@"%s",sql);
         
         if ([tableName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
@@ -490,7 +490,7 @@
     
 }
 
-- (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink rating:(double )rating{
+- (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink rating:(double )rating isbn:(NSString*)isbn{
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -500,7 +500,7 @@
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO %@Books (TITLE,AUTHORS,EDITOR,COVERLINK,DUEDATE,RATING) VALUES('%@','%@','%@','%@','',%f)", tableName, bookTitle, bookAuthors, publisher, coverLink, rating] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO %@Books (TITLE,AUTHORS,EDITOR,COVERLINK,DUEDATE,RATING, ISBN) VALUES('%@','%@','%@','%@','',%f, '%@')", tableName, bookTitle, bookAuthors, publisher, coverLink, rating, isbn] UTF8String];
         NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {

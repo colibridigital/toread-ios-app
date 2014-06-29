@@ -11,7 +11,7 @@
 static sqlite3_stmt *init_statement = nil;
 
 @implementation BooksDatabase
-@synthesize ID,title,authors,editor,coverLink,dueDate, rating;
+@synthesize ID,title,authors,editor,coverLink,dueDate, rating, isbn;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db table:(NSString *)tableName{
     
@@ -53,7 +53,7 @@ static sqlite3_stmt *init_statement = nil;
         ID = pk;
         database = db;
         if (init_statement == nil) {
-            const char *sql = [[NSString stringWithFormat:@"SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING FROM %@ WHERE ID = %li", tableName, (long)ID] UTF8String];
+            const char *sql = [[NSString stringWithFormat:@"SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN FROM %@ WHERE ID = %li", tableName, (long)ID] UTF8String];
             NSLog(@"%s", sql);
             
             if (sqlite3_prepare_v2(database, sql, -1, &init_statement, NULL) != SQLITE_OK) {
@@ -74,6 +74,8 @@ static sqlite3_stmt *init_statement = nil;
             NSLog(@"DONE %@", self.coverLink);
             self.dueDate = @""; //need to check this
             self.rating = sqlite3_column_double(init_statement, 5);
+            self.isbn = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 6)];
+            NSLog(@"done %@", self.isbn);
             
         } else {
             self.title = @"";
@@ -82,6 +84,7 @@ static sqlite3_stmt *init_statement = nil;
             self.coverLink = @"";
             self.dueDate = @"";
             self.rating = 0.0;
+            self.isbn = @"";
         }
         // reset the statement for future reuse
         sqlite3_reset(init_statement);
