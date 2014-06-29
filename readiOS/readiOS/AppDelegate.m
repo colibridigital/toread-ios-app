@@ -26,6 +26,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"])
+        [self authenticateWithServer];
+    
     [self createEditableCopyOfDatabaseIfNeeded];
     [self initializeDatabase];
     
@@ -59,6 +63,55 @@
     [self setupMenu:mainViewController];
     return YES;
 }
+
+- (void)authenticateWithServer {
+    NSMutableDictionary *json= [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary *deviceDetails= [[NSMutableDictionary alloc] init];
+    
+    UIDevice *device = [UIDevice currentDevice];
+    
+    NSString *deviceOSId = [[device identifierForVendor]UUIDString];
+    
+    NSString *device_model = [device model];
+    
+    
+    [deviceDetails setObject:deviceOSId forKey:@"deviceOSId"];
+    [deviceDetails setObject:@"Apple" forKey:@"device_make"];
+    [deviceDetails setObject:device_model forKey:@"device_model"];
+    [deviceDetails setObject:@"iOS" forKey:@"platform"];
+    [json setObject:deviceDetails forKey:@"device"];
+    
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@", jsonString);
+    
+    //perform post
+    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/initdevice"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLResponse *response;
+    NSError *err;
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+    
+    // Parse response
+    // id jsonResponseData = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    
+    NSString *responseS = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"ressponse from server: %@", responseS);
+    
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 - (void)setupMenu:(UIViewController *)mainViewController {
     SideMenuViewController *leftMenuViewController = [[SideMenuViewController alloc] init];
