@@ -7,19 +7,16 @@
 #import "SideMenuViewController.h"
 #import "MFSideMenu.h"
 #import "ReadBooksViewController.h"
-#import "EmailManager.h"
 
 @implementation SideMenuViewController
 
 #pragma mark -
 #pragma mark - UITableViewDataSource
 
-/*- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
- 
- NSString * title = [NSString stringWithFormat:@"Section %ld", (long)section];
- 
- return title;
- }*/
+-(void)viewDidLoad {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
+    [self.tableView addGestureRecognizer:tap];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
@@ -70,34 +67,29 @@
         NSLog(@"in read books selection");
         ReadBooksViewController *bookListView = [[ReadBooksViewController alloc] initWithNibName:@"ReadBooksViewController" bundle:nil];
         
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-        // NSArray *controllers = [NSArray arrayWithObject:bookListView];
-        // navigationController.viewControllers = controllers;
+        self.navigationController = self.menuContainerViewController.centerViewController;
         NSLog(@"will show view");
-        [navigationController presentViewController:bookListView animated:NO completion:nil];
+        [self.navigationController presentViewController:bookListView animated:NO completion:nil];
         
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
         
     } else if ([indexPath  isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
-         NSLog(@"in What I want to read");
+        NSLog(@"in What I want to read");
         
     } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:1 inSection:1]]) {
         
-        EmailManager *emailManager =[[EmailManager alloc] init];
+        self.emailManager =[[EmailManager alloc] init];
         
-        [emailManager saveDetailsFromDatabaseList:@"favouriteBooks"];
+        self.navigationController = self.menuContainerViewController.centerViewController;
         
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-
         NSLog(@"will show view");
         
-        MFMailComposeViewController *mailComposer = [emailManager displayComposerSheet];
+        self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         
-        mailComposer.mailComposeDelegate = self;
+        [self initiatePickerViewWithTableNames];
         
-        [navigationController presentViewController:mailComposer animated:NO completion:nil];
+        [self showPickerView];
         
-        [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
         
     } else {
         
@@ -109,6 +101,93 @@
         navigationController.viewControllers = controllers;
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
     }
+}
+
+- (void) initiatePickerViewWithTableNames {
+    [self.appDelegate getAllDatabaseTableNames];
+    self.tableNames = [self.appDelegate.tableNames mutableCopy];
+    
+    [self.tableNames insertObject:@"" atIndex:0];
+    
+    NSMutableArray *newTable = [NSMutableArray array];
+    
+    for (NSString* name in self.tableNames) {
+        if ([name rangeOfString:@"suggested"].location != NSNotFound || [name rangeOfString:@"read"].location != NSNotFound) {
+            continue;
+        } else{
+            [newTable addObject:[[name stringByReplacingOccurrencesOfString:@"Books" withString:@""] capitalizedString]];
+        }
+    }
+    
+    self.pickerViewData = [newTable mutableCopy];
+    
+}
+
+
+- (void) showPickerView {
+    
+    
+    self.pickerView = [[UIPickerView alloc] init];
+    
+    // Calculate the screen's width.
+    float screenWidth = [UIScreen mainScreen].bounds.size.width;
+    float pickerWidth = screenWidth * 3 / 4;
+    
+    // Calculate the starting x coordinate.
+    float xPoint = screenWidth / 2 - pickerWidth / 2;
+    
+    // Set the picker's frame. We set the y coordinate to 50px.
+    [self.pickerView setFrame: CGRectMake(xPoint, 245.0f, pickerWidth, 130.0f)];
+    
+    [self.pickerView setDataSource:self];
+    [self.pickerView setDelegate:self];
+    self.pickerView.showsSelectionIndicator = YES;
+    self.pickerView.backgroundColor = [UIColor whiteColor];
+    
+    [self.pickerView selectRow:0 inComponent:0 animated:NO];
+    
+    [self.view addSubview:self.pickerView];
+    
+}
+
+// Number of components.
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1;
+}
+
+// Total rows in our component.
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    return [self.pickerViewData count];
+}
+
+// Display each row's data.
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    return [self.pickerViewData objectAtIndex: row];
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
+    
+    
+    self.listTitle = [self.pickerViewData objectAtIndex:row];
+    
+    NSString *listName = [NSString stringWithFormat:@"%@Books", [self.listTitle lowercaseString]];
+    
+    if (![self.listTitle isEqualToString:@""]) {
+        
+        [self.emailManager saveDetailsFromDatabaseList:listName];
+        
+        MFMailComposeViewController *mailComposer = [self.emailManager displayComposerSheet];
+        
+        mailComposer.mailComposeDelegate = self;
+        
+        [self.navigationController presentViewController:mailComposer animated:NO completion:nil];
+    }
+    
+    [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+    
+    [self.pickerView removeFromSuperview];
+    
 }
 
 
@@ -137,6 +216,18 @@
     }
     [self dismissViewControllerAnimated:YES completion:nil];
     return;
+}
+
+-(void) didTapOnTableView:(UIGestureRecognizer*) recognizer {
+    CGPoint tapLocation = [recognizer locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
+    
+    if (indexPath) { //we are in a tableview cell, let the gesture be handled by the view
+        recognizer.cancelsTouchesInView = NO;
+    } else { // anywhere else, do what is needed for your case
+        [self.pickerView removeFromSuperview];
+        [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+    }
 }
 
 

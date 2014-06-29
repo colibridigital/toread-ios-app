@@ -16,13 +16,16 @@
 -(id)init {
     if (self = [super init]) {
         self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        self.filePath = @"";
     }
     return self;
 }
 
 -(void)saveDetailsFromDatabaseList:(NSString*)list {
     
-    //list has to have appended Books at the end
+    self.listName = list;
+    
+    NSLog(@"%@", self.listName);
     
     if ([list isEqualToString:@"favouriteBooks"]) {
         
@@ -32,7 +35,7 @@
         
     } else {
     
-       // [self.appDelegate initiateCustomBooksListFromTheDatabaseAllDetails:list];
+        [self.appDelegate initiateCustomBooksListFromTheDatabaseWithAllDetails:list];
         
         self.listResult = [self.appDelegate.customListBooks mutableCopy];
     }
@@ -44,9 +47,9 @@
 -(void) saveTextFile {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"file.txt"];
+    self.filePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt", self.listName]];
     
-    NSLog(@"filePath written to :%@ result count %lu", filePath, (unsigned long)self.listResult.count);
+    NSLog(@"filePath written to :%@ result count %lu", self.filePath, (unsigned long)self.listResult.count);
     
     NSString *str = @"";
     
@@ -56,13 +59,17 @@
 
         NSLog(@"%@", bDB.title);
         
-        NSString *item = [NSString stringWithFormat:@"Item %i:\n%@\n%@\n%@\n%@\n%f\n", i, bDB.title, bDB.authors, bDB.editor, bDB.coverLink, bDB.rating];
+        int j = i+1;
+        
+        NSString *item = [NSString stringWithFormat:@"Item %i:\n\n%@\n%@\n%@\n%@\n%f\n\n", j, bDB.title, bDB.authors, bDB.editor, bDB.coverLink, bDB.rating];
         str = [str stringByAppendingString:item];
     }
     
     NSLog(@"string :%@", str);
     
-    [str writeToFile:filePath atomically:TRUE encoding:NSUTF8StringEncoding error:NULL];
+    [str writeToFile:self.filePath atomically:TRUE encoding:NSUTF8StringEncoding error:NULL];
+    
+    //need to delete the file once is sent
 }
 
 -(MFMailComposeViewController*)displayComposerSheet
@@ -71,25 +78,19 @@
     picker.mailComposeDelegate = self;
     [picker setSubject:@"Your list is attached"];
     
+    NSData *fileData = [NSData dataWithContentsOfFile:self.filePath];
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"file.txt"];
-    
-    NSData *fileData = [NSData dataWithContentsOfFile:filePath];
-    
-    NSLog(@"file path: %@", filePath);
+    NSLog(@"file path: %@", self.filePath);
 
     [picker addAttachmentData:fileData
                        mimeType:@"text/plain"
-                       fileName:@"file.txt"];
+                       fileName:[NSString stringWithFormat:@"%@.txt", self.listName]];
     NSString *emailBody = @"Here you go!";
     [picker setMessageBody:emailBody isHTML:NO];
     
     NSLog(@"return picker");
     
     return picker;
-    //[self presentViewController:picker animated:YES completion:nil];
 
 }
 

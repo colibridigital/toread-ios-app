@@ -16,6 +16,8 @@
 @property (weak, nonatomic) AppDelegate *appDelegate;
 @property (nonatomic) BooksDatabase *bDB;
 @property (strong, nonatomic) NSMutableArray *listResult;
+@property (nonatomic) NSString *listName;
+@property (nonatomic) NSString *filePath;
 
 -(void)saveDetailsFromDatabaseList:(NSString*)list;
 - (MFMailComposeViewController*)displayComposerSheet;

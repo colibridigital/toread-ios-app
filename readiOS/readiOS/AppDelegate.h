@@ -26,6 +26,7 @@
 - (void)moveBooksToReadInTheDatabase:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath;
 
 - (void)initiateCustomBooksListFromTheDatabase:(NSString *)tableName;
+- (void)initiateCustomBooksListFromTheDatabaseWithAllDetails:(NSString *)tableName;
 
 - (void)deleteBooksToReadFromOriginalTable:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath;
 
