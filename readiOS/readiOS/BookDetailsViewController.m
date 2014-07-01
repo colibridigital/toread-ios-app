@@ -120,6 +120,7 @@
         self.bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:self.cellID database:database table:self.tableName];
         self.bookTitle.text = self.bDB.title;
         self.bookAuthors.text = self.bDB.authors;
+
         
         NSLog(@"rating: %f", self.bDB.rating);
         

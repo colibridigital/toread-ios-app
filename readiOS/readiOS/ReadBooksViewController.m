@@ -149,11 +149,6 @@
     
     cell.ID = bDB.ID;
     
-    [cell.deleteButton setEnabled:NO];
-    [cell.readButton setEnabled:NO];
-    [cell.deleteButton setHidden:YES];
-    [cell.readButton setHidden:YES];
-    
     return cell;
 }
 

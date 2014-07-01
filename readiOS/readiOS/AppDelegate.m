@@ -26,7 +26,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"])
         [self authenticateWithServer];
     
@@ -69,11 +68,17 @@
     
     NSMutableDictionary *deviceDetails= [[NSMutableDictionary alloc] init];
     
-    UIDevice *device = [UIDevice currentDevice];
+    //UIDevice *device = [UIDevice currentDevice];
     
-    NSString *deviceOSId = [[device identifierForVendor]UUIDString];
+    //NSString *deviceOSId = [[device identifierForVendor]UUIDString];
     
-    NSString *device_model = [device model];
+    //NSString *device_model = [device model];
+    
+    NSLog(@"authenticating again");
+    
+    NSString *deviceOSId = @"2709";
+    
+    NSString *device_model = @"Simulator";
     
     
     [deviceDetails setObject:deviceOSId forKey:@"deviceOSId"];
@@ -92,7 +97,11 @@
     NSLog(@"%@", jsonString);
     
     //perform post
-    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/initdevice"];
+    
+    //http://86.132.218.95:2709
+    //http://jamescross91.no-ip.biz:2709
+    
+    NSURL *url = [NSURL URLWithString:@"http://86.132.218.95:2709/api/initdevice"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -127,7 +136,7 @@
         NSLog(@"%@", jsonString);
         
         //perform post
-        NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/suggest/bestsell"];
+        NSURL *url = [NSURL URLWithString:@"http://86.132.218.95:2709/api/suggest/bestsell"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -234,7 +243,6 @@
 
         NSString *coverLink = [items[i] objectForKey:@"cover_url"];
         NSString *isbn = [items[i] objectForKey:@"ISBN"];
-        
         
         double rating = 0.0;
         NSString* publisher = @"";
@@ -359,7 +367,7 @@
                 NSLog(@"DONE");
             }
         }
-        NSLog(@"Number of items from the DB: %lu", (unsigned long)tableNames.count);
+        NSLog(@"Number of TABLES from the DB: %lu", (unsigned long)tableNames.count);
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);

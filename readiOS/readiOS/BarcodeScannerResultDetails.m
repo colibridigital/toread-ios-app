@@ -162,6 +162,7 @@
     self.tableNames = [self.appDelegate.tableNames mutableCopy];
     
     [self.tableNames insertObject:@"" atIndex:0];
+    [self.tableNames insertObject:@"Create New List" atIndex:1];
     
     NSMutableArray *newTable = [NSMutableArray array];
     
@@ -246,23 +247,56 @@
     return [self.pickerViewData objectAtIndex: row];
 }
 
-//fix the create new list
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
     
-    NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
+    if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Create New List"]) {
+        
+        NSLog(@"here");
+        
+        self.av = [[UIAlertView alloc] initWithTitle:@"Create New List" message:@"Would you like to create a new list called?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        
+        [self.av setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        
+        [self.av show];
+        
+        
+    } else {
+        NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
+        
+        [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn];
+        
+    }
     
-    self.tableName = [self.pickerViewData objectAtIndex:row];
+    NSLog(@"adding book to the database");
     
-    [self.appDelegate addBookToTheDatabaseBookList:[self.tableName lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn];
-    
-    [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.tableName]];
+    [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", [self.pickerViewData objectAtIndex:row]]];
     
     [self.pickerView removeFromSuperview];
-    
     [self.segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
     
 }
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0)
+    {
+        NSLog(@"You have clicked No");
+    }
+    else if(buttonIndex == 1)
+    {
+        NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
+        self.customListTitle = [[self.av textFieldAtIndex:0] text];
+        NSLog(@"%@", self.customListTitle);
+        
+        [self.appDelegate createNewCustomListInTheDatabase:[[self.av textFieldAtIndex:0] text]];
+        [self.appDelegate addBookToTheDatabaseBookList:[self.customListTitle lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn];
+        
+        [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
+        
+    }
+    
+}
+
 
 
 - (void)didReceiveMemoryWarning

@@ -22,24 +22,6 @@
                             <constraint firstAttribute="width" secondItem="inl-0d-8KK" secondAttribute="height" multiplier="87:124" id="d5s-P6-E0z"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2U8-TM-wBW">
-                        <rect key="frame" x="80" y="-9" width="24" height="24"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
-                        <state key="normal" title="x">
-                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        </state>
-                        <connections>
-                            <action selector="deleteButtonAction:" destination="-2" eventType="touchUpInside" id="dPR-pJ-iaQ"/>
-                        </connections>
-                    </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ycf-5F-ZOR">
-                        <rect key="frame" x="-2" y="-4" width="24" height="24"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="Button" image="read.png">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                    </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -52,12 +34,7 @@
             <size key="customSize" width="98" height="123"/>
             <connections>
                 <outlet property="bookImage" destination="inl-0d-8KK" id="Nqv-7F-gc0"/>
-                <outlet property="deleteButton" destination="2U8-TM-wBW" id="NBt-lj-8mF"/>
-                <outlet property="readButton" destination="Ycf-5F-ZOR" id="nRe-o4-RLq"/>
             </connections>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="read.png" width="60" height="81"/>
-    </resources>
 </document>

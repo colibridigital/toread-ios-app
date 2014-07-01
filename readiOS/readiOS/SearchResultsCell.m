@@ -67,6 +67,8 @@
     [self.appDelegate getAllDatabaseTableNames];
     self.tableNames = [self.appDelegate.tableNames mutableCopy];
     
+    NSLog(@"original tableNames data: %lu", self.appDelegate.tableNames.count);
+    
     [self.tableNames insertObject:@"" atIndex:0];
     [self.tableNames insertObject:@"Create New List" atIndex:1];
     
@@ -81,6 +83,8 @@
     }
     
     self.pickerViewData = [newTable mutableCopy];
+    
+    NSLog(@"picker view count count %lu", self.pickerViewData.count);
     
 }
 
@@ -100,7 +104,6 @@
     return [self.pickerViewData objectAtIndex: row];
 }
 
-//fix the create new list 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
     

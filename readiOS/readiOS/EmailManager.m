@@ -61,7 +61,7 @@
         
         int j = i+1;
         
-        NSString *item = [NSString stringWithFormat:@"Item %i:\n\n%@\n%@\n%@\n%@\n%f\n\n", j, bDB.title, bDB.authors, bDB.editor, bDB.coverLink, bDB.rating];
+        NSString *item = [NSString stringWithFormat:@"Book %i:\n\n%@\n%@\n%@\n%@\n%f\n\n", j, bDB.title, bDB.authors, bDB.editor, bDB.coverLink, bDB.rating];
         str = [str stringByAppendingString:item];
     }
     
@@ -76,7 +76,7 @@
 {
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     picker.mailComposeDelegate = self;
-    [picker setSubject:@"Your list is attached"];
+    [picker setSubject:[NSString stringWithFormat:@"Your list %@ is attached", self.listName]];
     
     NSData *fileData = [NSData dataWithContentsOfFile:self.filePath];
     

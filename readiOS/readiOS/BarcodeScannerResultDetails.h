@@ -40,6 +40,10 @@
 @property (strong, nonatomic) NSArray *pickerViewData;
 @property (strong, nonatomic) NSMutableArray *tableNames;
 
+@property (nonatomic) NSString *customListTitle;
+
+@property(retain) UIAlertView *av;
+
 - (IBAction)pickAction:(id)sender;
 
 @end

@@ -12,8 +12,6 @@
 @interface BookCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UILabel *bookLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *bookImage;
-@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
-@property (weak, nonatomic) IBOutlet UIButton *readButton;
 
 @property (assign, nonatomic) NSInteger ID;
 
