@@ -116,7 +116,9 @@
     
     [self loadCustomListDatabase:self.customListButton.titleLabel.text];
     [self.appDelegate loadFavouriteDatabase];
+    [self.appDelegate initializeSuggestedBooksDatabase];
     
+    [self.suggestedBooksView reloadData];
     [self.customCollectionView reloadData];
     [self.favouriteCollectionView reloadData];
     
@@ -137,7 +139,9 @@
     [self initiatePickerViewWithTableNames];
     [self loadCustomListDatabaseAndRefreshView:self.customListButton.titleLabel.text];
     [self.appDelegate loadFavouriteDatabase];
+    [self.appDelegate initializeSuggestedBooksDatabase];
     [self.favouriteCollectionView reloadData];
+    [self.suggestedBooksView reloadData];
     
 }
 

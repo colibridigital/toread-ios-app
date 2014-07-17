@@ -154,6 +154,11 @@
     
     NSLog(@"isbn %@", self.isbn);
     
+    self.desc = [[[self.scanResult objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"description"];
+    
+    //cut it if too long? but not here where i get the text
+    self.bookDesc.text = self.desc;
+    
 }
 
 
@@ -264,7 +269,7 @@
     } else {
         NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
-        [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn];
+        [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
         
     }
     
@@ -289,7 +294,7 @@
         NSLog(@"%@", self.customListTitle);
         
         [self.appDelegate createNewCustomListInTheDatabase:[[self.av textFieldAtIndex:0] text]];
-        [self.appDelegate addBookToTheDatabaseBookList:[self.customListTitle lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn];
+        [self.appDelegate addBookToTheDatabaseBookList:[self.customListTitle lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
         
         [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
         

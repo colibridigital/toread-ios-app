@@ -19,6 +19,7 @@
     NSString *coverLink;
     NSString *dueDate;
     NSString *isbn;
+    NSString *desc;
     double rating;
 }
 
@@ -29,6 +30,7 @@
 @property (nonatomic, retain) NSString *coverLink;
 @property (nonatomic, retain) NSString *dueDate;
 @property (nonatomic, retain) NSString *isbn;
+@property (nonatomic, retain) NSString *desc;
 @property (nonatomic) double rating;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db table:(NSString *)tableName;

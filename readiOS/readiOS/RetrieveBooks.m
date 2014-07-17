@@ -81,6 +81,7 @@
         NSLog(@"Item %.2i - Image Link  - %@", i+1, [[[items[i] objectForKey:@"volumeInfo"] objectForKey:@"imageLinks"] objectForKey:@"thumbnail"]);
         NSLog(@"Item %.2i - Rating  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"averageRating"]);
         NSLog(@"Item %.2i - ISBN - %@", i+1, [[[items[i] objectForKey:@"volumeInfo"] objectForKey:@"industryIdentifiers"][0] objectForKey:@"identifier"]);
+        NSLog(@"Item %.2i - Description  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"description"]);
         
     }
     

@@ -76,6 +76,8 @@
     
     if ([self.tableName isEqual:@"readBooks"]) {
         self.segmentedControl.hidden = YES;
+        self.dueDate.hidden = YES;
+        self.calendarPicker.hidden = YES;
     }
     
 }
@@ -138,6 +140,22 @@
         NSString *ratingString = [NSString stringWithFormat:@"Rating: %.1f", self.bDB.rating];
         
         _starRatingLabel.text = ratingString;
+        
+        NSLog(@"%@", self.bDB.desc);
+        
+        //i can do the same for rating...
+        if ([self.bDB.desc  isEqual: @""] || self.bDB.desc == NULL) {
+            
+            RetrieveBooks *retrieveBooks = [[RetrieveBooks alloc] init];
+            
+            NSData* dataFromURL = [retrieveBooks getDataFromURLAsData:
+                                   [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=isbn:%@", self.bDB.isbn]];
+            NSArray* results = [retrieveBooks parseJson:[retrieveBooks getJsonFromData:dataFromURL]];
+            
+            self.bDB.desc = [[[results objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"description"];
+        }
+        
+        self.desc.text = self.bDB.desc;
         
         // finalize the statement
         sqlite3_close(database);
@@ -370,7 +388,7 @@
     
     NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
     
-    [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating isbn:self.bDB.isbn];
+    [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating isbn:self.bDB.isbn desc:self.bDB.desc];
     
     [self.appDelegate deleteBooksToReadFromOriginalTable:self.tableName ID:self.cellID indexPath:self.indexPath.row];
     

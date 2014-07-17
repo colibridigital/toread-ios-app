@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *bookTitle;
 @property (weak, nonatomic) IBOutlet UILabel *bookAuthors;
 @property (weak, nonatomic) IBOutlet UILabel *dueDate;
+@property (nonatomic, retain) IBOutlet UITextView *desc;
 @property (weak, nonatomic) NSIndexPath *indexPath;
 @property (nonatomic) NSString *tableName;
 

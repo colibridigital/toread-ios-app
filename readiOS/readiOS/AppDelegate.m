@@ -31,7 +31,10 @@
     
     [self createEditableCopyOfDatabaseIfNeeded];
    
+    
+    //i should do this only once a day or smt and ofcourse only if the internet is working
     [self performSingleAuthentication];
+    
     UIStoryboard *mainStoryboard;
     
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
@@ -101,7 +104,7 @@
     //http://86.132.218.95:2709
     //http://jamescross91.no-ip.biz:2709
     
-    NSURL *url = [NSURL URLWithString:@"http://86.132.218.95:2709/api/initdevice"];
+    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/initdevice"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -136,7 +139,7 @@
         NSLog(@"%@", jsonString);
         
         //perform post
-        NSURL *url = [NSURL URLWithString:@"http://86.132.218.95:2709/api/suggest/bestsell"];
+        NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/suggest/bestsell"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -207,11 +210,6 @@
 - (void)requestSuggestedBooksAndAddThemToTheDatabase:(NSData*)jsonResponseData {
     [self createNewCustomListInTheDatabase:@"suggested"];
     
-    self.suggestedBooks = nil;
-    NSMutableArray *suggestedBooksArray = [[NSMutableArray alloc] init];
-    self.suggestedBooks = suggestedBooksArray;
-
-    
     NSError *error;
     
     NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
@@ -246,20 +244,24 @@
         
         double rating = 0.0;
         NSString* publisher = @"";
+        NSString* desc = @"";
         
         
-        [self addBookToTheDatabaseBookList:@"suggested" bookTitle:title bookAuthors:authors publisher:publisher coverLink:coverLink rating:rating isbn:isbn];
+        [self addBookToTheDatabaseBookList:@"suggested" bookTitle:title bookAuthors:authors publisher:publisher coverLink:coverLink rating:rating isbn:isbn desc:desc];
         NSLog(@"ADDED");
 
     }
     
     NSLog(@"INITIALIZE SUGGESTED");
-    [self initializeSuggestedBooksDatabase];
+    //[self initializeSuggestedBooksDatabase];
 }
 
 //open the db connection and retrieve minimal information for all objects
 - (void)initializeSuggestedBooksDatabase {
+    self.suggestedBooks = nil;
     
+    NSMutableArray *suggestedBooksArray = [[NSMutableArray alloc] init];
+    self.suggestedBooks = suggestedBooksArray;
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -284,7 +286,7 @@
                 NSLog(@"in SQL");
                 int ID = sqlite3_column_int(statement, 0);
                 NSLog(@"ID is %i", ID);
-                BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:ID database:database table:tableName];
+                BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKey:ID database:database table:tableName];
                 [suggestedBooks addObject:bDB];
             }
         }
@@ -311,7 +313,7 @@
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         //Get the primary key for all the books
         
-        const char *sql = [[NSString stringWithFormat:@"create table if not exists %@Books (ID INTEGER PRIMARY KEY, TITLE VARCHAR(300), AUTHORS VARCHAR(300), EDITOR VARCHAR(300), COVERLINK VARCHAR(300), DUEDATE VARCHAR(50), RATING REAL DEFAULT 0, ISBN VARCHAR(30) UNIQUE)", tableName] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"create table if not exists %@Books (ID INTEGER PRIMARY KEY, TITLE VARCHAR(300), AUTHORS VARCHAR(300), EDITOR VARCHAR(300), COVERLINK VARCHAR(300), DUEDATE VARCHAR(50), RATING REAL DEFAULT 0, ISBN VARCHAR(30) UNIQUE, DESC VARCHAR(4096))", tableName] UTF8String];
         NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
@@ -558,7 +560,7 @@
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO readBooks(TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN) SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN FROM %@ WHERE ID = %lu ", tableName, (unsigned long)ID] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO readBooks(TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN, DESC) SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN, DESC FROM %@ WHERE ID = %lu ", tableName, (unsigned long)ID] UTF8String];
         NSLog(@"%s",sql);
         
         if ([tableName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
@@ -656,7 +658,7 @@
     
 }
 
-- (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink rating:(double )rating isbn:(NSString*)isbn{
+- (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink rating:(double )rating isbn:(NSString*)isbn desc:(NSString*)desc {
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -666,7 +668,7 @@
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
-        const char *sql = [[NSString stringWithFormat:@"INSERT INTO %@Books (TITLE,AUTHORS,EDITOR,COVERLINK,DUEDATE,RATING,ISBN) VALUES('%@','%@','%@','%@','',%f, '%@')", tableName, bookTitle, bookAuthors, publisher, coverLink, rating, isbn] UTF8String];
+        const char *sql = [[NSString stringWithFormat:@"INSERT INTO %@Books (TITLE,AUTHORS,EDITOR,COVERLINK,DUEDATE,RATING,ISBN,DESC) VALUES('%@','%@','%@','%@','',%f, '%@', '%@')", tableName, bookTitle, bookAuthors, publisher, coverLink, rating, isbn, desc] UTF8String];
         NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {

@@ -132,6 +132,8 @@
     
     cell.isbn = [[[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"industryIdentifiers"][0] objectForKey:@"identifier"];
     
+    cell.desc = [[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"description"];
+    
     
     return cell;
 }
