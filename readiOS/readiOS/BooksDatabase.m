@@ -72,7 +72,7 @@ static sqlite3_stmt *init_statement = nil;
              NSLog(@"done");
             self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 3)];
             NSLog(@"DONE %@", self.coverLink);
-            self.dueDate = @""; //need to check this
+            self.dueDate = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 4)];
             self.rating = sqlite3_column_double(init_statement, 5);
             self.isbn = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 6)];
             NSLog(@"done %@", self.isbn);

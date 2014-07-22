@@ -189,7 +189,13 @@
         
         self.desc.text = self.bDB.desc;
         
-        // finalize the statement
+        NSLog(@"dueDate %@", self.bDB.dueDate);
+        
+        if (![self.bDB.dueDate isEqualToString:@""]) {
+            self.dueDate.text = self.bDB.dueDate;
+        } else {
+            self.dueDate.text = @"To Read By: ";
+        }
         
         sqlite3_close(database);
     } else {
@@ -372,7 +378,7 @@
     //notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
     notification.timeZone = [NSTimeZone defaultTimeZone];
     //make this customisable?
-    notification.alertBody = [NSString stringWithFormat:@"Finish reading book %@", self.bookTitle.text];
+    notification.alertBody = [NSString stringWithFormat:@"Finish reading: %@", self.bookTitle.text];
     notification.soundName = UILocalNotificationDefaultSoundName;
     notification.alertAction= @"View";
     
@@ -385,11 +391,52 @@
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
     self.dueDate.text = [dateFormatter stringFromDate:[self.datePicker date]];
+    self.bDB.dueDate = [dateFormatter stringFromDate:[self.datePicker date]];
     
     [self scheduleNotification];
     
-    ;//add this in the database as well
     NSLog(@"Picked the date %@", [dateFormatter stringFromDate:[sender date]]);
+    
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
+    sqlite3 *database;
+    
+    //Open the db. The db was prepared outside the application
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
+        NSLog(@"update the dueDate in the DB");
+        
+        const char *sql = [[NSString stringWithFormat:@"update %@ set DUEDATE='%@' where ID = %li", self.tableName, self.bDB.dueDate, (long)self.bDB.ID] UTF8String];
+        NSLog(@"%s",sql);
+        sqlite3_stmt *statement;
+        
+        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+            // We step through the results once for each row.
+            NSLog(@"in sql results updating");
+            
+            
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                
+                NSLog(@"in SQL");
+                int ID = sqlite3_column_int(statement, 0);
+                NSLog(@"ID is %i", ID);
+                
+            }
+            
+            
+            NSLog(@"Updated dueDate in the DB");
+            
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    } else {
+        //even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
+
+    }
+    
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
