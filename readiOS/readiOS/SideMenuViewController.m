@@ -88,8 +88,7 @@
         
         [self initiatePickerViewWithTableNames];
         
-        [self showPickerView];
-        
+        [self showPickerView]; 
         
     } else {
         

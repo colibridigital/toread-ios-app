@@ -53,7 +53,7 @@ static sqlite3_stmt *init_statement = nil;
         ID = pk;
         database = db;
         if (init_statement == nil) {
-            const char *sql = [[NSString stringWithFormat:@"SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN,DESC FROM %@ WHERE ID = %li", tableName, (long)ID] UTF8String];
+            const char *sql = [[NSString stringWithFormat:@"SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN, DESC FROM %@ WHERE ID = %li", tableName, (long)ID] UTF8String];
             NSLog(@"%s", sql);
             
             if (sqlite3_prepare_v2(database, sql, -1, &init_statement, NULL) != SQLITE_OK) {
@@ -77,6 +77,7 @@ static sqlite3_stmt *init_statement = nil;
             self.isbn = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 6)];
             NSLog(@"done %@", self.isbn);
             self.desc = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 7)];
+            NSLog(@"done %@", self.desc);
             
         } else {
             self.title = @"";

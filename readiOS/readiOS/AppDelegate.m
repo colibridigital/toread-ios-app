@@ -33,7 +33,11 @@
    
     
     //i should do this only once a day or smt and ofcourse only if the internet is working
-    [self performSingleAuthentication];
+    
+    if ([self connectedToInternet]) {
+    
+        [self performSingleAuthentication];
+    }
     
     UIStoryboard *mainStoryboard;
     
@@ -64,6 +68,17 @@
     
     [self setupMenu:mainViewController];
     return YES;
+}
+
+- (BOOL)connectedToInternet
+{
+    NSURL *url=[NSURL URLWithString:@"http://www.google.com"];
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"HEAD"];
+    NSHTTPURLResponse *response;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error: NULL];
+    
+    return ([response statusCode]==200)?YES:NO;
 }
 
 - (void)authenticateWithServer {
@@ -208,6 +223,8 @@
 }
 
 - (void)requestSuggestedBooksAndAddThemToTheDatabase:(NSData*)jsonResponseData {
+    [self deleteTableFromDatabase:@"suggested"];
+    
     [self createNewCustomListInTheDatabase:@"suggested"];
     
     NSError *error;
@@ -224,7 +241,9 @@
     NSArray *items = [jsonResponseDict objectForKey:@"best_sellers"];
     
     for (int i=0; i < [items count]; i++) {
-        NSString *title = [items[i] objectForKey:@"title"];
+        NSString *title = @"";
+        
+        title = [items[i] objectForKey:@"title"];
         
         NSString* authors = @"";
         
@@ -238,22 +257,26 @@
             }
             
             authors = [authors substringToIndex:[authors length] - 2];
+        
+        NSString *coverLink = @"";
 
-        NSString *coverLink = [items[i] objectForKey:@"cover_url"];
-        NSString *isbn = [items[i] objectForKey:@"ISBN"];
+        coverLink = [items[i] objectForKey:@"cover_url"];
+        
+        NSString *isbn = @"";
+        
+        isbn = [items[i] objectForKey:@"ISBN"];
         
         double rating = 0.0;
         NSString* publisher = @"";
         NSString* desc = @"";
         
-        
-        [self addBookToTheDatabaseBookList:@"suggested" bookTitle:title bookAuthors:authors publisher:publisher coverLink:coverLink rating:rating isbn:isbn desc:desc];
-        NSLog(@"ADDED");
+        if(coverLink != NULL && ![coverLink  isEqualToString:@""]) {
+            NSLog (@"cover not null %@", coverLink);
+            [self addBookToTheDatabaseBookList:@"suggested" bookTitle:title bookAuthors:authors publisher:publisher coverLink:coverLink rating:rating isbn:isbn desc:desc];
+            NSLog(@"ADDED");
+        }
 
     }
-    
-    NSLog(@"INITIALIZE SUGGESTED");
-    //[self initializeSuggestedBooksDatabase];
 }
 
 //open the db connection and retrieve minimal information for all objects
@@ -336,8 +359,6 @@
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
-    
-    
 }
 
 - (void)getAllDatabaseTableNames {
@@ -655,6 +676,34 @@
         sqlite3_close(database);
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
+    
+}
+
+- (void)deleteTableFromDatabase:(NSString *)tableName {
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
+        
+        NSLog(@"path %@", path);
+        //Open the db. The db was prepared outside the application
+        
+        if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
+            const char *sql = [[NSString stringWithFormat:@"DROP TABLE %@Books", tableName] UTF8String];
+            NSLog(@"%s",sql);
+            sqlite3_stmt *statement;
+            if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+                if (sqlite3_step(statement) != SQLITE_DONE)
+                    return;
+            }
+            // finalize the statement
+            sqlite3_finalize(statement);
+            sqlite3_close(database);
+        } else {
+            //even though the open failed, call close to properly clean up resources.
+            sqlite3_close(database);
+            NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
+        }
     
 }
 

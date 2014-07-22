@@ -60,7 +60,7 @@
     [self initializeViewWithBookDetailsFromDB];
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [self initiatePickerViewWithTableNames];
-
+    
     
     _starRating.backgroundColor  = [UIColor blackColor];
     _starRating.starImage = [[UIImage imageNamed:@"star-template"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -122,7 +122,7 @@
         self.bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:self.cellID database:database table:self.tableName];
         self.bookTitle.text = self.bDB.title;
         self.bookAuthors.text = self.bDB.authors;
-
+        
         
         NSLog(@"rating: %f", self.bDB.rating);
         
@@ -141,23 +141,56 @@
         
         _starRatingLabel.text = ratingString;
         
-        NSLog(@"%@", self.bDB.desc);
+        NSLog(@"desc %@", self.bDB.desc);
+        
         
         //i can do the same for rating...
-        if ([self.bDB.desc  isEqual: @""] || self.bDB.desc == NULL) {
+        if ([self.bDB.desc isEqual: @""] || self.bDB.desc == NULL) {
             
-            RetrieveBooks *retrieveBooks = [[RetrieveBooks alloc] init];
+            if ([self.appDelegate connectedToInternet]) {
+                
+                RetrieveBooks *retrieveBooks = [[RetrieveBooks alloc] init];
+                
+                NSData* dataFromURL = [retrieveBooks getDataFromURLAsData:
+                                       [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=isbn:%@", self.bDB.isbn]];
+                NSArray* results = [retrieveBooks parseJson:[retrieveBooks getJsonFromData:dataFromURL]];
+                
+                self.bDB.desc = [[[results objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"description"];
+                
+                NSLog(@"update the desc in the DB");
+                
+                const char *sql = [[NSString stringWithFormat:@"update %@ set DESC='%@' where ID = %li", self.tableName, self.bDB.desc, (long)self.bDB.ID] UTF8String];
+                NSLog(@"%s",sql);
+                sqlite3_stmt *statement;
+                
+                if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+                    // We step through the results once for each row.
+                    NSLog(@"in sql results updating");
+                    
+                    
+                    while (sqlite3_step(statement) == SQLITE_ROW) {
+                        
+                        NSLog(@"in SQL");
+                        int ID = sqlite3_column_int(statement, 0);
+                        NSLog(@"ID is %i", ID);
+                        
+                    }
+                    
+                    
+                    NSLog(@"Updated description in the DB");
+                    
+                }
+                sqlite3_finalize(statement);
+                
+            }
             
-            NSData* dataFromURL = [retrieveBooks getDataFromURLAsData:
-                                   [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=isbn:%@", self.bDB.isbn]];
-            NSArray* results = [retrieveBooks parseJson:[retrieveBooks getJsonFromData:dataFromURL]];
-            
-            self.bDB.desc = [[[results objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"description"];
         }
+        
         
         self.desc.text = self.bDB.desc;
         
         // finalize the statement
+        
         sqlite3_close(database);
     } else {
         //even though the open failed, call close to properly clean up resources.
@@ -226,7 +259,7 @@
         self.av.tag = 1;
         
         [self.av show];
-       
+        
         
     }
     else if (selectedSegment == 1){
@@ -288,7 +321,7 @@
             
             [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:1];
             [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:2];
-
+            
         }
     }
     
@@ -309,7 +342,7 @@
             
             NSLog(@"imageNAme %@", imageName);
             
-            NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];            
+            NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
             NSLog(@"%@", pngFilePath);
             [self removeImage:pngFilePath];
             
@@ -319,7 +352,7 @@
             [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:1];
             
         }
-
+        
     }
 }
 

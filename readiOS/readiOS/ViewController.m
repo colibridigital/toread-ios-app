@@ -172,7 +172,12 @@
     
     [self showSimple:urlString];
     
-    [self searchInBackground:urlString];
+    
+    if ([self.appDelegate connectedToInternet]) {
+        [self searchInBackground:urlString];
+    } else {
+        [self showWithCustomView:@"No Internet Connection Available"];
+    }
     
     [self.searchBar resignFirstResponder];
     //self.searchBar.text = nil;
@@ -706,9 +711,16 @@
 
 - (IBAction)showQRReader:(id)sender {
     
-    BarcodeScannerViewController *barcodeScanner = [[BarcodeScannerViewController alloc] initWithNibName:nil bundle:nil];
     
-    [self presentViewController:barcodeScanner animated:NO completion:nil];
+    if ([self.appDelegate connectedToInternet]) {
+    
+        BarcodeScannerViewController *barcodeScanner = [[BarcodeScannerViewController alloc] initWithNibName:nil bundle:nil];
+    
+        [self presentViewController:barcodeScanner animated:NO completion:nil];
+        
+    } else {
+        [self showWithCustomView:@"No Internet Connection Available"];
+    }
     
 }
 
