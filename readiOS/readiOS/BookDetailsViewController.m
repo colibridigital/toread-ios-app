@@ -88,6 +88,7 @@
     self.tableNames = [self.appDelegate.tableNames mutableCopy];
     
     [self.tableNames insertObject:@"" atIndex:0];
+    [self.tableNames insertObject:@"Create New List" atIndex:1];
     
     NSMutableArray *newTable = [NSMutableArray array];
     
@@ -186,8 +187,11 @@
             
         }
         
-        
-        self.desc.text = self.bDB.desc;
+        if (![self.bDB.desc isEqualToString:@"(null)"]) {
+            self.desc.text = self.bDB.desc;
+        } else {
+            self.desc.text = @"";
+        }
         
         NSLog(@"dueDate %@", self.bDB.dueDate);
         
@@ -360,6 +364,39 @@
         }
         
     }
+    
+    
+    if (self.av.tag == 3) {
+        if (buttonIndex == 0)
+        {
+            NSLog(@"You have clicked No");
+        }
+        else if(buttonIndex == 1)
+        {
+            NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
+            self.customListTitle = [[self.av textFieldAtIndex:0] text];
+            NSLog(@"%@", self.customListTitle);
+            
+            [self.appDelegate createNewCustomListInTheDatabase:[[self.av textFieldAtIndex:0] text]];
+            [self.appDelegate addBookToTheDatabaseBookList:[self.customListTitle lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating isbn:self.bDB.isbn desc:self.bDB.desc];
+            
+            [self.appDelegate deleteBooksToReadFromOriginalTable:self.tableName ID:self.cellID indexPath:self.indexPath.row];
+            
+            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)self.cellID];
+            
+            NSLog(@"imageNAme %@", imageName);
+            
+            NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+            NSLog(@"%@", pngFilePath);
+            [self removeImage:pngFilePath];
+
+            
+            [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
+            
+        }
+
+    }
 }
 
 - (void)removeImage:(NSString *)filePath
@@ -372,6 +409,7 @@
     }
 }
 
+//remove old notifications and add new ones
 - (void)scheduleNotification {
     UILocalNotification *notification = [[UILocalNotification alloc]init];
     notification.fireDate = self.datePicker.date;
@@ -466,6 +504,21 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
     
+    if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Create New List"]) {
+        
+        NSLog(@"here");
+        
+        self.av = [[UIAlertView alloc] initWithTitle:@"Create New List" message:@"Would you like to create a new list called?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        
+        [self.av setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        
+        self.av.tag = 3;
+        
+        [self.av show];
+        
+        
+    } else {
+    
     NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
     
     [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating isbn:self.bDB.isbn desc:self.bDB.desc];
@@ -482,6 +535,7 @@
     [self removeImage:pngFilePath];
     
     NSLog(@"moving book to the database");
+    }
     
     [self showWithCustomView:[NSString stringWithFormat:@"Moved to : %@", [self.pickerViewData objectAtIndex:row]]];
     
