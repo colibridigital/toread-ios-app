@@ -19,11 +19,12 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
     // Configure the view for the selected state
 }
 
 - (IBAction)addBookToDatabase:(id)sender {
+    
+    [self initiatePickerViewWithTableNames];
     
     self.pickerView = [[UIPickerView alloc] init];
     
