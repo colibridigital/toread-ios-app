@@ -7,6 +7,7 @@
 #import "SideMenuViewController.h"
 #import "MFSideMenu.h"
 #import "ReadBooksViewController.h"
+#import "ReadingListManager.h"
 
 @implementation SideMenuViewController
 
@@ -39,9 +40,9 @@
     
     if ([indexPath isEqual:firstRowPath]) {
         cell.textLabel.text = [NSString stringWithFormat:@"What I've Read"];
-    } /*else if ([indexPath isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
-        cell.textLabel.text = [NSString stringWithFormat:@"My Whole Reading List"];
-    } */
+    } else if ([indexPath isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
+        cell.textLabel.text = [NSString stringWithFormat:@"All My Reading Lists"];
+    }
        else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:1]]) {
         cell.textLabel.text = [NSString stringWithFormat:@"My Account"];
     } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:1 inSection:1]]) {
@@ -72,10 +73,19 @@
         
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
         
-    } /*else if ([indexPath  isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
+    } else if ([indexPath  isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
         NSLog(@"in What I want to read");
         
-    } */
+        ReadingListManager *readingListManager = [[ReadingListManager alloc] initWithNibName:@"ReadingListManager" bundle:nil];
+        
+        self.navigationController = self.menuContainerViewController.centerViewController;
+        
+        [self.navigationController presentViewController:readingListManager animated:NO completion:nil];
+        
+        [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+        
+        
+    }
        else if ([indexPath isEqual:[NSIndexPath indexPathForItem:1 inSection:1]]) {
         
         self.emailManager =[[EmailManager alloc] init];

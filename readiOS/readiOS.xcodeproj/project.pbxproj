@@ -21,6 +21,10 @@
 		15368BDE194672C300E11AC0 /* EDStarRating.m in Sources */ = {isa = PBXBuildFile; fileRef = 15368BDD194672C300E11AC0 /* EDStarRating.m */; };
 		15368BE01946757C00E11AC0 /* star-template.png in Resources */ = {isa = PBXBuildFile; fileRef = 15368BDF1946757C00E11AC0 /* star-template.png */; };
 		15368BE21946758700E11AC0 /* star-highlighted-template.png in Resources */ = {isa = PBXBuildFile; fileRef = 15368BE11946758700E11AC0 /* star-highlighted-template.png */; };
+		15591DE6197FE74A007DA93B /* ReadingListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 15591DE4197FE74A007DA93B /* ReadingListManager.m */; };
+		15591DE7197FE74A007DA93B /* ReadingListManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15591DE5197FE74A007DA93B /* ReadingListManager.xib */; };
+		15591DEC197FEFD8007DA93B /* ReadingListDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 15591DEA197FEFD8007DA93B /* ReadingListDetail.m */; };
+		15591DED197FEFD8007DA93B /* ReadingListDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15591DEB197FEFD8007DA93B /* ReadingListDetail.xib */; };
 		155A448F195C21E3004A139D /* Main_iPhone3.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 155A448E195C21E3004A139D /* Main_iPhone3.storyboard */; };
 		15928413195CAEB80069FA8B /* BarcodeScannerResultDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 15928411195CAEB80069FA8B /* BarcodeScannerResultDetails.m */; };
 		15928414195CAEB80069FA8B /* BarcodeScannerResultDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15928412195CAEB80069FA8B /* BarcodeScannerResultDetails.xib */; };
@@ -111,6 +115,12 @@
 		15368BDD194672C300E11AC0 /* EDStarRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDStarRating.m; sourceTree = "<group>"; };
 		15368BDF1946757C00E11AC0 /* star-template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-template.png"; sourceTree = "<group>"; };
 		15368BE11946758700E11AC0 /* star-highlighted-template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-highlighted-template.png"; sourceTree = "<group>"; };
+		15591DE3197FE74A007DA93B /* ReadingListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingListManager.h; sourceTree = "<group>"; };
+		15591DE4197FE74A007DA93B /* ReadingListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingListManager.m; sourceTree = "<group>"; };
+		15591DE5197FE74A007DA93B /* ReadingListManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadingListManager.xib; sourceTree = "<group>"; };
+		15591DE9197FEFD8007DA93B /* ReadingListDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingListDetail.h; sourceTree = "<group>"; };
+		15591DEA197FEFD8007DA93B /* ReadingListDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingListDetail.m; sourceTree = "<group>"; };
+		15591DEB197FEFD8007DA93B /* ReadingListDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadingListDetail.xib; sourceTree = "<group>"; };
 		155A448E195C21E3004A139D /* Main_iPhone3.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPhone3.storyboard; sourceTree = "<group>"; };
 		15928410195CAEB80069FA8B /* BarcodeScannerResultDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarcodeScannerResultDetails.h; sourceTree = "<group>"; };
 		15928411195CAEB80069FA8B /* BarcodeScannerResultDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarcodeScannerResultDetails.m; sourceTree = "<group>"; };
@@ -256,6 +266,26 @@
 			path = EDStarRating;
 			sourceTree = "<group>";
 		};
+		15591DDC197FE67A007DA93B /* ReadingListManager */ = {
+			isa = PBXGroup;
+			children = (
+				15591DE3197FE74A007DA93B /* ReadingListManager.h */,
+				15591DE4197FE74A007DA93B /* ReadingListManager.m */,
+				15591DE5197FE74A007DA93B /* ReadingListManager.xib */,
+			);
+			name = ReadingListManager;
+			sourceTree = "<group>";
+		};
+		15591DE8197FEFB4007DA93B /* ReadingListDetail */ = {
+			isa = PBXGroup;
+			children = (
+				15591DE9197FEFD8007DA93B /* ReadingListDetail.h */,
+				15591DEA197FEFD8007DA93B /* ReadingListDetail.m */,
+				15591DEB197FEFD8007DA93B /* ReadingListDetail.xib */,
+			);
+			name = ReadingListDetail;
+			sourceTree = "<group>";
+		};
 		1592840F195CAE860069FA8B /* BarcodeScannerResultDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,6 +370,8 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				15591DE8197FEFB4007DA93B /* ReadingListDetail */,
+				15591DDC197FE67A007DA93B /* ReadingListManager */,
 				15928417195E08080069FA8B /* EmailManager */,
 				1592840F195CAE860069FA8B /* BarcodeScannerResultDetails */,
 				15CF4EFE195A03C100BDF404 /* BarcodeReader */,
@@ -577,6 +609,7 @@
 				15B08D161878423F00FE1C17 /* four.jpg in Resources */,
 				152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */,
 				15B08CEC18783CD000FE1C17 /* Images.xcassets in Resources */,
+				15591DED197FEFD8007DA93B /* ReadingListDetail.xib in Resources */,
 				159D8BBD19585B4E002BC84A /* Icon-iOS7@2x.png in Resources */,
 				155A448F195C21E3004A139D /* Main_iPhone3.storyboard in Resources */,
 				1507C3C3192A48DE002F81C2 /* barcode.png in Resources */,
@@ -593,6 +626,7 @@
 				1507C3D7192BE845002F81C2 /* SearchResultsCell.xib in Resources */,
 				15B08D2C188B1D0A00FE1C17 /* ai.jpg in Resources */,
 				15368BE01946757C00E11AC0 /* star-template.png in Resources */,
+				15591DE7197FE74A007DA93B /* ReadingListManager.xib in Resources */,
 				15B08D1E188B156700FE1C17 /* menu.jpg in Resources */,
 				15CFECE418FEC5560086207B /* home-icon.png in Resources */,
 				15B08CDB18783CD000FE1C17 /* InfoPlist.strings in Resources */,
@@ -631,6 +665,7 @@
 				1592841A195E08230069FA8B /* EmailManager.m in Sources */,
 				15EF459618FBE93D00A77569 /* MFSideMenuShadow.m in Sources */,
 				15B08D111878408200FE1C17 /* BookCollectionView.m in Sources */,
+				15591DEC197FEFD8007DA93B /* ReadingListDetail.m in Sources */,
 				15ABDB5A1909344E00C1FE32 /* BooksDatabase.m in Sources */,
 				1507C3C7192BA9D9002F81C2 /* RetrieveBooks.m in Sources */,
 				15EF459518FBE93D00A77569 /* MFSideMenuContainerViewController.m in Sources */,
@@ -638,6 +673,7 @@
 				15EF459718FBE93D00A77569 /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				152FF0341899B75D00E824E9 /* BookDetailsViewController.m in Sources */,
 				15B08CDD18783CD000FE1C17 /* main.m in Sources */,
+				15591DE6197FE74A007DA93B /* ReadingListManager.m in Sources */,
 				15EF459A18FBEA7800A77569 /* SideMenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
