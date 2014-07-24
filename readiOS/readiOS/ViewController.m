@@ -170,13 +170,12 @@
     NSString* searchBarText = self.searchBar.text;
     NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     
-    [self showSimple:urlString];
-    
-    
+   
     if ([self.appDelegate connectedToInternet]) {
+        [self showSimple:urlString];
         [self searchInBackground:urlString];
     } else {
-        [self showWithCustomView:@"No Internet Connection Available"];
+        [self showWithCustomView:@"No Internet Connection"];
     }
     
     [self.searchBar resignFirstResponder];
@@ -345,9 +344,6 @@
     NSLog(@"showing book");
     
     if (collectionView == self.suggestedBooksView) {
-        
-        NSLog(@"favourite count %lu", (unsigned long)self.appDelegate.suggestedBooks.count);
-        
         BooksDatabase *bDB = [self.appDelegate.suggestedBooks objectAtIndex:indexPath.row];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -396,9 +392,6 @@
         }
         
     } else if (collectionView == self.favouriteCollectionView) {
-        
-        NSLog(@"favourite count %lu", (unsigned long)self.appDelegate.favouriteBooks.count);
-        
         BooksDatabase *bDB = [self.appDelegate.favouriteBooks objectAtIndex:indexPath.row];
         
         //if image is stored then show it if not and there is internet connection load it and store it
@@ -719,7 +712,7 @@
         [self presentViewController:barcodeScanner animated:NO completion:nil];
         
     } else {
-        [self showWithCustomView:@"No Internet Connection Available"];
+        [self showWithCustomView:@"No Internet Connection"];
     }
     
 }

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RetrieveBooks.h"
 #import "MBProgressHUD.h"
+#import "AppDelegate.h"
 
 @interface SearchResultsController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,  MBProgressHUDDelegate> {
     MBProgressHUD *HUD;
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (retain) RetrieveBooks *retrieveBooks;
+@property (weak, nonatomic) AppDelegate *appDelegate;
 
 -(void)setTableDataArray:(NSArray *)table;
 - (IBAction)dismissView:(id)sender;

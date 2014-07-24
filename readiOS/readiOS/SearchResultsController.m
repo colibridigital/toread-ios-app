@@ -143,6 +143,27 @@
     return 136;
 }
 
+- (void)showWithCustomView:(NSString*)message {
+	
+	HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+	
+	// The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
+	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
+	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark@2x.png"]];
+	
+	// Set custom view mode
+	HUD.mode = MBProgressHUDModeCustomView;
+	
+	HUD.delegate = self;
+    //modify this according to the needs
+	HUD.labelText = message;
+	
+	[HUD show:YES];
+	[HUD hide:YES afterDelay:1.5];
+}
+
+
 
 - (void)searchInBackground:(NSString *)urlString {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
@@ -166,9 +187,13 @@
     NSString* searchBarText = self.searchBar.text;
     NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     
-    [self showSimple:urlString];
+    if ([self.appDelegate connectedToInternet]) {
+        [self showSimple:urlString];
     
-    [self searchInBackground:urlString];
+        [self searchInBackground:urlString];
+    } else {
+        [self showWithCustomView:@"No Internet Connection"];
+    }
     
     [self.searchBar resignFirstResponder];
     
