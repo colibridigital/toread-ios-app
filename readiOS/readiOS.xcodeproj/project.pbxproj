@@ -563,6 +563,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = colibri;
 				TargetAttributes = {
+					15B08CCC18783CD000FE1C17 = {
+						DevelopmentTeam = 24WJ8FSA3Y;
+					};
 					15B08CF018783CD000FE1C17 = {
 						TestTargetID = 15B08CCC18783CD000FE1C17;
 					};
@@ -814,6 +817,7 @@
 				GCC_PREFIX_HEADER = "readiOS/readiOS-Prefix.pch";
 				INFOPLIST_FILE = "readiOS/readiOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -828,6 +832,7 @@
 				GCC_PREFIX_HEADER = "readiOS/readiOS-Prefix.pch";
 				INFOPLIST_FILE = "readiOS/readiOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

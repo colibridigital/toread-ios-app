@@ -64,7 +64,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog (@"number of tables %li", self.tableNames.count);
+    NSLog (@"number of tables %li", (unsigned long)self.tableNames.count);
     return self.tableNames.count;
 }
 

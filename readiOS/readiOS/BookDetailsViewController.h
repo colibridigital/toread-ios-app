@@ -33,7 +33,7 @@
 
 @property (assign, nonatomic) NSInteger cellID;
 @property (weak, nonatomic) IBOutlet EDStarRating *starRating;
-@property (weak, nonatomic) IBOutlet UILabel *starRatingLabel;
+//@property (weak, nonatomic) IBOutlet UILabel *starRatingLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 @property (weak, nonatomic) AppDelegate *appDelegate;

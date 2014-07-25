@@ -150,7 +150,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSLog(@"books count %li", self.books.count);
+    NSLog(@"books count %li", (unsigned long)self.books.count);
     return self.books.count;
 }
 

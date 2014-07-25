@@ -18,7 +18,7 @@
 @implementation BookDetailsViewController
 
 @synthesize starRating=_starRating;
-@synthesize starRatingLabel = _starRatingLabel;
+//@synthesize starRatingLabel = _starRatingLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -138,9 +138,9 @@
         self.bookCover.image = bookImage;
         _starRating.rating= self.bDB.rating;
         
-        NSString *ratingString = [NSString stringWithFormat:@"Rating: %.1f", self.bDB.rating];
+       // NSString *ratingString = [NSString stringWithFormat:@"Rating: %.1f", self.bDB.rating];
         
-        _starRatingLabel.text = ratingString;
+       // _starRatingLabel.text = ratingString;
         
         NSLog(@"desc %@", self.bDB.desc);
         

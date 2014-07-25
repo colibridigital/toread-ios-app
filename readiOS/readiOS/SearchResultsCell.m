@@ -68,7 +68,7 @@
     [self.appDelegate getAllDatabaseTableNames];
     self.tableNames = [self.appDelegate.tableNames mutableCopy];
     
-    NSLog(@"original tableNames data: %lu", self.appDelegate.tableNames.count);
+    NSLog(@"original tableNames data: %lu", (unsigned long)self.appDelegate.tableNames.count);
     
     [self.tableNames insertObject:@"" atIndex:0];
     [self.tableNames insertObject:@"Create New List" atIndex:1];
@@ -85,7 +85,7 @@
     
     self.pickerViewData = [newTable mutableCopy];
     
-    NSLog(@"picker view count count %lu", self.pickerViewData.count);
+    NSLog(@"picker view count count %lu", (unsigned long)self.pickerViewData.count);
     
 }
 
