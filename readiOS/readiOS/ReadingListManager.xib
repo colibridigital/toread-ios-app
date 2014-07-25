@@ -10,12 +10,12 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="adJ-i4-NVJ">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+        <view contentMode="scaleAspectFit" id="adJ-i4-NVJ">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="white" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="95" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lt1-xS-dCm">
-                    <rect key="frame" x="0.0" y="65" width="320" height="503"/>
+                <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" showsHorizontalScrollIndicator="NO" indicatorStyle="white" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="95" sectionHeaderHeight="16" sectionFooterHeight="16" translatesAutoresizingMaskIntoConstraints="NO" id="lt1-xS-dCm">
+                    <rect key="frame" x="0.0" y="65" width="320" height="415"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -26,16 +26,20 @@
                         <outlet property="delegate" destination="-1" id="HTe-RJ-RER"/>
                     </connections>
                 </tableView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My Reading Lists" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjw-BA-o2U">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Reading Lists" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjw-BA-o2U">
                     <rect key="frame" x="0.0" y="21" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAL-Ne-ssY">
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAL-Ne-ssY">
                     <rect key="frame" x="0.0" y="27" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="iTL-TG-fK5"/>
+                        <constraint firstAttribute="height" constant="30" id="yis-89-mld"/>
+                    </constraints>
                     <state key="normal" backgroundImage="back.png">
                         <color key="titleColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -46,8 +50,19 @@
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="lt1-xS-dCm" secondAttribute="bottom" id="1Xx-QL-EDg"/>
+                <constraint firstItem="hjw-BA-o2U" firstAttribute="top" secondItem="adJ-i4-NVJ" secondAttribute="top" constant="21" id="Miz-wj-aLB"/>
+                <constraint firstItem="lt1-xS-dCm" firstAttribute="top" secondItem="pAL-Ne-ssY" secondAttribute="bottom" constant="8" symbolic="YES" id="TJ2-LR-k3L"/>
+                <constraint firstItem="pAL-Ne-ssY" firstAttribute="top" secondItem="adJ-i4-NVJ" secondAttribute="top" constant="27" id="cVj-Q7-H1d"/>
+                <constraint firstItem="lt1-xS-dCm" firstAttribute="leading" secondItem="pAL-Ne-ssY" secondAttribute="leading" id="iHe-xE-fcQ"/>
+                <constraint firstItem="lt1-xS-dCm" firstAttribute="top" secondItem="hjw-BA-o2U" secondAttribute="bottom" id="lfn-za-Tmj"/>
+                <constraint firstAttribute="trailing" secondItem="hjw-BA-o2U" secondAttribute="trailing" id="nc0-yz-Lfn"/>
+                <constraint firstItem="lt1-xS-dCm" firstAttribute="leading" secondItem="adJ-i4-NVJ" secondAttribute="leading" id="p4o-sj-4vX"/>
+                <constraint firstItem="hjw-BA-o2U" firstAttribute="trailing" secondItem="lt1-xS-dCm" secondAttribute="trailing" id="t8X-Gh-YqI"/>
+                <constraint firstItem="pAL-Ne-ssY" firstAttribute="leading" secondItem="hjw-BA-o2U" secondAttribute="leading" id="wIU-ES-qUu"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
     <resources>
