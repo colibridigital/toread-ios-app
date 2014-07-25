@@ -187,13 +187,13 @@
     NSString* searchBarText = self.searchBar.text;
     NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     
-    if ([self.appDelegate connectedToInternet]) {
+    //if ([self.appDelegate connectedToInternet]) {
         [self showSimple:urlString];
     
         [self searchInBackground:urlString];
-    } else {
-        [self showWithCustomView:@"No Internet Connection"];
-    }
+   // } else {
+      //  [self showWithCustomView:@"No Internet Connection"];
+    //}
     
     [self.searchBar resignFirstResponder];
     

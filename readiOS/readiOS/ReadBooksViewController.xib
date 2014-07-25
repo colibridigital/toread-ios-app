@@ -11,14 +11,14 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Ct9-fI-ibL" customClass="BookCollectionView">
-                    <rect key="frame" x="0.0" y="63" width="320" height="505"/>
+                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Ct9-fI-ibL" customClass="BookCollectionView">
+                    <rect key="frame" x="0.0" y="63" width="320" height="417"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" id="bUl-Cd-kCu">
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="5" id="bUl-Cd-kCu">
                         <size key="itemSize" width="95" height="130"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -30,7 +30,7 @@
                         <outlet property="delegate" destination="-1" id="a8H-VR-zDG"/>
                     </connections>
                 </collectionView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wYa-jg-AYp">
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wYa-jg-AYp">
                     <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -38,9 +38,12 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OhN-cv-tdF">
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OhN-cv-tdF">
                     <rect key="frame" x="2" y="27" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="XVk-iG-bKd"/>
+                    </constraints>
                     <state key="normal" backgroundImage="home-icon.png">
                         <color key="titleColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -49,17 +52,35 @@
                         <action selector="dismissView:" destination="-1" eventType="touchUpInside" id="CYk-Ky-Jp8"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Read List" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kjj-yc-ajn">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read List" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kjj-yc-ajn">
                     <rect key="frame" x="123" y="31" width="75" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="6yT-aL-FxS"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name="HelveticaNeue-LightItalic" family="Helvetica Neue" pointSize="17"/>
                     <color key="textColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Ct9-fI-ibL" firstAttribute="top" secondItem="kjj-yc-ajn" secondAttribute="bottom" constant="11" id="5QM-gk-VxN"/>
+                <constraint firstItem="kjj-yc-ajn" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="31" id="6Mc-lO-ooq"/>
+                <constraint firstAttribute="trailing" secondItem="wYa-jg-AYp" secondAttribute="trailing" id="KIG-vi-itO"/>
+                <constraint firstItem="wYa-jg-AYp" firstAttribute="leading" secondItem="Ct9-fI-ibL" secondAttribute="leading" id="MPc-1k-F1J"/>
+                <constraint firstItem="kjj-yc-ajn" firstAttribute="leading" secondItem="OhN-cv-tdF" secondAttribute="trailing" constant="91" id="Prx-i4-jnM"/>
+                <constraint firstItem="OhN-cv-tdF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="27" id="QRF-Ds-VCB"/>
+                <constraint firstItem="wYa-jg-AYp" firstAttribute="centerY" secondItem="OhN-cv-tdF" secondAttribute="centerY" id="YtE-VM-fAT"/>
+                <constraint firstItem="Ct9-fI-ibL" firstAttribute="top" secondItem="OhN-cv-tdF" secondAttribute="bottom" constant="6" id="cBl-6h-X7K"/>
+                <constraint firstItem="wYa-jg-AYp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" symbolic="YES" id="hdw-X8-T6O"/>
+                <constraint firstItem="wYa-jg-AYp" firstAttribute="trailing" secondItem="Ct9-fI-ibL" secondAttribute="trailing" id="jcv-2K-oSt"/>
+                <constraint firstItem="OhN-cv-tdF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="2" id="nxv-2Z-byb"/>
+                <constraint firstItem="wYa-jg-AYp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="vR9-1J-a3b"/>
+                <constraint firstAttribute="bottom" secondItem="Ct9-fI-ibL" secondAttribute="bottom" id="wSH-IF-Iq4"/>
+                <constraint firstItem="kjj-yc-ajn" firstAttribute="centerX" secondItem="wYa-jg-AYp" secondAttribute="centerX" id="zQ6-i3-qrG"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
     <resources>
