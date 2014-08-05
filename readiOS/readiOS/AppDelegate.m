@@ -11,6 +11,7 @@
 #import "ViewController.h"
 #import "SideMenuViewController.h"
 #import "BooksDatabase.h"
+#import "TutorialViewController.h"
 
 
 @interface AppDelegate (Private)
@@ -26,6 +27,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
+        NSLog(@"i need to show the tutorial");
+        [self displayTutorial];
+        
+    } else {
+    
+    
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
         if ([self connectedToInternet])
             [self authenticateWithServer];
@@ -75,7 +84,26 @@
                                                            instantiateViewControllerWithIdentifier: @"MainViewController"];
     
     [self setupMenu:mainViewController];
+        
+    }
     return YES;
+}
+
+- (void)displayTutorial {
+    
+    NSLog(@"in showing it");
+    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Tutorial_iPhone" bundle:nil];
+    
+    TutorialViewController *tutorialViewController = (TutorialViewController*)[mainStoryboard
+                            instantiateViewControllerWithIdentifier: @"TutorialViewController"];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    self.window.rootViewController = tutorialViewController;
+    [self.window makeKeyAndVisible];
+    
 }
 
 - (BOOL)connectedToInternet
@@ -100,7 +128,7 @@
     
     //NSString *device_model = [device model];
     
-    NSLog(@"authenticating again");
+    NSLog(@"authenticating first time");
     
     NSString *deviceOSId = @"2709";
     
@@ -136,6 +164,8 @@
     NSError *err;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
     
+    NSLog(@"%@", jsonString);
+    
     [self parseResponse:responseData];
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
@@ -160,8 +190,6 @@
                                                          error:&error];
     
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
-    NSLog(@"%@", jsonString);
     
     return jsonString;
     

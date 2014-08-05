@@ -40,16 +40,16 @@
     
     if ([indexPath isEqual:firstRowPath]) {
         cell.textLabel.text = [NSString stringWithFormat:@"What I've Read"];
-    } else if ([indexPath isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
+    } else if ([indexPath isEqual:[NSIndexPath indexPathForRow:0 inSection:1]]) {
         cell.textLabel.text = [NSString stringWithFormat:@"All My Reading Lists"];
     }
-       else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:1]]) {
+      /* else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:1]]) {
         cell.textLabel.text = [NSString stringWithFormat:@"My Account"];
-    } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:1 inSection:1]]) {
+    }*/ else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:2]]) {
         cell.textLabel.text = [NSString stringWithFormat:@"Send List via Email"];
-    } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:2]]){
+    } /*else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:2]]){
         cell.textLabel.text = [NSString stringWithFormat:@"Refresh Reading Lists"];
-    }
+    }*/
     
     cell.backgroundColor = [UIColor blackColor];
     cell.textLabel.textColor = [UIColor grayColor];
@@ -73,7 +73,7 @@
         
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
         
-    } else if ([indexPath  isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
+    } else if ([indexPath  isEqual:[NSIndexPath indexPathForRow:0 inSection:1]]) {
         NSLog(@"in What I want to read");
         
         ReadingListManager *readingListManager = [[ReadingListManager alloc] initWithNibName:@"ReadingListManager" bundle:nil];
@@ -86,7 +86,7 @@
         
         
     }
-       else if ([indexPath isEqual:[NSIndexPath indexPathForItem:1 inSection:1]]) {
+       else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:2]]) {
         
         self.emailManager =[[EmailManager alloc] init];
         
@@ -100,7 +100,7 @@
         
         [self showPickerView]; 
         
-    } else {
+    } /*else {
         
         UIViewController *demoController = [[UIViewController alloc] init];
         demoController.title = [NSString stringWithFormat:@"Demo #%ld-%ld", (long)indexPath.section, (long)indexPath.row];
@@ -109,7 +109,7 @@
         NSArray *controllers = [NSArray arrayWithObject:demoController];
         navigationController.viewControllers = controllers;
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-    }
+    }*/
 }
 
 - (void) initiatePickerViewWithTableNames {
