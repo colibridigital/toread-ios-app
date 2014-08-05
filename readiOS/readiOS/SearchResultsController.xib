@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A283o" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -12,32 +12,37 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="ZhB-Iv-aQn">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+        <view contentMode="scaleAspectFit" id="ZhB-Iv-aQn">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" bouncesZoom="NO" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="95" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="i5M-Pr-FkT">
-                    <rect key="frame" x="0.0" y="65" width="320" height="503"/>
+                <tableView clipsSubviews="YES" contentMode="scaleAspectFit" bouncesZoom="NO" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="95" sectionHeaderHeight="13" sectionFooterHeight="13" translatesAutoresizingMaskIntoConstraints="NO" id="i5M-Pr-FkT">
+                    <rect key="frame" x="0.0" y="65" width="320" height="415"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Tng-2m-Rnh"/>
                         <outlet property="delegate" destination="-1" id="9aC-8N-iBw"/>
                     </connections>
                 </tableView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hht-ef-coZ">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hht-ef-coZ">
                     <rect key="frame" x="0.0" y="21" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nhl-vK-IWG">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nhl-vK-IWG">
                     <rect key="frame" x="0.0" y="27" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="mCQ-Mh-zx7"/>
+                        <constraint firstAttribute="height" constant="30" id="om7-9g-EeZ"/>
+                    </constraints>
                     <state key="normal" backgroundImage="home-icon.png">
                         <color key="titleColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -46,7 +51,7 @@
                         <action selector="dismissView:" destination="-1" eventType="touchUpInside" id="jhT-QU-YX4"/>
                     </connections>
                 </button>
-                <searchBar appearanceType="aqua" contentMode="redraw" fixedFrame="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HLM-jF-Jhz">
+                <searchBar appearanceType="aqua" contentMode="redraw" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HLM-jF-Jhz">
                     <rect key="frame" x="35" y="21" width="285" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="barTintColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
@@ -54,8 +59,22 @@
                 </searchBar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="i5M-Pr-FkT" firstAttribute="top" secondItem="HLM-jF-Jhz" secondAttribute="bottom" id="5WL-AP-h3s"/>
+                <constraint firstItem="HLM-jF-Jhz" firstAttribute="trailing" secondItem="Hht-ef-coZ" secondAttribute="trailing" id="5eN-sV-oIY"/>
+                <constraint firstItem="Hht-ef-coZ" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="7oM-Vj-izh"/>
+                <constraint firstItem="i5M-Pr-FkT" firstAttribute="top" secondItem="Nhl-vK-IWG" secondAttribute="bottom" constant="8" symbolic="YES" id="A3Q-WI-sFl"/>
+                <constraint firstItem="Hht-ef-coZ" firstAttribute="top" secondItem="ZhB-Iv-aQn" secondAttribute="top" constant="21" id="Amh-PE-6df"/>
+                <constraint firstItem="Nhl-vK-IWG" firstAttribute="leading" secondItem="ZhB-Iv-aQn" secondAttribute="leading" id="Blj-xW-xqt"/>
+                <constraint firstAttribute="trailing" secondItem="HLM-jF-Jhz" secondAttribute="trailing" id="R9A-hd-ExO"/>
+                <constraint firstItem="HLM-jF-Jhz" firstAttribute="leading" secondItem="Nhl-vK-IWG" secondAttribute="trailing" constant="5" id="SVf-pp-3SH"/>
+                <constraint firstItem="Hht-ef-coZ" firstAttribute="bottom" secondItem="HLM-jF-Jhz" secondAttribute="bottom" id="aDf-43-REI"/>
+                <constraint firstItem="Nhl-vK-IWG" firstAttribute="leading" secondItem="Hht-ef-coZ" secondAttribute="leading" id="kaQ-be-iJq"/>
+                <constraint firstItem="Nhl-vK-IWG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="uP5-5x-tzJ"/>
+                <constraint firstItem="HLM-jF-Jhz" firstAttribute="top" secondItem="Hht-ef-coZ" secondAttribute="top" id="v1n-ft-HMU"/>
+                <constraint firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="vpL-su-Wbv"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
     <resources>

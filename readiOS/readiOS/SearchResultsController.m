@@ -25,6 +25,8 @@
     self.tableView.dataSource = self;
     self.searchBar.delegate = self;
     
+    self.tableView.backgroundColor = [UIColor blackColor];
+    
     self.retrieveBooks = [[RetrieveBooks alloc] init];
 }
 
@@ -74,6 +76,8 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SearchResultsCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
+    
+    cell.backgroundColor = [UIColor blackColor];
     
     cell.bookTitle.text = [[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"title"];
     
