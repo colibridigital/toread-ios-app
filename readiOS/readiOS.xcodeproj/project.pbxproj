@@ -23,6 +23,7 @@
 		15368BE21946758700E11AC0 /* star-highlighted-template.png in Resources */ = {isa = PBXBuildFile; fileRef = 15368BE11946758700E11AC0 /* star-highlighted-template.png */; };
 		1556C2941991331200756AEB /* TutorialPageContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1556C2931991331200756AEB /* TutorialPageContentController.m */; };
 		1556C29819913E1C00756AEB /* books.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C29719913E1C00756AEB /* books.png */; };
+		1556C29A199155EF00756AEB /* colorlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C299199155EF00756AEB /* colorlogo.png */; };
 		15591DE6197FE74A007DA93B /* ReadingListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 15591DE4197FE74A007DA93B /* ReadingListManager.m */; };
 		15591DE7197FE74A007DA93B /* ReadingListManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15591DE5197FE74A007DA93B /* ReadingListManager.xib */; };
 		15591DEC197FEFD8007DA93B /* ReadingListDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 15591DEA197FEFD8007DA93B /* ReadingListDetail.m */; };
@@ -84,7 +85,6 @@
 		15CC1C6F198ADBB60043F461 /* Tutorial_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15CC1C6E198ADBB60043F461 /* Tutorial_iPhone.storyboard */; };
 		15CC1C73198AE14A0043F461 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC1C72198AE14A0043F461 /* TutorialViewController.m */; };
 		15CC1C77198AE6560043F461 /* TutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC1C76198AE6560043F461 /* TutorialPageViewController.m */; };
-		15CC1C79198BF7E60043F461 /* colorlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 15CC1C78198BF7E60043F461 /* colorlogo.png */; };
 		15CF4F03195A044B00BDF404 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15CF4F02195A044B00BDF404 /* AVFoundation.framework */; };
 		15CF4F06195A049A00BDF404 /* BarcodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CF4F05195A049A00BDF404 /* BarcodeScannerViewController.m */; };
 		15CFECE418FEC5560086207B /* home-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15CFECE318FEC5560086207B /* home-icon.png */; };
@@ -132,6 +132,7 @@
 		1556C2921991331200756AEB /* TutorialPageContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPageContentController.h; sourceTree = "<group>"; };
 		1556C2931991331200756AEB /* TutorialPageContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPageContentController.m; sourceTree = "<group>"; };
 		1556C29719913E1C00756AEB /* books.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = books.png; sourceTree = "<group>"; };
+		1556C299199155EF00756AEB /* colorlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colorlogo.png; sourceTree = "<group>"; };
 		15591DE3197FE74A007DA93B /* ReadingListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingListManager.h; sourceTree = "<group>"; };
 		15591DE4197FE74A007DA93B /* ReadingListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingListManager.m; sourceTree = "<group>"; };
 		15591DE5197FE74A007DA93B /* ReadingListManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadingListManager.xib; sourceTree = "<group>"; };
@@ -221,7 +222,6 @@
 		15CC1C72198AE14A0043F461 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
 		15CC1C75198AE6560043F461 /* TutorialPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPageViewController.h; sourceTree = "<group>"; };
 		15CC1C76198AE6560043F461 /* TutorialPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPageViewController.m; sourceTree = "<group>"; };
-		15CC1C78198BF7E60043F461 /* colorlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = colorlogo.png; path = ../../../colorlogo.png; sourceTree = "<group>"; };
 		15CF4F02195A044B00BDF404 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		15CF4F04195A049A00BDF404 /* BarcodeScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarcodeScannerViewController.h; sourceTree = "<group>"; };
 		15CF4F05195A049A00BDF404 /* BarcodeScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarcodeScannerViewController.m; sourceTree = "<group>"; };
@@ -395,7 +395,6 @@
 		15B08CC418783CD000FE1C17 = {
 			isa = PBXGroup;
 			children = (
-				15CC1C78198BF7E60043F461 /* colorlogo.png */,
 				15CC1C6E198ADBB60043F461 /* Tutorial_iPhone.storyboard */,
 				15B08D1A1878424500FE1C17 /* resources */,
 				15B08CD618783CD000FE1C17 /* readiOS */,
@@ -521,6 +520,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1556C299199155EF00756AEB /* colorlogo.png */,
 				1556C29719913E1C00756AEB /* books.png */,
 				1592841D1962CB050069FA8B /* books.sqlite */,
 				159D8BC019585CA7002BC84A /* 37x-Checkmark@2x.png */,
@@ -739,12 +739,12 @@
 				1556C29819913E1C00756AEB /* books.png in Resources */,
 				1501B3F818EC4C13007DD020 /* maths1.jpg in Resources */,
 				15B08D26188B184900FE1C17 /* 4.jpg in Resources */,
-				15CC1C79198BF7E60043F461 /* colorlogo.png in Resources */,
 				15B08CE418783CD000FE1C17 /* Main_iPhone.storyboard in Resources */,
 				1507C3D7192BE845002F81C2 /* SearchResultsCell.xib in Resources */,
 				15B08D2C188B1D0A00FE1C17 /* ai.jpg in Resources */,
 				15368BE01946757C00E11AC0 /* star-template.png in Resources */,
 				15591DE7197FE74A007DA93B /* ReadingListManager.xib in Resources */,
+				1556C29A199155EF00756AEB /* colorlogo.png in Resources */,
 				15B08D1E188B156700FE1C17 /* menu.jpg in Resources */,
 				15CFECE418FEC5560086207B /* home-icon.png in Resources */,
 				15B08CDB18783CD000FE1C17 /* InfoPlist.strings in Resources */,
