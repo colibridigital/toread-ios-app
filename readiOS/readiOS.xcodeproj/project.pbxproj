@@ -24,6 +24,13 @@
 		1556C2941991331200756AEB /* TutorialPageContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1556C2931991331200756AEB /* TutorialPageContentController.m */; };
 		1556C29819913E1C00756AEB /* books.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C29719913E1C00756AEB /* books.png */; };
 		1556C29A199155EF00756AEB /* colorlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C299199155EF00756AEB /* colorlogo.png */; };
+		1556C2A21991666300756AEB /* tut6.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C29B1991666300756AEB /* tut6.png */; };
+		1556C2A31991666300756AEB /* tut5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C29C1991666300756AEB /* tut5.png */; };
+		1556C2A41991666300756AEB /* tut4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C29D1991666300756AEB /* tut4.png */; };
+		1556C2A51991666300756AEB /* tut3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C29E1991666300756AEB /* tut3.png */; };
+		1556C2A61991666300756AEB /* tut2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C29F1991666300756AEB /* tut2.png */; };
+		1556C2A71991666300756AEB /* tut1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C2A01991666300756AEB /* tut1.png */; };
+		1556C2A81991666300756AEB /* tut0.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C2A11991666300756AEB /* tut0.png */; };
 		15591DE6197FE74A007DA93B /* ReadingListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 15591DE4197FE74A007DA93B /* ReadingListManager.m */; };
 		15591DE7197FE74A007DA93B /* ReadingListManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15591DE5197FE74A007DA93B /* ReadingListManager.xib */; };
 		15591DEC197FEFD8007DA93B /* ReadingListDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 15591DEA197FEFD8007DA93B /* ReadingListDetail.m */; };
@@ -133,6 +140,13 @@
 		1556C2931991331200756AEB /* TutorialPageContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPageContentController.m; sourceTree = "<group>"; };
 		1556C29719913E1C00756AEB /* books.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = books.png; sourceTree = "<group>"; };
 		1556C299199155EF00756AEB /* colorlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colorlogo.png; sourceTree = "<group>"; };
+		1556C29B1991666300756AEB /* tut6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut6.png; sourceTree = "<group>"; };
+		1556C29C1991666300756AEB /* tut5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut5.png; sourceTree = "<group>"; };
+		1556C29D1991666300756AEB /* tut4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut4.png; sourceTree = "<group>"; };
+		1556C29E1991666300756AEB /* tut3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut3.png; sourceTree = "<group>"; };
+		1556C29F1991666300756AEB /* tut2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut2.png; sourceTree = "<group>"; };
+		1556C2A01991666300756AEB /* tut1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut1.png; sourceTree = "<group>"; };
+		1556C2A11991666300756AEB /* tut0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut0.png; sourceTree = "<group>"; };
 		15591DE3197FE74A007DA93B /* ReadingListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingListManager.h; sourceTree = "<group>"; };
 		15591DE4197FE74A007DA93B /* ReadingListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingListManager.m; sourceTree = "<group>"; };
 		15591DE5197FE74A007DA93B /* ReadingListManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadingListManager.xib; sourceTree = "<group>"; };
@@ -520,6 +534,13 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1556C29B1991666300756AEB /* tut6.png */,
+				1556C29C1991666300756AEB /* tut5.png */,
+				1556C29D1991666300756AEB /* tut4.png */,
+				1556C29E1991666300756AEB /* tut3.png */,
+				1556C29F1991666300756AEB /* tut2.png */,
+				1556C2A01991666300756AEB /* tut1.png */,
+				1556C2A11991666300756AEB /* tut0.png */,
 				1556C299199155EF00756AEB /* colorlogo.png */,
 				1556C29719913E1C00756AEB /* books.png */,
 				1592841D1962CB050069FA8B /* books.sqlite */,
@@ -720,13 +741,16 @@
 				15B08CE718783CD000FE1C17 /* Main_iPad.storyboard in Resources */,
 				1507C3D9192BEDBA002F81C2 /* addIcon.png in Resources */,
 				15B08D30188B1D0A00FE1C17 /* math.jpg in Resources */,
+				1556C2A61991666300756AEB /* tut2.png in Resources */,
 				15B08D25188B184900FE1C17 /* 3.jpg in Resources */,
 				15B08D161878423F00FE1C17 /* four.jpg in Resources */,
 				152FF0351899B75D00E824E9 /* BookDetailsViewController.xib in Resources */,
 				15B08CEC18783CD000FE1C17 /* Images.xcassets in Resources */,
 				15591DED197FEFD8007DA93B /* ReadingListDetail.xib in Resources */,
 				159D8BBD19585B4E002BC84A /* Icon-iOS7@2x.png in Resources */,
+				1556C2A21991666300756AEB /* tut6.png in Resources */,
 				15C727FB198A511500B67720 /* README.txt in Resources */,
+				1556C2A41991666300756AEB /* tut4.png in Resources */,
 				155A448F195C21E3004A139D /* Main_iPhone3.storyboard in Resources */,
 				1507C3C3192A48DE002F81C2 /* barcode.png in Resources */,
 				15ABDB511907C0A500C1FE32 /* Calendar.png in Resources */,
@@ -734,13 +758,17 @@
 				15EF45A818FBF1ED00A77569 /* SideMenuViewController.xib in Resources */,
 				1501B3F918EC4C13007DD020 /* maths2.jpg in Resources */,
 				15B08D24188B184900FE1C17 /* 2.jpg in Resources */,
+				1556C2A31991666300756AEB /* tut5.png in Resources */,
+				1556C2A51991666300756AEB /* tut3.png in Resources */,
 				15D4935218FC93F1008460D4 /* menu.png in Resources */,
 				1592841E1962CB050069FA8B /* books.sqlite in Resources */,
 				1556C29819913E1C00756AEB /* books.png in Resources */,
 				1501B3F818EC4C13007DD020 /* maths1.jpg in Resources */,
+				1556C2A71991666300756AEB /* tut1.png in Resources */,
 				15B08D26188B184900FE1C17 /* 4.jpg in Resources */,
 				15B08CE418783CD000FE1C17 /* Main_iPhone.storyboard in Resources */,
 				1507C3D7192BE845002F81C2 /* SearchResultsCell.xib in Resources */,
+				1556C2A81991666300756AEB /* tut0.png in Resources */,
 				15B08D2C188B1D0A00FE1C17 /* ai.jpg in Resources */,
 				15368BE01946757C00E11AC0 /* star-template.png in Resources */,
 				15591DE7197FE74A007DA93B /* ReadingListManager.xib in Resources */,

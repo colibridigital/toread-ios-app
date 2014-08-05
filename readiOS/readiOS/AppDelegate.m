@@ -25,39 +25,9 @@
 
 @synthesize suggestedBooks,favouriteBooks,customListBooks, tableNames;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (UIStoryboard *)setStoryboard
 {
-    
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
-        NSLog(@"i need to show the tutorial");
-        [self displayTutorial];
-        
-    } else {
-    
-    
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
-        if ([self connectedToInternet])
-            [self authenticateWithServer];
-    }
-    
-    [self createEditableCopyOfDatabaseIfNeeded];
-    
-    
-    //i should do this only once a day or smt and ofcourse only if the internet is working
-    
-    if ([self connectedToInternet]) {
-        
-        NSString *jsonResponse = [self performSingleAuthentication];
-        [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
-        NSLog(@"syncing with the server");
-        NSString *jsonString = [self performSyncRequest];
-        NSLog(@"%@", jsonString);
-        [self syncWithTheServer:jsonString];
-        
-    }
-    
     UIStoryboard *mainStoryboard;
-    
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         
         mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPad"
@@ -78,6 +48,48 @@
                                                        bundle: nil];
         }
     }
+    return mainStoryboard;
+}
+
+- (void)doTheDatabaseSetup
+{
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
+        if ([self connectedToInternet])
+            [self authenticateWithServer];
+    }
+    
+    [self createEditableCopyOfDatabaseIfNeeded];
+    
+    
+    //i should do this only once a day or smt and ofcourse only if the internet is working
+    
+    if ([self connectedToInternet]) {
+        
+        NSString *jsonResponse = [self performSingleAuthentication];
+        [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
+        NSLog(@"syncing with the server");
+        NSString *jsonString = [self performSyncRequest];
+        NSLog(@"%@", jsonString);
+        [self syncWithTheServer:jsonString];
+        
+    }
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
+        NSLog(@"i need to show the tutorial");
+        [self displayTutorial];
+        
+    } else {
+    
+    
+    [self doTheDatabaseSetup];
+    
+    UIStoryboard *mainStoryboard;
+    
+        mainStoryboard = [self setStoryboard];
     
     
     ViewController *mainViewController = (ViewController*)[mainStoryboard

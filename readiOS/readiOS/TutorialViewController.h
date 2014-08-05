@@ -8,14 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "TutorialPageContentController.h"
+#import "AppDelegate.h"
 
 @interface TutorialViewController : UIViewController<UIPageViewControllerDataSource>
 
 @property (weak, nonatomic) IBOutlet UIButton *showTutorial;
 - (IBAction)showTutorial:(id)sender;
 @property (strong, nonatomic) UIPageViewController *pageViewController;
-@property (strong, nonatomic) NSArray *pageTitles;
 @property (strong, nonatomic) NSArray *pageImages;
 @property (strong, nonatomic) NSArray *pageDescriptions;
+- (IBAction)skipTutorial:(id)sender;
+
+@property (weak, nonatomic) AppDelegate *appDelegate;
 
 @end

@@ -42,10 +42,14 @@
 
 - (void)addBookToTheDatabaseBookList:(NSString *)tableName bookTitle:(NSString *)bookTitle bookAuthors:(NSString *)bookAuthors publisher:(NSString *)publisher coverLink:(NSString *)coverLink rating:(double )rating isbn:(NSString*)isbn desc:(NSString*)desc;
 
+- (void)doTheDatabaseSetup;
+
 -(int)getNumberOfReadBooksFromDB;
 - (void)deleteTableFromDatabase:(NSString *)tableName;
 
 -(void)loadFavouriteDatabase;
 - (void)loadFavouriteDatabaseAllDetails;
 - (void)initializeSuggestedBooksDatabase;
+
+- (UIStoryboard *)setStoryboard;
 @end
