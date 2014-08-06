@@ -26,9 +26,9 @@
     self.appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     
     [self.appDelegate getAllDatabaseTableNames];
-    self.tableNames = [self.appDelegate.tableNames mutableCopy];
+    self.tableNames = [[NSMutableArray alloc] initWithArray:self.appDelegate.tableNames];
     
-    NSMutableArray *newTable = [NSMutableArray array];
+    NSMutableArray *newTable = [[NSMutableArray alloc] init];
     
     for (NSString* name in self.tableNames) {
         if ([name rangeOfString:@"suggested"].location != NSNotFound || [name rangeOfString:@"read"].location != NSNotFound) {
@@ -40,7 +40,6 @@
     
     self.tableNames = [newTable mutableCopy];
 }
-
 
 - (IBAction)dismissView:(id)sender {
     
@@ -109,6 +108,41 @@
     [self presentViewController:readingListDetail animated:NO completion:nil];
     
 }
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //the user can delete everything but the favourite one
+    if (editingStyle == UITableViewCellEditingStyleDelete && ![[self.tableNames objectAtIndex:indexPath.row] isEqualToString:@"Favourite"]) {
+        
+        
+        
+        [self.appDelegate deleteTableFromDatabase:[[self.tableNames objectAtIndex:indexPath.row] lowercaseString]];
+        NSLog(@"deleted tables");
+        [self.tableNames removeObjectAtIndex:indexPath.row];
+        NSLog(@"count: %lu",self.tableNames.count);
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        NSLog(@"should work now");
+    } 
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 0) {
+        return UITableViewCellEditingStyleNone;
+    } else {
+        return UITableViewCellEditingStyleDelete;
+    }
+}
+
+/*- (void)tableView:(UITableView*)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView setEditing:YES animated:YES];
+}
+
+- (void)tableView:(UITableView*)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView setEditing:NO animated:YES];
+}*/
 
 
 @end

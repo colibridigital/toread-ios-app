@@ -137,7 +137,13 @@
     self.searchBar.text = nil;
     
     [self initiatePickerViewWithTableNames];
-    [self loadCustomListDatabaseAndRefreshView:self.customListButton.titleLabel.text];
+    
+    if ([self.tableNames containsObject:[[self.customListButton.titleLabel.text lowercaseString] stringByAppendingString:@"Books"]]) {
+        [self loadCustomListDatabaseAndRefreshView:self.customListButton.titleLabel.text];
+    } else {
+        [self.customListButton setTitle:@"Create New List" forState:UIControlStateNormal];
+        [self loadCustomListDatabaseAndRefreshView:self.customListButton.titleLabel.text];
+    }
     [self.appDelegate loadFavouriteDatabase];
     [self.appDelegate initializeSuggestedBooksDatabase];
     [self.favouriteCollectionView reloadData];

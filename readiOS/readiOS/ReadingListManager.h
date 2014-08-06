@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 
 @interface ReadingListManager : UIViewController<UITableViewDataSource, UITableViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (retain) AppDelegate *appDelegate;

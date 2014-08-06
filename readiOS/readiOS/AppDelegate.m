@@ -270,23 +270,6 @@
     
     NSLog(@"path %@", path);
     
-   /* sqlite3_stmt *statementC;
-    
-    const char *sqlC = [[NSString stringWithFormat:@"SELECT COUNT(*) from %@", tableName] UTF8String];
-    
-    int nb = 0;
-    
-    if (sqlite3_prepare_v2(database, sqlC, -1, &statementC, NULL) == SQLITE_OK) {
-        while (sqlite3_step(statementC) == SQLITE_ROW) {
-            nb = sqlite3_column_int(statementC, 0);
-        }
-    }
-    
-    NSLog(@"%s, %i", sqlC, nb);
-    
-    sqlite3_finalize(statementC);*/
-
-    
     //Open the db. The db was prepared outside the application
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         //Get the primary key for all the books
@@ -920,6 +903,7 @@
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             if (sqlite3_step(statement) != SQLITE_DONE)
                 return;
+             [tableNames removeObject:tableName];
         }
         // finalize the statement
         sqlite3_finalize(statement);
