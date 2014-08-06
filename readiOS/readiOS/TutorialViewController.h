@@ -21,4 +21,7 @@
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 
+- (IBAction)authenticate:(id)sender;
+- (IBAction)registerUser:(id)sender;
+
 @end

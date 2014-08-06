@@ -85,10 +85,12 @@
 		15C727D3198A4DF700B67720 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C727D2198A4DF700B67720 /* AudioToolbox.framework */; };
 		15C727D5198A4DFF00B67720 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C727D4198A4DFF00B67720 /* CoreTelephony.framework */; };
 		15C727D7198A4E0400B67720 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C727D6198A4E0400B67720 /* MessageUI.framework */; };
-		15C727D9198A4E0A00B67720 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C727D8198A4E0A00B67720 /* StoreKit.framework */; };
 		15C727DB198A4E1300B67720 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C727DA198A4E1300B67720 /* SystemConfiguration.framework */; };
 		15C727FA198A511500B67720 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C727F8198A511500B67720 /* libGoogleAdMobAds.a */; };
 		15C727FB198A511500B67720 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 15C727F9198A511500B67720 /* README.txt */; };
+		15C9D7231992B8AD002644A3 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C9D7221992B8AD002644A3 /* LoginViewController.m */; };
+		15C9D7271992C74F002644A3 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C9D7261992C74F002644A3 /* RegisterViewController.m */; };
+		15C9D7291992C983002644A3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C9D7281992C983002644A3 /* StoreKit.framework */; };
 		15CC1C6F198ADBB60043F461 /* Tutorial_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15CC1C6E198ADBB60043F461 /* Tutorial_iPhone.storyboard */; };
 		15CC1C73198AE14A0043F461 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC1C72198AE14A0043F461 /* TutorialViewController.m */; };
 		15CC1C77198AE6560043F461 /* TutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC1C76198AE6560043F461 /* TutorialPageViewController.m */; };
@@ -215,7 +217,6 @@
 		15C727D2198A4DF700B67720 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		15C727D4198A4DFF00B67720 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		15C727D6198A4E0400B67720 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		15C727D8198A4E0A00B67720 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		15C727DA198A4E1300B67720 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		15C727EC198A511500B67720 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
 		15C727ED198A511500B67720 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
@@ -231,6 +232,11 @@
 		15C727F7198A511500B67720 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
 		15C727F8198A511500B67720 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
 		15C727F9198A511500B67720 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		15C9D7211992B8AD002644A3 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		15C9D7221992B8AD002644A3 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		15C9D7251992C74F002644A3 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		15C9D7261992C74F002644A3 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		15C9D7281992C983002644A3 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		15CC1C6E198ADBB60043F461 /* Tutorial_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Tutorial_iPhone.storyboard; sourceTree = "<group>"; };
 		15CC1C71198AE14A0043F461 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
 		15CC1C72198AE14A0043F461 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
@@ -262,7 +268,6 @@
 			files = (
 				15C727FA198A511500B67720 /* libGoogleAdMobAds.a in Frameworks */,
 				15C727DB198A4E1300B67720 /* SystemConfiguration.framework in Frameworks */,
-				15C727D9198A4E0A00B67720 /* StoreKit.framework in Frameworks */,
 				15C727D7198A4E0400B67720 /* MessageUI.framework in Frameworks */,
 				15C727D5198A4DFF00B67720 /* CoreTelephony.framework in Frameworks */,
 				15C727D3198A4DF700B67720 /* AudioToolbox.framework in Frameworks */,
@@ -272,6 +277,7 @@
 				15EF459D18FBEE6700A77569 /* QuartzCore.framework in Frameworks */,
 				15B08CD318783CD000FE1C17 /* CoreGraphics.framework in Frameworks */,
 				15B08CD518783CD000FE1C17 /* UIKit.framework in Frameworks */,
+				15C9D7291992C983002644A3 /* StoreKit.framework in Frameworks */,
 				15B08CD118783CD000FE1C17 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,8 +436,8 @@
 		15B08CCF18783CD000FE1C17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15C9D7281992C983002644A3 /* StoreKit.framework */,
 				15C727DA198A4E1300B67720 /* SystemConfiguration.framework */,
-				15C727D8198A4E0A00B67720 /* StoreKit.framework */,
 				15C727D6198A4E0400B67720 /* MessageUI.framework */,
 				15C727D4198A4DFF00B67720 /* CoreTelephony.framework */,
 				15C727D2198A4DF700B67720 /* AudioToolbox.framework */,
@@ -450,6 +456,8 @@
 		15B08CD618783CD000FE1C17 /* readiOS */ = {
 			isa = PBXGroup;
 			children = (
+				15C9D7241992C73C002644A3 /* RegisterViewController */,
+				15C9D7201992B804002644A3 /* LoginViewController */,
 				1556C291199132F200756AEB /* TutorialPageContentController */,
 				15CC1C74198AE6110043F461 /* TutorialPageViewController */,
 				15CC1C70198AE12C0043F461 /* TutorialViewController */,
@@ -576,6 +584,24 @@
 			path = readiOS;
 			sourceTree = "<group>";
 		};
+		15C9D7201992B804002644A3 /* LoginViewController */ = {
+			isa = PBXGroup;
+			children = (
+				15C9D7211992B8AD002644A3 /* LoginViewController.h */,
+				15C9D7221992B8AD002644A3 /* LoginViewController.m */,
+			);
+			name = LoginViewController;
+			sourceTree = "<group>";
+		};
+		15C9D7241992C73C002644A3 /* RegisterViewController */ = {
+			isa = PBXGroup;
+			children = (
+				15C9D7251992C74F002644A3 /* RegisterViewController.h */,
+				15C9D7261992C74F002644A3 /* RegisterViewController.m */,
+			);
+			name = RegisterViewController;
+			sourceTree = "<group>";
+		};
 		15CC1C6D198ADB750043F461 /* AdMob */ = {
 			isa = PBXGroup;
 			children = (
@@ -697,6 +723,11 @@
 				TargetAttributes = {
 					15B08CCC18783CD000FE1C17 = {
 						DevelopmentTeam = 24WJ8FSA3Y;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 					15B08CF018783CD000FE1C17 = {
 						TestTargetID = 15B08CCC18783CD000FE1C17;
@@ -803,11 +834,13 @@
 				15EF459B18FBEDDB00A77569 /* MFSideMenu.h in Sources */,
 				15928413195CAEB80069FA8B /* BarcodeScannerResultDetails.m in Sources */,
 				15368BDE194672C300E11AC0 /* EDStarRating.m in Sources */,
+				15C9D7231992B8AD002644A3 /* LoginViewController.m in Sources */,
 				15C2C84E19102028009C9361 /* ReadBooksViewController.m in Sources */,
 				15B08CEA18783CD000FE1C17 /* ViewController.m in Sources */,
 				15B08D0B18783E7900FE1C17 /* BookCollectionViewCell.m in Sources */,
 				15B08CE118783CD000FE1C17 /* AppDelegate.m in Sources */,
 				15CF4F06195A049A00BDF404 /* BarcodeScannerViewController.m in Sources */,
+				15C9D7271992C74F002644A3 /* RegisterViewController.m in Sources */,
 				1592841A195E08230069FA8B /* EmailManager.m in Sources */,
 				15CC1C77198AE6560043F461 /* TutorialPageViewController.m in Sources */,
 				15EF459618FBE93D00A77569 /* MFSideMenuShadow.m in Sources */,
@@ -959,6 +992,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "readiOS/readiOS-Prefix.pch";
 				INFOPLIST_FILE = "readiOS/readiOS-Info.plist";
@@ -969,6 +1003,7 @@
 				);
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -980,6 +1015,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "readiOS/readiOS-Prefix.pch";
 				INFOPLIST_FILE = "readiOS/readiOS-Info.plist";
@@ -990,6 +1026,7 @@
 				);
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

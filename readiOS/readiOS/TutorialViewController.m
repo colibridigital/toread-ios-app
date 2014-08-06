@@ -8,6 +8,8 @@
 
 #import "TutorialViewController.h"
 #import "ViewController.h"
+#import "LoginViewController.h"
+#import "RegisterViewController.h"
 
 @interface TutorialViewController ()
 
@@ -142,5 +144,20 @@
     //[self.appDelegate.window makeKeyAndVisible];
     
     [self.appDelegate setupMenu:mainViewController];
+}
+- (IBAction)authenticate:(id)sender {
+    LoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    
+    [self addChildViewController:loginViewController];
+    [self.view addSubview:loginViewController.view];
+    [loginViewController didMoveToParentViewController:self];
+}
+
+- (IBAction)registerUser:(id)sender {
+    RegisterViewController *registerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
+    
+    [self addChildViewController:registerViewController];
+    [self.view addSubview:registerViewController.view];
+    [registerViewController didMoveToParentViewController:self];
 }
 @end
