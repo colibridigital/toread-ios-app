@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-@interface ReadingListManager : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface ReadingListManager : UIViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -18,5 +18,7 @@
 - (IBAction)dismissView:(id)sender;
 
 @property (strong, nonatomic) NSMutableArray *tableNames;
+@property(retain) UIAlertView *av;
+@property (weak, nonatomic) NSIndexPath *indexPath;
 
 @end

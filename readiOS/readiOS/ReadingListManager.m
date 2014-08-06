@@ -109,20 +109,46 @@
     
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"Button Index =%ld",(long)buttonIndex);
+    
+    if (self.av.tag == 0) {
+        if (buttonIndex == 0)
+        {
+            NSLog(@"You have clicked NO");
+        }
+        else if(buttonIndex == 1)
+        {
+            NSLog(@"You have clicked Yes to delete %lu", (long)self.indexPath.row);
+            //delete from database
+            [self.appDelegate deleteTableFromDatabase:[[self.tableNames objectAtIndex:self.indexPath.row] lowercaseString]];
+            NSLog(@"deleted tables");
+            [self.tableNames removeObjectAtIndex:self.indexPath.row];
+            NSLog(@"count: %lu",self.tableNames.count);
+            [self.tableView deleteRowsAtIndexPaths:@[self.indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            NSLog(@"should work now");
+
+        }
+        
+    }
+    
+    
+}
+
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //the user can delete everything but the favourite one
     if (editingStyle == UITableViewCellEditingStyleDelete && ![[self.tableNames objectAtIndex:indexPath.row] isEqualToString:@"Favourite"]) {
         
+        self.av = [[UIAlertView alloc] initWithTitle:@"Delete" message:@"Do you really want to delete this?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        self.av.tag = 0;
         
+        [self.av show];
         
-        [self.appDelegate deleteTableFromDatabase:[[self.tableNames objectAtIndex:indexPath.row] lowercaseString]];
-        NSLog(@"deleted tables");
-        [self.tableNames removeObjectAtIndex:indexPath.row];
-        NSLog(@"count: %lu",self.tableNames.count);
-        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        NSLog(@"should work now");
-    } 
+        self.indexPath = indexPath;
+        
+    }
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
