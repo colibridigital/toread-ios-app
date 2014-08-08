@@ -23,7 +23,7 @@
 
 @implementation AppDelegate
 
-@synthesize suggestedBooks,favouriteBooks,customListBooks, tableNames;
+@synthesize suggestedBooks,favouriteBooks,customListBooks, tableNames, userName, pass, isLogin;
 
 - (UIStoryboard *)setStoryboard
 {
@@ -53,17 +53,21 @@
 
 - (void)doTheDatabaseSetup
 {
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
+   /* if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
         if ([self connectedToInternet])
             [self authenticateWithServer];
-    }
+    }*/
     
     [self createEditableCopyOfDatabaseIfNeeded];
     
     
     //i should do this only once a day or smt and ofcourse only if the internet is working
     
-    if ([self connectedToInternet]) {
+    NSLog(@"IN THE DB SETUP");
+    
+    if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
+        
+        NSLog(@"starting the setup");
         
         NSString *jsonResponse = [self performSingleAuthentication];
         [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
@@ -103,7 +107,7 @@
 
 - (void)displayTutorial {
     
-    NSLog(@"in showing it");
+    NSLog(@"in showing the tutorial");
     
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Tutorial_iPhone" bundle:nil];
     
@@ -129,10 +133,99 @@
     return ([response statusCode]==200)?YES:NO;
 }
 
-- (void)authenticateWithServer {
+- (NSString*)login:(NSString*)username password:(NSString*)password {
+    
+    isLogin = true;
+    
+    NSString* responseMessage;
+    
     NSMutableDictionary *json= [[NSMutableDictionary alloc] init];
     
     NSMutableDictionary *deviceDetails= [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary *userDetails= [[NSMutableDictionary alloc] init];
+    
+    //UIDevice *device = [UIDevice currentDevice];
+    
+    //NSString *deviceOSId = [[device identifierForVendor]UUIDString];
+    
+    //NSString *device_model = [device model];
+    
+    NSLog(@"i am now loging in");
+    
+    NSString *deviceOSId = @"2709";
+    
+    NSString *device_model = @"Simulator";
+    
+    
+    [deviceDetails setObject:deviceOSId forKey:@"deviceOSId"];
+    [deviceDetails setObject:@"Apple" forKey:@"device_make"];
+    [deviceDetails setObject:device_model forKey:@"device_model"];
+    [deviceDetails setObject:@"iOS" forKey:@"platform"];
+    [json setObject:deviceDetails forKey:@"device"];
+    
+    [userDetails setObject:username forKey:@"username"];
+    [userDetails setObject:password forKey:@"password"];
+    [userDetails setObject:@"" forKey:@"first_name"];
+    [userDetails setObject:@"" forKey:@"last_name"];
+    [userDetails setObject:@"" forKey:@"email_address"];
+    [userDetails setObject:@"" forKey:@"age_range"];
+    [userDetails setObject:@"" forKey:@"sex"];
+    [userDetails setObject:@"" forKey:@"occupation"];
+    [json setObject:userDetails forKey:@"user"];
+    
+    userName = username;
+    pass = password;
+    
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@", jsonString);
+    
+    //perform post
+    
+    //http://86.132.218.95:2709
+    //http://jamescross91.no-ip.biz:2709
+    
+    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/login"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLResponse *response;
+    NSError *err;
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+    
+    NSLog(@"%@", jsonString);
+    
+    responseMessage = [self parseResponse:responseData];
+    
+    if (![responseMessage isEqualToString:@"Invalid username or password"] || ![responseMessage isEqualToString:@"(null)"]) {
+        NSLog(@"i can authenticate now");
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+    
+    return responseMessage;
+    
+}
+
+- (NSString*)registerUser:(NSString*)username password:(NSString*)password firstName:(NSString*)firstName
+                 lastName:(NSString*)lastName emailAddress:(NSString*)emailAddress ageRange:(NSString*)ageRange
+                      sex:(NSString*)sex occupation:(NSString*)occupation {
+    
+    NSString* responseMessage;
+    
+    NSMutableDictionary *json= [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary *deviceDetails= [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary *userDetails= [[NSMutableDictionary alloc] init];
     
     //UIDevice *device = [UIDevice currentDevice];
     
@@ -153,6 +246,19 @@
     [deviceDetails setObject:@"iOS" forKey:@"platform"];
     [json setObject:deviceDetails forKey:@"device"];
     
+    [userDetails setObject:username forKey:@"username"];
+    [userDetails setObject:password forKey:@"password"];
+    [userDetails setObject:firstName forKey:@"first_name"];
+    [userDetails setObject:lastName forKey:@"last_name"];
+    [userDetails setObject:emailAddress forKey:@"email_address"];
+    [userDetails setObject:ageRange forKey:@"age_range"];
+    [userDetails setObject:sex forKey:@"sex"];
+    [userDetails setObject:occupation forKey:@"occupation"];
+    [json setObject:userDetails forKey:@"user"];
+    
+    userName = username;
+    pass = password;
+    
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json
                                                        options:NSJSONWritingPrettyPrinted
@@ -167,7 +273,7 @@
     //http://86.132.218.95:2709
     //http://jamescross91.no-ip.biz:2709
     
-    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/initdevice"];
+    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/register/user"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -178,10 +284,16 @@
     
     NSLog(@"%@", jsonString);
     
-    [self parseResponse:responseData];
+    responseMessage = [self parseResponse:responseData];
     
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (![responseMessage isEqualToString:@"Username already exists"] || ![responseMessage isEqualToString:@"(null)"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+
+    
+    return responseMessage;
+    
 }
 
 - (NSString*)performSingleAuthentication {
@@ -189,7 +301,7 @@
     
     NSMutableDictionary *authDetails= [[NSMutableDictionary alloc] init];
     
-    
+    NSLog(@"performing authentication");
     
     [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_name"] forKey:@"username"];
     [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] forKey:@"token"];
@@ -363,7 +475,7 @@
     NSLog(@"syncing details %@", jsonResponseDict);
 }
 
-- (void) parseResponse:(NSData*)jsonResponseData {
+- (NSString*) parseResponse:(NSData*)jsonResponseData {
     
     NSError *error;
     
@@ -374,19 +486,38 @@
                                       options:0
                                       error:&error];
     
-    NSLog(@"dict %@", jsonResponseDict);
+    NSLog(@"response dict %@", jsonResponseDict);
     
-    NSString *userName = [jsonResponseDict objectForKey:@"user_name"];
-    NSString *authToken = [[jsonResponseDict objectForKey:@"devices"][0] objectForKey:@"auth_token"];
-    NSString *deviceID = [[jsonResponseDict objectForKey:@"devices"][0] objectForKey:@"tr_device_id"];
+    NSString* responseMessage;
     
-    [[NSUserDefaults standardUserDefaults] setObject:userName forKey:@"user_name"];
-    [[NSUserDefaults standardUserDefaults] setObject:authToken forKey:@"auth_token"];
-    [[NSUserDefaults standardUserDefaults] setObject:deviceID forKey:@"deviceID"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    responseMessage = [jsonResponseDict objectForKey:@"message"];
     
+   // NSString *userName = [jsonResponseDict objectForKey:@"user_name"];
+    if (!isLogin && ![responseMessage isEqualToString:@"Username already exists"]) {
+        NSString *authToken = [[jsonResponseDict objectForKey:@"device"] objectForKey:@"auth_token"];
+        NSString *deviceID = [[jsonResponseDict objectForKey:@"device"] objectForKey:@"tr_device_id"];
+    
+        [[NSUserDefaults standardUserDefaults] setObject:userName forKey:@"user_name"];
+        [[NSUserDefaults standardUserDefaults] setObject:pass forKey:@"password"];
+        [[NSUserDefaults standardUserDefaults] setObject:authToken forKey:@"auth_token"];
+        [[NSUserDefaults standardUserDefaults] setObject:deviceID forKey:@"deviceID"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    }
+    
+    //check here the message
+    if (isLogin && ![responseMessage isEqualToString:@"Invalid username or password"]) {
+        NSString *authToken = [jsonResponseDict objectForKey:@"auth_token"];
+        NSString *deviceID = [jsonResponseDict objectForKey:@"tr_device_id"];
+        [[NSUserDefaults standardUserDefaults] setObject:userName forKey:@"user_name"];
+        [[NSUserDefaults standardUserDefaults] setObject:pass forKey:@"password"];
+        [[NSUserDefaults standardUserDefaults] setObject:authToken forKey:@"auth_token"];
+        [[NSUserDefaults standardUserDefaults] setObject:deviceID forKey:@"deviceID"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     //NSLog(@"USER %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"user_name"]);
     
+    return responseMessage;
 }
 
 - (void)setupMenu:(UIViewController *)mainViewController {
@@ -419,6 +550,8 @@
 }
 
 - (void)requestSuggestedBooksAndAddThemToTheDatabase:(NSString*)jsonString {
+    
+    NSLog(@"requesting books from the server");
     
     //perform post
     NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/suggest/bestsell"];

@@ -7,6 +7,8 @@
 //
 
 #import "LoginViewController.h"
+#import "TutorialViewController.h"
+#import "ViewController.h"
 
 @interface LoginViewController ()
 
@@ -26,6 +28,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    self.wrongLoginMessage.hidden = YES;
+    
     // Do any additional setup after loading the view.
 }
 
@@ -47,5 +52,63 @@
 */
 
 - (IBAction)login:(id)sender {
+    
+    NSString* responseMessage;
+    
+    self.wrongLoginMessage.hidden = YES;
+    
+    if ([self.appDelegate connectedToInternet]) {
+        NSLog(@"loging in");
+        responseMessage = [self.appDelegate login:self.username.text password:self.password.text];
+    }
+    
+    if ([responseMessage isEqualToString:@"Invalid username or password"]) {
+        NSLog(@"can t login");
+        self.wrongLoginMessage.hidden = NO;
+    } else {
+
+    
+    
+        [self.appDelegate doTheDatabaseSetup];
+    
+        UIStoryboard *mainStoryboard;
+    
+        mainStoryboard = [self.appDelegate setStoryboard];
+    
+    
+        ViewController *mainViewController = (ViewController*)[mainStoryboard
+                                                           instantiateViewControllerWithIdentifier: @"MainViewController"];
+    
+        [self.appDelegate setupMenu:mainViewController];
+    }
+
+    
+}
+
+- (IBAction)cancel:(id)sender {
+    TutorialViewController *tutorial = [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialViewController"];
+    
+    [self addChildViewController:tutorial];
+    [self.view addSubview:tutorial.view];
+    [tutorial didMoveToParentViewController:self];
+}
+
+-(IBAction)textFieldReturn:(id)sender
+{
+    [sender resignFirstResponder];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    UITouch *touch = [[event allTouches] anyObject];
+    if ([self.username isFirstResponder] && [touch view] != self.username) {
+        [self.username resignFirstResponder];
+    }
+    
+    if ([self.password isFirstResponder] && [touch view] != self.password) {
+        [self.password resignFirstResponder];
+    }
+    
+    [super touchesBegan:touches withEvent:event];
 }
 @end

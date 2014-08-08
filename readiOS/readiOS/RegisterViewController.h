@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 @interface RegisterViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *username;
@@ -17,7 +18,10 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *gender;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *occupation;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *ageGroup;
+@property (weak, nonatomic) IBOutlet UILabel *userExistence;
 - (IBAction)registerUser:(id)sender;
 - (IBAction)cancel:(id)sender;
+
+@property (weak, nonatomic) AppDelegate *appDelegate;
 
 @end
