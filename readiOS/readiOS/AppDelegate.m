@@ -53,11 +53,7 @@
 
 - (void)doTheDatabaseSetup
 {
-   /* if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
-        if ([self connectedToInternet])
-            [self authenticateWithServer];
-    }*/
-    
+   
     [self createEditableCopyOfDatabaseIfNeeded];
     
     
@@ -79,6 +75,60 @@
     }
 }
 
+- (void)requestBooksAndCreateDatabaseEntries {
+    NSLog(@"in creating the lists after login");
+    
+    [self createEditableCopyOfDatabaseIfNeeded];
+    
+    if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
+        
+        NSLog(@"starting the setup");
+        
+        NSString *jsonResponse = [self performSingleAuthentication];
+        [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
+        NSLog(@"syncing with the server");
+        [self getAllBooksFromServerAndCreateDatabase];
+        
+    }
+
+    
+}
+
+- (void)getAllBooksFromServerAndCreateDatabase {
+    NSMutableDictionary *json= [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary *authDetails= [[NSMutableDictionary alloc] init];
+    
+    [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_name"] forKey:@"username"];
+    [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] forKey:@"token"];
+    [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceID"] forKey:@"device_id"];
+    [json setObject:authDetails forKey:@"auth_data"];
+
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@", jsonString);
+    
+    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/sync/getall"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLResponse *response;
+    NSError *err;
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
+    jsonString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"response from the server with BOOKS %@", jsonString);
+    
+    [self createDatabaseEntries:responseData];
+    
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
@@ -88,8 +138,8 @@
         
     } else {
     
-    
     [self doTheDatabaseSetup];
+   
     
     UIStoryboard *mainStoryboard;
     
@@ -166,12 +216,6 @@
     
     [userDetails setObject:username forKey:@"username"];
     [userDetails setObject:password forKey:@"password"];
-    [userDetails setObject:@"" forKey:@"first_name"];
-    [userDetails setObject:@"" forKey:@"last_name"];
-    [userDetails setObject:@"" forKey:@"email_address"];
-    [userDetails setObject:@"" forKey:@"age_range"];
-    [userDetails setObject:@"" forKey:@"sex"];
-    [userDetails setObject:@"" forKey:@"occupation"];
     [json setObject:userDetails forKey:@"user"];
     
     userName = username;
@@ -209,7 +253,6 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    
     
     return responseMessage;
     
@@ -473,6 +516,88 @@
                                       error:&error];
     
     NSLog(@"syncing details %@", jsonResponseDict);
+}
+
+- (void)createDatabaseEntries:(NSData*)jsonResponseData {
+    
+    self.retrieveBooks = [[RetrieveBooks alloc] init];
+    
+    NSError *error;
+    
+    NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
+    
+    NSDictionary* jsonResponseDict = [NSJSONSerialization
+                                      JSONObjectWithData:jsonResponseData
+                                      options:0
+                                      error:&error];
+    
+    NSLog(@"response dict %@", jsonResponseDict);
+    
+    NSArray* loginTables = [jsonResponseDict objectForKey:@"collections"];
+    
+    for (int i=0; i < [loginTables count]; i++) {
+        
+        NSString* collectionName = [loginTables[i] objectForKey:@"collection_name"];
+        
+        NSLog(@"collectionNAME: %@", collectionName);
+        
+        [self createNewCustomListInTheDatabase:[collectionName stringByReplacingOccurrencesOfString:@"Books" withString:@""]];
+        
+        NSMutableArray* collectionBooks = [loginTables[i] objectForKey:@"books"];
+        
+        for (NSString* ISBN in collectionBooks) {
+            NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
+                                   [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=isbn:%@", ISBN]];
+            
+            NSArray* result = [self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]];
+            
+            NSString* coverLink = [[[[result objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"imageLinks"] objectForKey:@"thumbnail"];
+            
+            NSString* title = [[[result objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"title"];
+            NSString* bookAuthors = @"";
+            
+            if ([[[result objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"authors"] != nil) {
+                NSLog(@"not nil");
+                NSArray *authors = [[[result objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"authors"];
+                
+                NSLog(@" authors %@", authors);
+                
+                for (NSString* author in authors) {
+                    bookAuthors = [bookAuthors stringByAppendingString:[NSString stringWithFormat:@"%@; ",author]];
+                }
+                
+                bookAuthors = [bookAuthors substringToIndex:[bookAuthors length] - 2]; //to remove the last ;
+            } else {
+                bookAuthors = @"";
+            }
+
+            
+            NSString* editor = [[[result objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"publisher"];
+            
+            
+            NSDecimalNumber *ratings;
+            double rating;
+            
+            if ([[[result objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"averageRating"] != nil) {
+                ratings = [[[result objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"averageRating"];
+                rating = [ratings doubleValue];
+            } else {
+                rating = 0.0;
+            }
+            
+            
+            NSString* desc = [[[result objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"description"];
+            
+            [self addBookToTheDatabaseBookList:[collectionName stringByReplacingOccurrencesOfString:@"Books" withString:@""] bookTitle:title bookAuthors:bookAuthors publisher:editor coverLink:coverLink rating:rating isbn:ISBN desc:desc];
+            
+        }
+    }
+    
+    
+    
+    
+    
+    
 }
 
 - (NSString*) parseResponse:(NSData*)jsonResponseData {
@@ -1065,13 +1190,21 @@
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             
             sqlite3_bind_text(statement, 1, [bookTitle UTF8String], -1, SQLITE_TRANSIENT);
+            NSLog(@"1");
             sqlite3_bind_text(statement, 2, [bookAuthors UTF8String], -1, SQLITE_TRANSIENT);
+            NSLog(@"2");
             sqlite3_bind_text(statement, 3, [publisher UTF8String], -1, SQLITE_TRANSIENT);
+            NSLog(@"3");
             sqlite3_bind_text(statement, 4, [coverLink UTF8String], -1, SQLITE_TRANSIENT);
+            NSLog(@"4");
             sqlite3_bind_text(statement, 5, [@"" UTF8String], -1, SQLITE_TRANSIENT);
+            NSLog(@"5");
             sqlite3_bind_double(statement, 6, rating);
+            NSLog(@"6");
             sqlite3_bind_text(statement, 7, [isbn UTF8String], -1, SQLITE_TRANSIENT);
+            NSLog(@"7");
             sqlite3_bind_text(statement, 8, [desc UTF8String], -1, SQLITE_TRANSIENT);
+            NSLog(@"8");
             
             if (sqlite3_step(statement) != SQLITE_DONE) {
                 return;

@@ -66,10 +66,8 @@
         NSLog(@"can t login");
         self.wrongLoginMessage.hidden = NO;
     } else {
-
     
-    
-        [self.appDelegate doTheDatabaseSetup];
+        [self.appDelegate requestBooksAndCreateDatabaseEntries];
     
         UIStoryboard *mainStoryboard;
     

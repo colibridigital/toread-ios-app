@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
+#import "RetrieveBooks.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
     sqlite3 *database;
@@ -28,6 +29,8 @@
 @property (nonatomic, retain) NSString *userName;
 @property (nonatomic, retain) NSString *pass;
 @property (nonatomic) BOOL isLogin;
+
+@property (retain) RetrieveBooks *retrieveBooks;
 
 - (void)moveBooksToReadInTheDatabase:(NSString *)tableName ID:(NSInteger)ID indexPath:(NSInteger)indexPath;
 
@@ -62,6 +65,8 @@
 - (UIStoryboard *)setStoryboard;
 
 - (void) displayTutorial;
+
+- (void)requestBooksAndCreateDatabaseEntries;
 
 - (NSString*)registerUser:(NSString*)username password:(NSString*)password firstName:(NSString*)firstName
                  lastName:(NSString*)lastName emailAddress:(NSString*)emailAddress ageRange:(NSString*)ageRange
