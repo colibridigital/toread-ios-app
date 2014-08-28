@@ -13,15 +13,12 @@
 @interface TutorialViewController : UIViewController<UIPageViewControllerDataSource>
 
 @property (weak, nonatomic) IBOutlet UIButton *showTutorial;
-- (IBAction)showTutorial:(id)sender;
+- (void)showTutorialAsMainView;
 @property (strong, nonatomic) UIPageViewController *pageViewController;
 @property (strong, nonatomic) NSArray *pageImages;
 @property (strong, nonatomic) NSArray *pageDescriptions;
 - (IBAction)skipTutorial:(id)sender;
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
-
-- (IBAction)authenticate:(id)sender;
-- (IBAction)registerUser:(id)sender;
 
 @end

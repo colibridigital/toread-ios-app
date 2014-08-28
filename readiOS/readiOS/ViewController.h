@@ -11,12 +11,25 @@
 #import "AppDelegate.h"
 #import "RetrieveBooks.h"
 #import "MBProgressHUD.h"
+#import "GADInterstitialDelegate.h"
+#import <iAd/iAd.h>
 
+#define kSampleAdUnitID @"ca-app-pub-7764770737423677/4842437548"
 
-@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,UIAlertViewDelegate, UIActionSheetDelegate,
-UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate, MBProgressHUDDelegate> {
+@class GADInterstitial;
+@class GADRequest;
+
+@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,UIAlertViewDelegate, UIActionSheetDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate, MBProgressHUDDelegate, GADInterstitialDelegate, ADInterstitialAdDelegate> {
     MBProgressHUD *HUD;
 }
+
+@property(nonatomic, strong) GADInterstitial *interstitial;
+- (GADRequest *)request;
+- (void)loadInterstitial;
+
+- (void)loadIAdinterstitial;
+
+
 
 - (void)showSimple:(NSString*)urlString;
 - (void)showWithCustomView:(NSString*)message;

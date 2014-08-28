@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewController.h"
-#import "TutorialViewController.h"
+#import "TutorialOptionViewController.h"
 #import "ViewController.h"
 
 @interface LoginViewController ()
@@ -30,6 +30,8 @@
     [super viewDidLoad];
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     self.wrongLoginMessage.hidden = YES;
+    self.username.delegate = self;
+    self.password.delegate = self;
     
     // Do any additional setup after loading the view.
 }
@@ -67,6 +69,9 @@
         self.wrongLoginMessage.hidden = NO;
     } else {
     
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
         [self.appDelegate requestBooksAndCreateDatabaseEntries];
     
         UIStoryboard *mainStoryboard;
@@ -84,7 +89,7 @@
 }
 
 - (IBAction)cancel:(id)sender {
-    TutorialViewController *tutorial = [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialViewController"];
+    TutorialOptionViewController *tutorial = [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialOptionViewController"];
     
     [self addChildViewController:tutorial];
     [self.view addSubview:tutorial.view];
@@ -109,4 +114,10 @@
     
     [super touchesBegan:touches withEvent:event];
 }
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    NSLog(@"textFieldDidBeginEditing");
+    self.wrongLoginMessage.hidden = YES;
+}
+
 @end

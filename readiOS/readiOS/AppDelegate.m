@@ -12,6 +12,7 @@
 #import "SideMenuViewController.h"
 #import "BooksDatabase.h"
 #import "TutorialViewController.h"
+#import "TutorialOptionViewController.h"
 
 
 @interface AppDelegate (Private)
@@ -55,9 +56,6 @@
 {
    
     [self createEditableCopyOfDatabaseIfNeeded];
-    
-    
-    //i should do this only once a day or smt and ofcourse only if the internet is working
     
     NSLog(@"IN THE DB SETUP");
     
@@ -113,7 +111,7 @@
     
     NSLog(@"%@", jsonString);
     
-    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/sync/getall"];
+    NSURL *url = [NSURL URLWithString:@"http://109.169.57.42:2709/api/sync/getall"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -136,23 +134,41 @@
         NSLog(@"i need to show the tutorial");
         [self displayTutorial];
         
+    } else if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
+        
+        [self registerOrLogin];
+        
     } else {
     
-    [self doTheDatabaseSetup];
+        [self doTheDatabaseSetup];
    
     
-    UIStoryboard *mainStoryboard;
+        UIStoryboard *mainStoryboard;
     
         mainStoryboard = [self setStoryboard];
     
     
-    ViewController *mainViewController = (ViewController*)[mainStoryboard
+        ViewController *mainViewController = (ViewController*)[mainStoryboard
                                                            instantiateViewControllerWithIdentifier: @"MainViewController"];
     
-    [self setupMenu:mainViewController];
+        [self setupMenu:mainViewController];
         
     }
+    
     return YES;
+}
+
+- (void)registerOrLogin {
+    NSLog(@"in showing the register login options");
+    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Tutorial_iPhone" bundle:nil];
+    
+    TutorialOptionViewController *tutorialViewController = (TutorialOptionViewController*)[mainStoryboard
+                                                                               instantiateViewControllerWithIdentifier: @"TutorialOptionViewController"];
+    
+    self.window.rootViewController = tutorialViewController;
+    [self.window makeKeyAndVisible];
+
 }
 
 - (void)displayTutorial {
@@ -164,8 +180,7 @@
     TutorialViewController *tutorialViewController = (TutorialViewController*)[mainStoryboard
                             instantiateViewControllerWithIdentifier: @"TutorialViewController"];
     
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSLog(@"shpwing iiiiiit");
     
     self.window.rootViewController = tutorialViewController;
     [self.window makeKeyAndVisible];
@@ -235,7 +250,7 @@
     //http://86.132.218.95:2709
     //http://jamescross91.no-ip.biz:2709
     
-    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/login"];
+    NSURL *url = [NSURL URLWithString:@"http://109.169.57.42:2709/api/login"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -316,7 +331,7 @@
     //http://86.132.218.95:2709
     //http://jamescross91.no-ip.biz:2709
     
-    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/register/user"];
+    NSURL *url = [NSURL URLWithString:@"http://109.169.57.42:2709/api/register/user"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -497,7 +512,7 @@
 - (void) syncWithTheServer:(NSString*)jsonString {
     
     //perform post
-    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/sync/clientlist"];
+    NSURL *url = [NSURL URLWithString:@"http://109.169.57.42:2709/api/sync/clientlist"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -679,7 +694,7 @@
     NSLog(@"requesting books from the server");
     
     //perform post
-    NSURL *url = [NSURL URLWithString:@"http://jamescross91.no-ip.biz:2709/api/suggest/bestsell"];
+    NSURL *url = [NSURL URLWithString:@"http://109.169.57.42:2709/api/suggest/bestsell"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -1311,6 +1326,12 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
+        NSLog(@"syncing with the server");
+        NSString *jsonString = [self performSyncRequest];
+        NSLog(@"%@", jsonString);
+        [self syncWithTheServer:jsonString];
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -1321,6 +1342,14 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+   /* if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
+        NSLog(@"syncing with the server");
+        NSString *jsonString = [self performSyncRequest];
+        NSLog(@"%@", jsonString);
+        [self syncWithTheServer:jsonString];
+    }*/
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

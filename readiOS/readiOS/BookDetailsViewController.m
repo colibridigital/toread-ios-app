@@ -56,6 +56,7 @@
 {
     [super viewDidLoad];
     NSLog(@"show view");
+    
     //i need to pass the table name
     [self initializeViewWithBookDetailsFromDB];
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];

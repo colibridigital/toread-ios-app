@@ -10,6 +10,7 @@
 #import "ViewController.h"
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
+#import "TutorialOptionViewController.h"
 
 @interface TutorialViewController ()
 
@@ -30,6 +31,8 @@
 {
     [super viewDidLoad];
     
+    NSLog(@"in the tutorial display");
+    
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     _pageImages = @[@"tut0.png", @"tut1.png", @"tut2.png", @"tut3.png", @"tut4.png", @"tut5.png", @"tut6.png"];
@@ -45,6 +48,8 @@
     
     // Change the size of page view controller
     self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 30);
+    
+    [self showTutorialAsMainView];
     
    /* UIPageControl *pageControl = [UIPageControl appearance];
     pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
@@ -123,41 +128,22 @@
     return 0;
 }
 
-- (IBAction)showTutorial:(id)sender {
-    
+- (void) showTutorialAsMainView {
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];
     [self.pageViewController didMoveToParentViewController:self];
 }
+
 - (IBAction)skipTutorial:(id)sender {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [self.appDelegate doTheDatabaseSetup];
+    //i need to show the register/login options view
     
-    UIStoryboard *mainStoryboard = [self.appDelegate setStoryboard];
+    TutorialOptionViewController *tutOption = [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialOptionViewController"];
     
-    ViewController *mainViewController = (ViewController*)[mainStoryboard
-                                                           instantiateViewControllerWithIdentifier: @"MainViewController"];
-    
-    //self.appDelegate.window.rootViewController = mainViewController;
-    //[self.appDelegate.window makeKeyAndVisible];
-    
-    [self.appDelegate setupMenu:mainViewController];
-}
-- (IBAction)authenticate:(id)sender {
-    LoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    
-    [self addChildViewController:loginViewController];
-    [self.view addSubview:loginViewController.view];
-    [loginViewController didMoveToParentViewController:self];
-}
-
-- (IBAction)registerUser:(id)sender {
-    RegisterViewController *registerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
-    
-    [self addChildViewController:registerViewController];
-    [self.view addSubview:registerViewController.view];
-    [registerViewController didMoveToParentViewController:self];
+    [self addChildViewController:tutOption];
+    [self.view addSubview:tutOption.view];
+    [tutOption didMoveToParentViewController:self];
 }
 @end

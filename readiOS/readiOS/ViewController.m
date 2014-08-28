@@ -13,6 +13,10 @@
 #import "SearchResultsController.h"
 #import "BarcodeScannerViewController.h"
 
+#import "GADInterstitial.h"
+#import "GADInterstitialDelegate.h"
+
+
 @interface ViewController ()
 
 @end
@@ -53,6 +57,52 @@
     
     self.pickerViewData = [newTable mutableCopy];
     
+}
+
+- (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
+    [self.interstitial presentFromRootViewController:self];
+}
+
+- (void)interstitial:(GADInterstitial *)interstitial
+didFailToReceiveAdWithError:(GADRequestError *)error {
+    NSLog(@"Not received AdMob");
+}
+
+
+- (GADRequest *)request {
+    GADRequest *request = [GADRequest request];
+    
+    // Make the request for a test ad. Put in an identifier for the simulator as well as any devices
+    // you want to receive test ads.
+    request.testDevices = @[
+                            // TODO: Add your device/simulator test identifiers here. Your device identifier is printed to
+                            // the console when the app is launched.
+                            GAD_SIMULATOR_ID
+                            ];
+    return request;
+}
+
+
+- (void)loadInterstitial{
+    // Create a new GADInterstitial each time.  A GADInterstitial will only show one request in its
+    // lifetime. The property will release the old one and set the new one.
+    self.interstitial = [[GADInterstitial alloc] init];
+    self.interstitial.delegate = self;
+    
+    self.interstitial.adUnitID = kSampleAdUnitID;
+    [self.interstitial loadRequest:[self request]];
+}
+
+-(void)loadIAdinterstitial {
+    NSLog(@"apple ads");
+        [ViewController prepareInterstitialAds];
+        self.interstitialPresentationPolicy = ADInterstitialPresentationPolicyManual;
+        [self requestInterstitialAdPresentation];
+}
+
+-(void)interstitialAd:(ADInterstitialAd *)interstitialAd didFailWithError:(NSError *)error {
+    NSLog(@"Ad didFailWithERROR");
+    NSLog(@"%@", error);
 }
 
 - (void)showSimple:(NSString*)urlString {
@@ -118,6 +168,7 @@
     [self.appDelegate loadFavouriteDatabase];
     [self.appDelegate initializeSuggestedBooksDatabase];
     
+    
     [self.suggestedBooksView reloadData];
     [self.customCollectionView reloadData];
     [self.favouriteCollectionView reloadData];
@@ -146,6 +197,20 @@
     }
     [self.appDelegate loadFavouriteDatabase];
     [self.appDelegate initializeSuggestedBooksDatabase];
+    
+   
+    //load ads here - improve this
+    int rNumber1 = arc4random() % 100 + 1;
+    int rNumber2 = arc4random() % 100 + 1;
+    if ((rNumber1%5==0) && (rNumber2%5==1)) {
+        [self loadInterstitial];
+    }
+    
+    if ((rNumber1%5==1) && (rNumber2%5==0)) {
+        [self loadIAdinterstitial];
+    }
+
+    
     [self.favouriteCollectionView reloadData];
     [self.suggestedBooksView reloadData];
     

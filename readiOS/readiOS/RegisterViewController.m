@@ -7,7 +7,7 @@
 //
 
 #import "RegisterViewController.h"
-#import "TutorialViewController.h"
+#import "TutorialOptionViewController.h"
 #import "ViewController.h"
 
 @interface RegisterViewController ()
@@ -101,6 +101,9 @@
         self.userExistence.hidden = NO;
     } else {
     
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
         [self.appDelegate doTheDatabaseSetup];
     
         UIStoryboard *mainStoryboard;
@@ -117,7 +120,7 @@
     
 }
 - (IBAction)cancel:(id)sender {
-    TutorialViewController *tutorial = [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialViewController"];
+    TutorialOptionViewController *tutorial = [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialOptionViewController"];
     
     [self addChildViewController:tutorial];
     [self.view addSubview:tutorial.view];
