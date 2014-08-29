@@ -28,8 +28,11 @@
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     [self initiatePickerViewWithTableNames];
-    // self.suggestedBooksView.bookImages = [@[] mutableCopy];
-    [self.customListButton setTitle:[self.pickerViewData objectAtIndex:1] forState:UIControlStateNormal];
+
+    //[self.customListButton setTitle:[self.pickerViewData objectAtIndex:1] forState:UIControlStateNormal];
+    
+    [self.customListButton setTitle:[[NSUserDefaults standardUserDefaults]
+                                     stringForKey:@"customList"] forState:UIControlStateNormal];
     
     self.retrieveBooks = [[RetrieveBooks alloc] init];
     
@@ -42,7 +45,7 @@
     [self.appDelegate getAllDatabaseTableNames];
     self.tableNames = [self.appDelegate.tableNames mutableCopy];
     
-    [self.tableNames insertObject:@"" atIndex:0];
+    //[self.tableNames insertObject:@"" atIndex:0];
     [self.tableNames insertObject:@"Create New List" atIndex:self.tableNames.count];
     
     NSMutableArray *newTable = [NSMutableArray array];
@@ -150,6 +153,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 - (void)loadCustomListDatabaseAndRefreshView:(NSString *)customListButtonTitle {
     [self loadCustomListDatabase:customListButtonTitle];
     [self.customCollectionView reloadData];
+    [self.pickerView removeFromSuperview];
+    [self.pickerView resignFirstResponder];
     NSLog(@"books images count %lu", (unsigned long)self.customCollectionView.bookImages.count);
 }
 
@@ -196,6 +201,10 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         [self.customListButton setTitle:@"Create New List" forState:UIControlStateNormal];
         [self loadCustomListDatabaseAndRefreshView:self.customListButton.titleLabel.text];
     }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:self.customListButton.titleLabel.text forKey:@"customList"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     [self.appDelegate loadFavouriteDatabase];
     [self.appDelegate initializeSuggestedBooksDatabase];
     
@@ -215,6 +224,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     [self.favouriteCollectionView reloadData];
     [self.suggestedBooksView reloadData];
     
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [[NSUserDefaults standardUserDefaults] setObject:self.customListButton.titleLabel.text forKey:@"customList"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)searchInBackground:(NSString *)urlString {
@@ -238,6 +252,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     
     [self.pickerView removeFromSuperview];
+    [self.pickerView resignFirstResponder];
     
     NSString* searchBarText = self.searchBar.text;
     NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
@@ -252,7 +267,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     }
     
     [self.searchBar resignFirstResponder];
-    //self.searchBar.text = nil;
+
 }
 
 
@@ -314,6 +329,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         [self.collView reloadData];
     
     [self.pickerView removeFromSuperview];
+    [self.pickerView resignFirstResponder];
     [self.searchBar resignFirstResponder];
 }
 
@@ -718,7 +734,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         
         NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
+        [[NSUserDefaults standardUserDefaults] setObject:self.customListButton.titleLabel.text forKey:@"customList"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
     }
+    
     
     [self.customCollectionView reloadData];
     
@@ -745,6 +765,10 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         [self.customListButton setTitle:[self.customListTitle capitalizedString] forState:UIControlStateNormal];
         [self loadCustomListDatabaseAndRefreshView:self.customListTitle];
         [self initiatePickerViewWithTableNames];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:self.customListButton.titleLabel.text forKey:@"customList"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
     }
 }
 

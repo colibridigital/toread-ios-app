@@ -88,7 +88,6 @@
     [self.appDelegate getAllDatabaseTableNames];
     self.tableNames = [self.appDelegate.tableNames mutableCopy];
     
-    [self.tableNames insertObject:@"" atIndex:0];
     [self.tableNames insertObject:@"Create New List" atIndex:1];
     
     NSMutableArray *newTable = [NSMutableArray array];
@@ -536,6 +535,9 @@
     [self removeImage:pngFilePath];
     
     NSLog(@"moving book to the database");
+        
+        //moving the image as well...
+        
     }
     
     [self showWithCustomView:[NSString stringWithFormat:@"Moved to : %@", [self.pickerViewData objectAtIndex:row]]];

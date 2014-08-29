@@ -165,8 +165,7 @@
 - (void) initiatePickerViewWithTableNames {
     [self.appDelegate getAllDatabaseTableNames];
     self.tableNames = [self.appDelegate.tableNames mutableCopy];
-    
-    [self.tableNames insertObject:@"" atIndex:0];
+
     [self.tableNames insertObject:@"Create New List" atIndex:1];
     
     NSMutableArray *newTable = [NSMutableArray array];

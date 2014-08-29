@@ -58,11 +58,10 @@
 }
 
 -(void)getBooks {
-    NSMutableArray *booksArray = [[NSMutableArray alloc] init];
-    self.Books = booksArray;
+    self.books = nil;
     
-   /* NSMutableArray *booksImagesArray = [[NSMutableArray alloc] init];
-    self.booksImages = booksImagesArray;*/
+    NSMutableArray *booksArray = [[NSMutableArray alloc] init];
+    self.books = booksArray;
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
