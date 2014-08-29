@@ -19,7 +19,7 @@
 @class GADInterstitial;
 @class GADRequest;
 
-@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,UIAlertViewDelegate, UIActionSheetDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate, MBProgressHUDDelegate, GADInterstitialDelegate, ADInterstitialAdDelegate> {
+@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate,UIAlertViewDelegate, UIActionSheetDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UISearchBarDelegate, MBProgressHUDDelegate, GADInterstitialDelegate> {
     MBProgressHUD *HUD;
 }
 

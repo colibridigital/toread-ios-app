@@ -124,7 +124,7 @@
             [self.appDelegate deleteTableFromDatabase:[[self.tableNames objectAtIndex:self.indexPath.row] lowercaseString]];
             NSLog(@"deleted tables");
             [self.tableNames removeObjectAtIndex:self.indexPath.row];
-            NSLog(@"count: %lu",self.tableNames.count);
+            NSLog(@"count: %lu",(unsigned long)self.tableNames.count);
             [self.tableView deleteRowsAtIndexPaths:@[self.indexPath] withRowAnimation:UITableViewRowAnimationFade];
             NSLog(@"should work now");
 

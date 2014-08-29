@@ -96,7 +96,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 -(void)loadIAdinterstitial {
     NSLog(@"apple ads");
         [ViewController prepareInterstitialAds];
-        self.interstitialPresentationPolicy = ADInterstitialPresentationPolicyManual;
+        self.interstitialPresentationPolicy = ADInterstitialPresentationPolicyAutomatic;
         [self requestInterstitialAdPresentation];
 }
 
@@ -104,6 +104,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"Ad didFailWithERROR");
     NSLog(@"%@", error);
 }
+
 
 - (void)showSimple:(NSString*)urlString {
 	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
@@ -202,11 +203,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     //load ads here - improve this
     int rNumber1 = arc4random() % 100 + 1;
     int rNumber2 = arc4random() % 100 + 1;
-    if ((rNumber1%5==0) && (rNumber2%5==1)) {
+    if ((rNumber1%20==0) && (rNumber2%20==1)) {
         [self loadInterstitial];
     }
     
-    if ((rNumber1%5==1) && (rNumber2%5==0)) {
+    if (rNumber1%3==0) {
         [self loadIAdinterstitial];
     }
 
@@ -241,6 +242,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     NSString* searchBarText = self.searchBar.text;
     NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     
+    NSLog(@"search me");
    
     if ([self.appDelegate connectedToInternet]) {
         [self showSimple:urlString];

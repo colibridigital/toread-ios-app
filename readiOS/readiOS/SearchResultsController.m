@@ -8,6 +8,7 @@
 
 #import "SearchResultsController.h"
 #import "SearchResultsCell.h"
+#import <iAd/iAd.h>
 
 @interface SearchResultsController ()
 
@@ -21,13 +22,37 @@
 {
     [super viewDidLoad];
     
+    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.searchBar.delegate = self;
     
+    int rNumber1 = arc4random() % 100 + 1;
+    int rNumber2 = arc4random() % 100 + 1;
+    
+    NSLog(@"adddds in search, %i, %i", rNumber1, rNumber2);
+    
+    if ((rNumber1%5==0) || (rNumber2%2==0)) {
+        [self loadIAdinterstitial];
+    }
+
+    
     self.tableView.backgroundColor = [UIColor blackColor];
     
     self.retrieveBooks = [[RetrieveBooks alloc] init];
+}
+
+-(void)loadIAdinterstitial {
+    NSLog(@"apple ads");
+    [SearchResultsController prepareInterstitialAds];
+    self.interstitialPresentationPolicy = ADInterstitialPresentationPolicyAutomatic;
+    [self requestInterstitialAdPresentation];
+}
+
+-(void)interstitialAd:(ADInterstitialAd *)interstitialAd didFailWithError:(NSError *)error {
+    NSLog(@"Ad didFailWithERROR");
+    NSLog(@"%@", error);
 }
 
 
@@ -186,18 +211,27 @@
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     
-    NSLog(@"in here");
+    
+    
+    int rNumber1 = arc4random() % 100 + 1;
+    
+    NSLog(@"adddds in search, %i", rNumber1);
+    
+    if ((rNumber1%5==1) || (rNumber1%2==1)) {
+        [self loadIAdinterstitial];
+    }
+
     
     NSString* searchBarText = self.searchBar.text;
     NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     
-    //if ([self.appDelegate connectedToInternet]) {
+    if ([self.appDelegate connectedToInternet]) {
         [self showSimple:urlString];
     
         [self searchInBackground:urlString];
-   // } else {
-      //  [self showWithCustomView:@"No Internet Connection"];
-    //}
+    } else {
+        [self showWithCustomView:@"No Internet Connection"];
+    }
     
     [self.searchBar resignFirstResponder];
     
