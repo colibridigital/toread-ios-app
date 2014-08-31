@@ -72,5 +72,6 @@
                  lastName:(NSString*)lastName emailAddress:(NSString*)emailAddress ageRange:(NSString*)ageRange
                       sex:(NSString*)sex occupation:(NSString*)occupation;
 
+- (int)getNumberOfBooksFromDB:(NSString*)tableName;
 
 @end

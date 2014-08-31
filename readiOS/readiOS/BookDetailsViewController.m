@@ -522,16 +522,38 @@
     NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
     
     [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating isbn:self.bDB.isbn desc:self.bDB.desc];
+        
+        
+    //save the image with a new name beforehand
+        
+        int ID = [self.appDelegate getNumberOfBooksFromDB:[[self.pickerViewData objectAtIndex:row] lowercaseString]];
+        
+        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        
+        NSString *imageName1 = [NSString stringWithFormat:@"%@Books%ld.png",[[self.pickerViewData objectAtIndex:row ]lowercaseString],(long)ID];
+        NSString* pngFilePath1 = [NSString stringWithFormat:@"%@/%@",docDir, imageName1];
+        
+        NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(self.bookCover.image)];
+        
+        if (data1 != nil) {
+        
+            [data1 writeToFile:pngFilePath1 atomically:YES];
+            
+        } else {
+            NSLog(@"book cover object is nill");
+        }
+    
+        NSLog(@"new image name: %@ at path %@", imageName1, pngFilePath1);
+        
     
     [self.appDelegate deleteBooksToReadFromOriginalTable:self.tableName ID:self.cellID indexPath:self.indexPath.row];
     
-    NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)self.cellID];
     
-    NSLog(@"imageNAme %@", imageName);
+    NSLog(@"old imageName %@", imageName);
     
     NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
-    NSLog(@"%@", pngFilePath);
+    //NSLog(@"%@", pngFilePath);
     [self removeImage:pngFilePath];
     
     NSLog(@"moving book to the database");

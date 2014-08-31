@@ -1278,6 +1278,42 @@
     
 }
 
+- (int)getNumberOfBooksFromDB:(NSString*)tableName {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
+    
+    int nb = 0;
+    
+    NSLog(@"path %@", path);
+    //Open the db. The db was prepared outside the application
+    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
+        const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@Books", tableName] UTF8String];
+        NSLog(@"%s",sql);
+        sqlite3_stmt *statement;
+        if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
+            // We step through the results once for each row.
+            NSLog(@"in sql results app delegate");
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                
+                NSLog(@"in SQL");
+                nb = sqlite3_column_int(statement, 0);
+                NSLog(@"ID is %i", nb);
+            }
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+        
+    }     else {
+        //even though the open failed, call close to properly clean up resources.
+        sqlite3_close(database);
+        NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
+    }
+    
+    return nb;
+}
+
 - (int)getNumberOfReadBooksFromDB {
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

@@ -195,6 +195,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     
     [self initiatePickerViewWithTableNames];
     
+    self.uniqueID = [self.appDelegate getNumberOfReadBooksFromDB];
+    
     if ([self.tableNames containsObject:[[self.customListButton.titleLabel.text lowercaseString] stringByAppendingString:@"Books"]]) {
         [self loadCustomListDatabaseAndRefreshView:self.customListButton.titleLabel.text];
     } else {
@@ -489,9 +491,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)bDB.ID];
         NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
         
-        NSLog(@"%@", imageName);
+        NSLog(@"expected ImageName to show %@", imageName);
         
-        NSLog(@"%@", pngFilePath);
+        NSLog(@"expected path for the imageName %@", pngFilePath);
         
         if ([fileManager fileExistsAtPath:pngFilePath])
         {
