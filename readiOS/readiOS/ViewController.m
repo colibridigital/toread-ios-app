@@ -35,7 +35,7 @@
     self.retrieveBooks = [[RetrieveBooks alloc] init];
     
     self.uniqueID = [self.appDelegate getNumberOfReadBooksFromDB];
-    NSLog(@"read Books count %i", self.uniqueID);
+    //NSLog(@"read Books count %i", self.uniqueID);
     
 }
 
@@ -144,7 +144,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 - (void)loadCustomListDatabase:(NSString *)customListButtonTitle
 {
     self.tableName = [customListButtonTitle lowercaseString];
-    NSLog(@"the tile is %@", self.tableName);
+  //  NSLog(@"the tile is %@", self.tableName);
     [self.appDelegate initiateCustomBooksListFromTheDatabase:[NSString stringWithFormat:@"%@Books",self.tableName]];
 }
 
@@ -153,14 +153,14 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     [self.customCollectionView reloadData];
     [self.pickerView removeFromSuperview];
     [self.pickerView resignFirstResponder];
-    NSLog(@"books images count %lu", (unsigned long)self.customCollectionView.bookImages.count);
+   // NSLog(@"books images count %lu", (unsigned long)self.customCollectionView.bookImages.count);
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    NSLog(@"load view");
+   // NSLog(@"load view");
     
     [self.favouriteCollectionView registerNibAndCell];
     [self.customCollectionView registerNibAndCell];
@@ -171,7 +171,6 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     [self loadCustomListDatabase:self.customListButton.titleLabel.text];
     [self.appDelegate loadFavouriteDatabase];
     [self.appDelegate initializeSuggestedBooksDatabase];
-    
     
     [self.suggestedBooksView reloadData];
     [self.customCollectionView reloadData];
@@ -187,7 +186,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 
 - (void)viewDidAppear:(BOOL)animated {
     
-    NSLog(@"show view");
+  //  NSLog(@"show view");
     
     self.searchBar.text = nil;
     
@@ -256,7 +255,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     NSString* searchBarText = self.searchBar.text;
     NSString* urlString = [searchBarText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     
-    NSLog(@"search me");
+   // NSLog(@"search me");
    
     if ([self.appDelegate connectedToInternet]) {
         [self showSimple:urlString];
@@ -287,7 +286,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded) {
         return;
     }
-    NSLog(@"in tap gesture");
+   // NSLog(@"in tap gesture");
     self.isEditMode = NO;
     
     CGPoint p = [gestureRecognizer locationInView:gestureRecognizer.view];
@@ -295,7 +294,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     BookDetailsViewController *bookDetails = [[BookDetailsViewController alloc] initWithNibName:@"BookDetailsViewController" bundle:nil];
     
     
-    NSLog(@"handling tap gesture");
+   // NSLog(@"handling tap gesture");
     
     if ([gestureRecognizer.view isEqual:self.favouriteCollectionView]) {
         bookDetails.indexPath = [self.favouriteCollectionView indexPathForItemAtPoint:p];
@@ -304,7 +303,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         bookDetails.tableName = @"favouriteBooks";
         bookDetails.cellID = cell.ID;
     } else if ([gestureRecognizer.view isEqual:self.customCollectionView]) {
-        NSLog(@"in tap for custom");
+       // NSLog(@"in tap for custom");
         bookDetails.indexPath = [self.customCollectionView indexPathForItemAtPoint:p];
         BookCollectionViewCell* cell = (BookCollectionViewCell *)[self.customCollectionView cellForItemAtIndexPath:bookDetails.indexPath];
         
@@ -316,11 +315,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         
         bookDetails.tableName = @"suggestedBooks";
         bookDetails.cellID = cell.ID;
-        NSLog(@"CELL ID: %lu", (long)cell.ID);
+       // NSLog(@"CELL ID: %lu", (long)cell.ID);
     }
     
     if (!bookDetails.cellID == 0) {
-        NSLog(@"cellID :%lu", (long)bookDetails.cellID);
+       // NSLog(@"cellID :%lu", (long)bookDetails.cellID);
         [self presentViewController:bookDetails animated:YES completion:nil];
     }
     
@@ -336,7 +335,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded) {
         return;
     }
-    NSLog(@"in here");
+   // NSLog(@"in here");
     
     CGPoint p = [gestureRecognizer locationInView:gestureRecognizer.view];
     NSIndexPath *indexPath ;
@@ -363,7 +362,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
             [self.customCollectionView reloadData];
         }
     }
-    NSLog(@"getting cell %@", indexPath);
+  //  NSLog(@"getting cell %@", indexPath);
     
     
 }
@@ -429,7 +428,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         
     }
     
-    NSLog(@"showing book");
+   // NSLog(@"showing book");
     
     if (collectionView == self.suggestedBooksView) {
         BooksDatabase *bDB = [self.appDelegate.suggestedBooks objectAtIndex:indexPath.row];
@@ -467,9 +466,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
                 NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 
                 // If you go to the folder below, you will find those pictures
-                NSLog(@"%@",docDir);
+              //  NSLog(@"%@",docDir);
                 
-                NSLog(@"saving png");
+              //  NSLog(@"saving png");
                 NSString *imageName = [NSString stringWithFormat:@"suggestedBooks%ld.png",(long)cell.ID];
                 NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
                 NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
@@ -488,19 +487,19 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)bDB.ID];
         NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
         
-        NSLog(@"expected ImageName to show %@", imageName);
+      //  NSLog(@"expected ImageName to show %@", imageName);
         
-        NSLog(@"expected path for the imageName %@", pngFilePath);
+      //  NSLog(@"expected path for the imageName %@", pngFilePath);
         
         if ([fileManager fileExistsAtPath:pngFilePath])
         {
             UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
             cell.bookImage.image = bookImage;
             cell.ID = bDB.ID;
-            NSLog(@"loading from memory");
+          //  NSLog(@"loading from memory");
             
         } else {
-            NSLog(@"need to save new book");
+          //  NSLog(@"need to save new book");
             
             NSURL *url = [NSURL URLWithString:bDB.coverLink];
             
@@ -518,9 +517,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
                 NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 
                 // If you go to the folder below, you will find those pictures
-                NSLog(@"%@",docDir);
+             //   NSLog(@"%@",docDir);
                 
-                NSLog(@"saving png");
+             //   NSLog(@"saving png");
                 NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)cell.ID];
                 NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
                 NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
@@ -530,7 +529,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         }
         
         
-        NSLog(@"favourite collection view book images %lu", (unsigned long)self.favouriteCollectionView.bookImages.count);
+      //  NSLog(@"favourite collection view book images %lu", (unsigned long)self.favouriteCollectionView.bookImages.count);
         
         //make this customizable pls
     } else if (collectionView == self.customCollectionView) {
@@ -543,7 +542,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         
         NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
         
-        NSLog(@"%@", pngFilePath);
+      //  NSLog(@"%@", pngFilePath);
         
         
         if ([fileManager fileExistsAtPath:pngFilePath])
@@ -551,7 +550,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
             UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
             cell.bookImage.image = bookImage;
             cell.ID = bDB.ID;
-            NSLog(@"loading from memory custom");
+          //  NSLog(@"loading from memory custom");
         } else {
             
             NSURL *url = [NSURL URLWithString:bDB.coverLink];
@@ -569,9 +568,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
                 NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 
                 // If you go to the folder below, you will find those pictures
-                NSLog(@"%@",docDir);
+             //   NSLog(@"%@",docDir);
                 
-                NSLog(@"saving png");
+             //   NSLog(@"saving png");
                 NSString *imageName = [NSString stringWithFormat:@"%@Books%ld.png",self.tableName, (long)cell.ID];
                 NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
                 NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
@@ -617,7 +616,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 
 //- (void)markBookAsRead:(UIButton *)sender {
 - (void)markBookAsRead{
-    NSLog(@"marked as read");
+   // NSLog(@"marked as read");
     if (self.indexPath != nil) {
         
         BookCollectionViewCell *cell;
@@ -640,10 +639,10 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         
         NSString *imageN = [NSString stringWithFormat:@"%@%ld.png",self.collName,(long)cell.ID];
         
-        NSLog(@"imageNAme %@", imageN);
+      //  NSLog(@"imageNAme %@", imageN);
         
         NSString* pngFilePathh = [NSString stringWithFormat:@"%@/%@",docDir, imageN];
-        NSLog(@"filePath to removeFrom %@", pngFilePathh);
+      //  NSLog(@"filePath to removeFrom %@", pngFilePathh);
         [self.appDelegate moveBooksToReadInTheDatabase:self.collName ID:cell.ID indexPath:self.indexPath.row];
         [self.appDelegate deleteBooksToReadFromOriginalTableWithoutDeletingFromTable:self.collName ID:cell.ID indexPath:self.indexPath.row];
         
@@ -663,7 +662,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 
 //-(void)deleteCell:(UIButton *)sender {
 -(void)deleteCell{
-    NSLog(@"here to delete");
+  //  NSLog(@"here to delete");
     
     if (self.indexPath != nil) {
         BookCollectionViewCell *cell;
@@ -679,10 +678,10 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         
         NSString *imageN = [NSString stringWithFormat:@"%@%ld.png",self.collName,(long)cell.ID];
         
-        NSLog(@"imageNAme %@", imageN);
+    //    NSLog(@"imageNAme %@", imageN);
         
         NSString* pngFilePathh = [NSString stringWithFormat:@"%@/%@",docDir, imageN];
-        NSLog(@"%@", pngFilePathh);
+    //    NSLog(@"%@", pngFilePathh);
         [self.appDelegate deleteBooksToReadFromOriginalTable:self.collName ID:cell.ID indexPath:self.indexPath.row];
         [self removeImage:pngFilePathh];
     }
@@ -714,11 +713,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
-    
+//    NSLog(@"You selected this: %@", [self.pickerViewData objectAtIndex: row]);
+
     if ([[self.pickerViewData objectAtIndex:row] isEqualToString:@"Create New List"]) {
         
-        NSLog(@"here");
+      //  NSLog(@"here");
         
         self.av = [[UIAlertView alloc] initWithTitle:@"Create New List" message:@"Would you like to create a new list called?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Add", nil];
         
@@ -731,7 +730,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         
         [self loadCustomListDatabaseAndRefreshView:[self.pickerViewData objectAtIndex:row]];
         
-        NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
+      //  NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
         [[NSUserDefaults standardUserDefaults] setObject:self.customListButton.titleLabel.text forKey:@"customList"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -749,16 +748,16 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0)
     {
-        NSLog(@"You have clicked No");
+      //  NSLog(@"You have clicked No");
     }
     else if(buttonIndex == 1)
     {
-        NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
+      //  NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
         self.customListTitle = [[self.av textFieldAtIndex:0] text];
         
         self.customListTitle = [self.customListTitle stringByReplacingOccurrencesOfString:@" " withString:@"_"];
         
-        NSLog(@"%@", self.customListTitle);
+     //   NSLog(@"%@", self.customListTitle);
         
         [self.appDelegate createNewCustomListInTheDatabase:self.customListTitle];
         [self.customListButton setTitle:[self.customListTitle capitalizedString] forState:UIControlStateNormal];
@@ -815,7 +814,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 
 - (IBAction)showMenu:(id)sender {
     
-    NSLog(@"in side menu here");
+  //  NSLog(@"in side menu here");
     [self.menuContainerViewController toggleLeftSideMenuCompletion:^{}];
     
 }

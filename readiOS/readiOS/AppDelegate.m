@@ -54,41 +54,44 @@
 
 - (void)doTheDatabaseSetup
 {
-   
+    
     [self createEditableCopyOfDatabaseIfNeeded];
     
-    NSLog(@"IN THE DB SETUP");
+   // NSLog(@"IN THE DB SETUP");
     
     if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
         
-        NSLog(@"starting the setup");
-        
+     //   NSLog(@"starting the setup");
+ 
         NSString *jsonResponse = [self performSingleAuthentication];
         [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
-        NSLog(@"syncing with the server");
+       // NSLog(@"syncing with the server");
         NSString *jsonString = [self performSyncRequest];
-        NSLog(@"%@", jsonString);
+        //NSLog(@"%@", jsonString);
         [self syncWithTheServer:jsonString];
         
     }
 }
 
 - (void)requestBooksAndCreateDatabaseEntries {
-    NSLog(@"in creating the lists after login");
+    //NSLog(@"in creating the lists after login");
     
     [self createEditableCopyOfDatabaseIfNeeded];
     
     if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
         
-        NSLog(@"starting the setup");
+        //NSLog(@"starting the setup");
         
         NSString *jsonResponse = [self performSingleAuthentication];
+        
         [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
-        NSLog(@"syncing with the server");
+        //NSLog(@"syncing with the server");
         [self getAllBooksFromServerAndCreateDatabase];
         
+        
+        
     }
-
+    
     
 }
 
@@ -101,7 +104,7 @@
     [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] forKey:@"token"];
     [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceID"] forKey:@"device_id"];
     [json setObject:authDetails forKey:@"auth_data"];
-
+    
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json
                                                        options:NSJSONWritingPrettyPrinted
@@ -109,7 +112,7 @@
     
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    NSLog(@"%@", jsonString);
+    //NSLog(@"%@", jsonString);
     
     NSURL *url = [NSURL URLWithString:@"http://toread.gocolibri.com:2709/api/sync/getall"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -121,7 +124,7 @@
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
     jsonString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     
-    NSLog(@"response from the server with BOOKS %@", jsonString);
+   // NSLog(@"response from the server with BOOKS %@", jsonString);
     
     [self createDatabaseEntries:responseData];
     
@@ -131,7 +134,7 @@
 {
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
-        NSLog(@"i need to show the tutorial");
+       // NSLog(@"i need to show the tutorial");
         [self displayTutorial];
         
     } else if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
@@ -139,20 +142,22 @@
         [self registerOrLogin];
         
     } else {
-    
-        if ([self connectedToInternet]) {
         
+        if ([self connectedToInternet]) {
+            
+           // NSLog(@"in here");
+            
             [self doTheDatabaseSetup];
-   
-    
+            
+            
             UIStoryboard *mainStoryboard;
-    
+            
             mainStoryboard = [self setStoryboard];
-    
-    
+            
+            
             ViewController *mainViewController = (ViewController*)[mainStoryboard
-                                                           instantiateViewControllerWithIdentifier: @"MainViewController"];
-    
+                                                                   instantiateViewControllerWithIdentifier: @"MainViewController"];
+            
             [self setupMenu:mainViewController];
             
         }
@@ -163,28 +168,28 @@
 }
 
 - (void)registerOrLogin {
-    NSLog(@"in showing the register login options");
+   // NSLog(@"in showing the register login options");
     
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Tutorial_iPhone" bundle:nil];
     
-    TutorialOptionViewController *tutorialViewController = (TutorialOptionViewController*)[mainStoryboard
-                                                                               instantiateViewControllerWithIdentifier: @"TutorialOptionViewController"];
+    TutorialOptionViewController *tutorialViewController = (TutorialOptionViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"TutorialOptionViewController"];
+    
     
     self.window.rootViewController = tutorialViewController;
     [self.window makeKeyAndVisible];
-
+    
 }
 
 - (void)displayTutorial {
     
-    NSLog(@"in showing the tutorial");
+   // NSLog(@"in showing the tutorial");
     
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Tutorial_iPhone" bundle:nil];
     
     TutorialViewController *tutorialViewController = (TutorialViewController*)[mainStoryboard
-                            instantiateViewControllerWithIdentifier: @"TutorialViewController"];
+                                                                               instantiateViewControllerWithIdentifier: @"TutorialViewController"];
     
-    NSLog(@"shpwing iiiiiit");
+   // NSLog(@"shpwing iiiiiit");
     
     self.window.rootViewController = tutorialViewController;
     [self.window makeKeyAndVisible];
@@ -220,9 +225,9 @@
     
     NSString *device_model = [device model];
     
-    NSLog(@"i am now loging in");
+   // NSLog(@"i am now loging in");
     
-   // NSString *deviceOSId = @"2709";
+    // NSString *deviceOSId = @"2709";
     
     //NSString *device_model = @"Simulator";
     
@@ -247,7 +252,7 @@
     
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    NSLog(@"%@", jsonString);
+    //NSLog(@"%@", jsonString);
     
     //perform post
     
@@ -263,12 +268,12 @@
     NSError *err;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
     
-    NSLog(@"%@", jsonString);
+   // NSLog(@"%@", jsonString);
     
     responseMessage = [self parseResponse:responseData];
     
     if (![responseMessage isEqualToString:@"Invalid username or password"] || ![responseMessage isEqualToString:@"(null)"]) {
-        NSLog(@"i can authenticate now");
+       // NSLog(@"i can authenticate now");
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
@@ -295,7 +300,7 @@
     
     NSString *device_model = [device model];
     
-    NSLog(@"authenticating first time");
+   // NSLog(@"authenticating first time");
     
     //NSString *deviceOSId = @"2709";
     
@@ -328,7 +333,7 @@
     
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    NSLog(@"%@", jsonString);
+   // NSLog(@"%@", jsonString);
     
     //perform post
     
@@ -344,7 +349,7 @@
     NSError *err;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
     
-    NSLog(@"%@", jsonString);
+   // NSLog(@"%@", jsonString);
     
     responseMessage = [self parseResponse:responseData];
     
@@ -352,7 +357,7 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-
+    
     
     return responseMessage;
     
@@ -363,7 +368,7 @@
     
     NSMutableDictionary *authDetails= [[NSMutableDictionary alloc] init];
     
-    NSLog(@"performing authentication");
+   // NSLog(@"performing authentication");
     
     [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"user_name"] forKey:@"username"];
     [authDetails setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] forKey:@"token"];
@@ -428,7 +433,7 @@
     
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    NSLog(@"%@", jsonString);
+   // NSLog(@"%@", jsonString);
     
     return jsonString;
 }
@@ -442,26 +447,26 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
     
-    NSLog(@"path %@", path);
+   // NSLog(@"path %@", path);
     
     //Open the db. The db was prepared outside the application
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         //Get the primary key for all the books
         
         const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@", tableName] UTF8String];
-        NSLog(@"%s",sql);
+       // NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
-            NSLog(@"sqlite row : %d", SQLITE_ROW);
+           // NSLog(@"in sql results app delegate");
+          //  NSLog(@"sqlite row : %d", SQLITE_ROW);
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
-                NSLog(@"in SQL");
+               // NSLog(@"in SQL");
                 
                 int ID = sqlite3_column_int(statement, 0);
                 
-                NSLog(@"ID is %i", ID);
+               // NSLog(@"ID is %i", ID);
                 
                 sqlite3_stmt *statementC;
                 
@@ -474,33 +479,33 @@
                         nb = sqlite3_column_int(statementC, 0);
                     }
                 }
-
-                NSLog(@"%s, %i", sqlC, nb);
+                
+              //  NSLog(@"%s, %i", sqlC, nb);
                 
                 sqlite3_finalize(statementC);
                 
                 const char *sql2 = [[NSString stringWithFormat:@"SELECT ISBN FROM %@ WHERE ID = %i", tableName, ID] UTF8String];
                 
-                NSLog(@"%s", sql2);
+              //  NSLog(@"%s", sql2);
                 
                 sqlite3_stmt *statement2;
                 if (sqlite3_prepare_v2(database, sql2, -1, &statement2, NULL) == SQLITE_OK && nb!=0) {
                     while (sqlite3_step(statement2) == SQLITE_ROW) {
-                        NSLog(@"in ISBN");
+                    //    NSLog(@"in ISBN");
                         
                         NSString *ISBN = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement2, 0)];
-                    
-                        NSLog(@"ISBN is %@", ISBN);
-                    
+                        
+                    //    NSLog(@"ISBN is %@", ISBN);
+                        
                         [ISBNs addObject:ISBN];
                     }
                 }
                 
                 sqlite3_finalize(statement2);
-               
+                
             }
         }
-        NSLog(@"Number of ISBNs from the DB: %lu", (unsigned long)ISBNs.count);
+        //NSLog(@"Number of ISBNs from the DB: %lu", (unsigned long)ISBNs.count);
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -527,14 +532,14 @@
     
     NSError *error;
     
-    NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
+   // NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
     
     NSDictionary* jsonResponseDict = [NSJSONSerialization
                                       JSONObjectWithData:jsonResponseData
                                       options:0
                                       error:&error];
-    
-    NSLog(@"syncing details %@", jsonResponseDict);
+   
+   //NSLog(@"syncing details %@", jsonResponseDict);
 }
 
 - (void)createDatabaseEntries:(NSData*)jsonResponseData {
@@ -543,14 +548,14 @@
     
     NSError *error;
     
-    NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
+   // NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
     
     NSDictionary* jsonResponseDict = [NSJSONSerialization
                                       JSONObjectWithData:jsonResponseData
                                       options:0
                                       error:&error];
     
-    NSLog(@"response dict %@", jsonResponseDict);
+   // NSLog(@"response dict %@", jsonResponseDict);
     
     NSArray* loginTables = [jsonResponseDict objectForKey:@"collections"];
     
@@ -558,7 +563,7 @@
         
         NSString* collectionName = [loginTables[i] objectForKey:@"collection_name"];
         
-        NSLog(@"collectionNAME: %@", collectionName);
+     //   NSLog(@"collectionNAME: %@", collectionName);
         
         [self createNewCustomListInTheDatabase:[collectionName stringByReplacingOccurrencesOfString:@"Books" withString:@""]];
         
@@ -579,7 +584,7 @@
                 NSLog(@"not nil");
                 NSArray *authors = [[[result objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"authors"];
                 
-                NSLog(@" authors %@", authors);
+             //   NSLog(@" authors %@", authors);
                 
                 for (NSString* author in authors) {
                     bookAuthors = [bookAuthors stringByAppendingString:[NSString stringWithFormat:@"%@; ",author]];
@@ -589,7 +594,7 @@
             } else {
                 bookAuthors = @"";
             }
-
+            
             
             NSString* editor = [[[result objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"publisher"];
             
@@ -623,30 +628,30 @@
     
     NSError *error;
     
-    NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
+   // NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
     
     NSDictionary* jsonResponseDict = [NSJSONSerialization
                                       JSONObjectWithData:jsonResponseData
                                       options:0
                                       error:&error];
     
-    NSLog(@"response dict %@", jsonResponseDict);
+   // NSLog(@"response dict %@", jsonResponseDict);
     
     NSString* responseMessage;
     
     responseMessage = [jsonResponseDict objectForKey:@"message"];
     
-   // NSString *userName = [jsonResponseDict objectForKey:@"user_name"];
+    // NSString *userName = [jsonResponseDict objectForKey:@"user_name"];
     if (!isLogin && ![responseMessage isEqualToString:@"Username already exists"]) {
         NSString *authToken = [[jsonResponseDict objectForKey:@"device"] objectForKey:@"auth_token"];
         NSString *deviceID = [[jsonResponseDict objectForKey:@"device"] objectForKey:@"tr_device_id"];
-    
+        
         [[NSUserDefaults standardUserDefaults] setObject:userName forKey:@"user_name"];
         [[NSUserDefaults standardUserDefaults] setObject:pass forKey:@"password"];
         [[NSUserDefaults standardUserDefaults] setObject:authToken forKey:@"auth_token"];
         [[NSUserDefaults standardUserDefaults] setObject:deviceID forKey:@"deviceID"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-    
+        
     }
     
     //check here the message
@@ -695,7 +700,7 @@
 
 - (void)requestSuggestedBooksAndAddThemToTheDatabase:(NSString*)jsonString {
     
-    NSLog(@"requesting books from the server");
+  //  NSLog(@"requesting books from the server");
     
     //perform post
     NSURL *url = [NSURL URLWithString:@"http://toread.gocolibri.com:2709/api/suggest/bestsell"];
@@ -714,14 +719,14 @@
     
     NSError *error;
     
-    NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
+   // NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
     
     NSDictionary* jsonResponseDict = [NSJSONSerialization
                                       JSONObjectWithData:jsonResponseData
                                       options:0
                                       error:&error];
     
-    NSLog(@"dict %@", jsonResponseDict);
+   // NSLog(@"dict %@", jsonResponseDict);
     
     NSArray *items = [jsonResponseDict objectForKey:@"best_sellers"];
     
@@ -734,7 +739,7 @@
         
         NSArray *authorsArray = [items[i] objectForKey:@"authors"];
         
-        NSLog(@" authors %@", authorsArray);
+      //  NSLog(@" authors %@", authorsArray);
         
         for (NSDictionary* author in authorsArray) {
             
@@ -756,7 +761,7 @@
         NSString* desc = @"";
         
         if(coverLink != NULL && ![coverLink  isEqualToString:@""]) {
-            NSLog (@"cover not null %@", coverLink);
+          //  NSLog (@"cover not null %@", coverLink);
             [self addBookToTheDatabaseBookList:@"suggested" bookTitle:title bookAuthors:authors publisher:publisher coverLink:coverLink rating:rating isbn:isbn desc:desc];
             NSLog(@"ADDED");
         }
@@ -775,7 +780,7 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
     
-    NSLog(@"path %@", path);
+   // NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         //Get the primary key for all the books
@@ -783,22 +788,22 @@
         NSString *tableName = @"suggestedBooks";
         
         const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@", tableName] UTF8String];
-        NSLog(@"%s",sql);
+      //  NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
-            NSLog(@"sqlite row : %d", SQLITE_ROW);
+         //   NSLog(@"in sql results app delegate");
+        //    NSLog(@"sqlite row : %d", SQLITE_ROW);
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
-                NSLog(@"in SQL");
+           //     NSLog(@"in SQL");
                 int ID = sqlite3_column_int(statement, 0);
-                NSLog(@"ID is %i", ID);
+           //     NSLog(@"ID is %i", ID);
                 BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKey:ID database:database table:tableName];
                 [suggestedBooks addObject:bDB];
             }
         }
-        NSLog(@"Number of SUGGESTED from the DB: %lu", (unsigned long)suggestedBooks.count);
+      //  NSLog(@"Number of SUGGESTED from the DB: %lu", (unsigned long)suggestedBooks.count);
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -822,18 +827,18 @@
         //Get the primary key for all the books
         
         const char *sql = [[NSString stringWithFormat:@"create table if not exists %@Books (ID INTEGER PRIMARY KEY, TITLE VARCHAR(300), AUTHORS VARCHAR(300), EDITOR VARCHAR(300), COVERLINK VARCHAR(300), DUEDATE VARCHAR(50), RATING REAL DEFAULT 0, ISBN VARCHAR(30) UNIQUE, DESC VARCHAR(4096))", tableName] UTF8String];
-        NSLog(@"%s",sql);
+        //NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
+          //  NSLog(@"in sql results app delegate");
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
-                NSLog(@"in SQL");
+             //   NSLog(@"in SQL");
                 int ID = sqlite3_column_int(statement, 0);
-                NSLog(@"ID is %i", ID);
+               // NSLog(@"ID is %i", ID);
                 
-                NSLog(@"DONE");
+               // NSLog(@"DONE");
             }
         }
         // finalize the statement
@@ -859,23 +864,23 @@
         //Get the primary key for all the books
         
         const char *sql = [[NSString stringWithFormat:@"select name from sqlite_master where type='table'"] UTF8String];
-        NSLog(@"%s",sql);
+       // NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
+           // NSLog(@"in sql results app delegate");
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
-                NSLog(@"in SQL");
+               // NSLog(@"in SQL");
                 int ID = sqlite3_column_int(statement, 0);
-                NSLog(@"ID is %i", ID);
+               // NSLog(@"ID is %i", ID);
                 
                 [tableNames addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)]];
                 
-                NSLog(@"DONE");
+             //   NSLog(@"DONE");
             }
         }
-        NSLog(@"Number of TABLES from the DB: %lu", (unsigned long)tableNames.count);
+      //  NSLog(@"Number of TABLES from the DB: %lu", (unsigned long)tableNames.count);
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -903,21 +908,21 @@
         //Get the primary key for all the books
         
         const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@", tableName] UTF8String];
-        NSLog(@"%s",sql);
+       // NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
+          //  NSLog(@"in sql results app delegate");
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
-                NSLog(@"in SQL");
+              //  NSLog(@"in SQL");
                 int ID = sqlite3_column_int(statement, 0);
-                NSLog(@"ID is %i", ID);
+              //  NSLog(@"ID is %i", ID);
                 BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKey:ID database:database table:tableName];
                 [customListBooks addObject:bDB];
             }
         }
-        NSLog(@"Number of items from the DB: %lu", (unsigned long)customListBooks.count);
+       // NSLog(@"Number of items from the DB: %lu", (unsigned long)customListBooks.count);
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -944,21 +949,21 @@
         //Get the primary key for all the books
         
         const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@", tableName] UTF8String];
-        NSLog(@"%s",sql);
+       // NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
+          //  NSLog(@"in sql results app delegate");
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
-                NSLog(@"in SQL");
+              //  NSLog(@"in SQL");
                 int ID = sqlite3_column_int(statement, 0);
-                NSLog(@"ID is %i", ID);
+              //  NSLog(@"ID is %i", ID);
                 BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:ID database:database table:tableName];
                 [customListBooks addObject:bDB];
             }
         }
-        NSLog(@"Number of items from the DB: %lu", (unsigned long)customListBooks.count);
+       // NSLog(@"Number of items from the DB: %lu", (unsigned long)customListBooks.count);
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -986,21 +991,21 @@
         //Get the primary key for all the books
         
         const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@", @"favouriteBooks"] UTF8String];
-        NSLog(@"%s",sql);
+       // NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
+          //  NSLog(@"in sql results app delegate");
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
-                NSLog(@"in SQL");
+              //  NSLog(@"in SQL");
                 int ID = sqlite3_column_int(statement, 0);
-                NSLog(@"ID is %i", ID);
+              //  NSLog(@"ID is %i", ID);
                 BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKey:ID database:database table:@"favouriteBooks"];
                 [favouriteBooks addObject:bDB];
             }
         }
-        NSLog(@"Number of items from the DB: %lu", (unsigned long)favouriteBooks.count);
+      //  NSLog(@"Number of items from the DB: %lu", (unsigned long)favouriteBooks.count);
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -1028,21 +1033,21 @@
         //Get the primary key for all the books
         
         const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@", @"favouriteBooks"] UTF8String];
-        NSLog(@"%s",sql);
+      //  NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
+          //  NSLog(@"in sql results app delegate");
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
-                NSLog(@"in SQL");
+             //   NSLog(@"in SQL");
                 int ID = sqlite3_column_int(statement, 0);
-                NSLog(@"ID is %i", ID);
+             //   NSLog(@"ID is %i", ID);
                 BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:ID database:database table:@"favouriteBooks"];
                 [favouriteBooks addObject:bDB];
             }
         }
-        NSLog(@"Number of items from the DB: %lu", (unsigned long)favouriteBooks.count);
+      //  NSLog(@"Number of items from the DB: %lu", (unsigned long)favouriteBooks.count);
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -1062,12 +1067,12 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
     
-    NSLog(@"path %@", path);
+   // NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         const char *sql = [[NSString stringWithFormat:@"INSERT INTO readBooks(TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN, DESC) SELECT TITLE, AUTHORS, EDITOR, COVERLINK, DUEDATE, RATING, ISBN, DESC FROM %@ WHERE ID = %lu ", tableName, (unsigned long)ID] UTF8String];
-        NSLog(@"%s",sql);
+      //  NSLog(@"%s",sql);
         
         if ([tableName rangeOfString:@"favourite" options:NSCaseInsensitiveSearch].location != NSNotFound) {
             
@@ -1102,12 +1107,12 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
     
-    NSLog(@"path %@", path);
+   // NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         const char *sql = [[NSString stringWithFormat:@"DELETE FROM %@ WHERE ID = %lu", tableName, (unsigned long)ID] UTF8String];
-        NSLog(@"%s",sql);
+      //  NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             if (sqlite3_step(statement) != SQLITE_DONE)
@@ -1132,12 +1137,12 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
     
-    NSLog(@"path %@", path);
+   // NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         const char *sql = [[NSString stringWithFormat:@"DELETE FROM %@ WHERE ID = %lu", tableName, (unsigned long)ID] UTF8String];
-        NSLog(@"%s",sql);
+      //  NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             if (sqlite3_step(statement) != SQLITE_DONE)
@@ -1170,17 +1175,17 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
     
-    NSLog(@"path %@", path);
+   // NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         const char *sql = [[NSString stringWithFormat:@"DROP TABLE %@Books", tableName] UTF8String];
-        NSLog(@"%s",sql);
+      //  NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             if (sqlite3_step(statement) != SQLITE_DONE)
                 return;
-             [tableNames removeObject:tableName];
+            [tableNames removeObject:tableName];
         }
         // finalize the statement
         sqlite3_finalize(statement);
@@ -1199,12 +1204,12 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
     
-    NSLog(@"path %@", path);
+   // NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
     
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         const char *sql = [[NSString stringWithFormat:@"INSERT INTO %@Books (TITLE,AUTHORS,EDITOR,COVERLINK,DUEDATE,RATING,ISBN,DESC) VALUES(?,?,?,?,?,?, ?, ?)", tableName] UTF8String];
-        NSLog(@"%s",sql);
+       // NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             
@@ -1228,10 +1233,10 @@
             if (sqlite3_step(statement) != SQLITE_DONE) {
                 return;
             }
-                
+            
         }
         
-        NSLog(@"finalizes statement");
+      //  NSLog(@"finalizes statement");
         // finalize the statement
         sqlite3_finalize(statement);
         sqlite3_close(database);
@@ -1252,11 +1257,11 @@
     
     int favouriteNb = 0;
     
-    NSLog(@"path %@", path);
+   // NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         const char *sql = [[NSString stringWithFormat:@"SELECT COUNT(*) from favouriteBooks"] UTF8String];
-        NSLog(@"%s",sql);
+      //  NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
@@ -1265,7 +1270,7 @@
                 NSAssert1(0,@"Error when counting rows  %s",sqlite3_errmsg(database));
             } else {
                 favouriteNb = sqlite3_column_int(statement, 0);
-                NSLog(@"SQLite Rows: %i", favouriteNb);
+               // NSLog(@"SQLite Rows: %i", favouriteNb);
             }
             sqlite3_finalize(statement);
         }
@@ -1290,20 +1295,20 @@
     
     int nb = 0;
     
-    NSLog(@"path %@", path);
+   // NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         const char *sql = [[NSString stringWithFormat:@"SELECT ID FROM %@Books", tableName] UTF8String];
-        NSLog(@"%s",sql);
+      //  NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
             // We step through the results once for each row.
-            NSLog(@"in sql results app delegate");
+          //  NSLog(@"in sql results app delegate");
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
-                NSLog(@"in SQL");
+              //  NSLog(@"in SQL");
                 nb = sqlite3_column_int(statement, 0);
-                NSLog(@"ID is %i", nb);
+             //   NSLog(@"ID is %i", nb);
             }
         }
         sqlite3_finalize(statement);
@@ -1326,11 +1331,11 @@
     
     int readBooksNB = 0;
     
-    NSLog(@"path %@", path);
+   // NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
     if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) {
         const char *sql = [[NSString stringWithFormat:@"SELECT COUNT(*) from readBooks"] UTF8String];
-        NSLog(@"%s",sql);
+      //  NSLog(@"%s",sql);
         sqlite3_stmt *statement;
         
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) {
@@ -1339,7 +1344,7 @@
                 NSAssert1(0,@"Error when counting rows  %s",sqlite3_errmsg(database));
             } else {
                 readBooksNB = sqlite3_column_int(statement, 0);
-                NSLog(@"SQLite Rows: %i", readBooksNB);
+              //  NSLog(@"SQLite Rows: %i", readBooksNB);
             }
             sqlite3_finalize(statement);
         }
@@ -1367,9 +1372,9 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
-        NSLog(@"syncing with the server");
+       // NSLog(@"syncing with the server");
         NSString *jsonString = [self performSyncRequest];
-        NSLog(@"%@", jsonString);
+      //  NSLog(@"%@", jsonString);
         [self syncWithTheServer:jsonString];
     }
 }
@@ -1383,12 +1388,12 @@
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-   /* if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
-        NSLog(@"syncing with the server");
-        NSString *jsonString = [self performSyncRequest];
-        NSLog(@"%@", jsonString);
-        [self syncWithTheServer:jsonString];
-    }*/
+    /* if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
+     NSLog(@"syncing with the server");
+     NSString *jsonString = [self performSyncRequest];
+     NSLog(@"%@", jsonString);
+     [self syncWithTheServer:jsonString];
+     }*/
     
 }
 

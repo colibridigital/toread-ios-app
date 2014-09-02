@@ -7,8 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
+#import "MBProgressHUD.h"
 
-@interface TutorialOptionViewController : UIViewController
+@interface TutorialOptionViewController : UIViewController<MBProgressHUDDelegate> {
+    MBProgressHUD *HUD;
+}
+
+@property (weak, nonatomic) AppDelegate *appDelegate;
+
+- (void)showWithCustomView:(NSString*)message;
 
 - (IBAction)authenticate:(id)sender;
 - (IBAction)registerUser:(id)sender;

@@ -562,12 +562,18 @@
         
     }
     
-    [self showWithCustomView:[NSString stringWithFormat:@"Moved to : %@", [self.pickerViewData objectAtIndex:row]]];
+    if (![[self.pickerViewData objectAtIndex:row] isEqualToString:@"Create New List"]) {
+    
+        [self showWithCustomView:[NSString stringWithFormat:@"Moved to : %@", [self.pickerViewData objectAtIndex:row]]];
+        
+        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:0];
+        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:2];
+    } else {
+        [self.segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
+    }
     
     [self.pickerView removeFromSuperview];
     
-    [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:0];
-    [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:2];
     
 }
 
