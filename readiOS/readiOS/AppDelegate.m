@@ -111,7 +111,7 @@
     
     NSLog(@"%@", jsonString);
     
-    NSURL *url = [NSURL URLWithString:@"http://109.169.57.42:2709/api/sync/getall"];
+    NSURL *url = [NSURL URLWithString:@"http://toread.gocolibri.com:2709/api/sync/getall"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -140,18 +140,22 @@
         
     } else {
     
-        [self doTheDatabaseSetup];
+        if ([self connectedToInternet]) {
+        
+            [self doTheDatabaseSetup];
    
     
-        UIStoryboard *mainStoryboard;
+            UIStoryboard *mainStoryboard;
     
-        mainStoryboard = [self setStoryboard];
+            mainStoryboard = [self setStoryboard];
     
     
-        ViewController *mainViewController = (ViewController*)[mainStoryboard
+            ViewController *mainViewController = (ViewController*)[mainStoryboard
                                                            instantiateViewControllerWithIdentifier: @"MainViewController"];
     
-        [self setupMenu:mainViewController];
+            [self setupMenu:mainViewController];
+            
+        }
         
     }
     
@@ -210,17 +214,17 @@
     
     NSMutableDictionary *userDetails= [[NSMutableDictionary alloc] init];
     
-    //UIDevice *device = [UIDevice currentDevice];
+    UIDevice *device = [UIDevice currentDevice];
     
-    //NSString *deviceOSId = [[device identifierForVendor]UUIDString];
+    NSString *deviceOSId = [[device identifierForVendor]UUIDString];
     
-    //NSString *device_model = [device model];
+    NSString *device_model = [device model];
     
     NSLog(@"i am now loging in");
     
-    NSString *deviceOSId = @"2709";
+   // NSString *deviceOSId = @"2709";
     
-    NSString *device_model = @"Simulator";
+    //NSString *device_model = @"Simulator";
     
     
     [deviceDetails setObject:deviceOSId forKey:@"deviceOSId"];
@@ -250,7 +254,7 @@
     //http://86.132.218.95:2709
     //http://jamescross91.no-ip.biz:2709
     
-    NSURL *url = [NSURL URLWithString:@"http://109.169.57.42:2709/api/login"];
+    NSURL *url = [NSURL URLWithString:@"http://toread.gocolibri.com:2709/api/login"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -285,17 +289,17 @@
     
     NSMutableDictionary *userDetails= [[NSMutableDictionary alloc] init];
     
-    //UIDevice *device = [UIDevice currentDevice];
+    UIDevice *device = [UIDevice currentDevice];
     
-    //NSString *deviceOSId = [[device identifierForVendor]UUIDString];
+    NSString *deviceOSId = [[device identifierForVendor]UUIDString];
     
-    //NSString *device_model = [device model];
+    NSString *device_model = [device model];
     
     NSLog(@"authenticating first time");
     
-    NSString *deviceOSId = @"2709";
+    //NSString *deviceOSId = @"2709";
     
-    NSString *device_model = @"Simulator";
+    //NSString *device_model = @"Simulator";
     
     
     [deviceDetails setObject:deviceOSId forKey:@"deviceOSId"];
@@ -331,7 +335,7 @@
     //http://86.132.218.95:2709
     //http://jamescross91.no-ip.biz:2709
     
-    NSURL *url = [NSURL URLWithString:@"http://109.169.57.42:2709/api/register/user"];
+    NSURL *url = [NSURL URLWithString:@"http://toread.gocolibri.com:2709/api/register/user"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -512,7 +516,7 @@
 - (void) syncWithTheServer:(NSString*)jsonString {
     
     //perform post
-    NSURL *url = [NSURL URLWithString:@"http://109.169.57.42:2709/api/sync/clientlist"];
+    NSURL *url = [NSURL URLWithString:@"http://toread.gocolibri.com:2709/api/sync/clientlist"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -694,7 +698,7 @@
     NSLog(@"requesting books from the server");
     
     //perform post
-    NSURL *url = [NSURL URLWithString:@"http://109.169.57.42:2709/api/suggest/bestsell"];
+    NSURL *url = [NSURL URLWithString:@"http://toread.gocolibri.com:2709/api/suggest/bestsell"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];

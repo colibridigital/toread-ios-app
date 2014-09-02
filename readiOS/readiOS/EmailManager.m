@@ -61,7 +61,7 @@
         
         int j = i+1;
         
-        NSString *item = [NSString stringWithFormat:@"Book %i:\n\n%@\n%@\n%@\n%@\n%f\n\n", j, bDB.title, bDB.authors, bDB.editor, bDB.coverLink, bDB.rating];
+        NSString *item = [NSString stringWithFormat:@"Book %i:\n\nTitle: %@\nAuthors: %@\nEditor: %@\nCover Link from Google: %@\nRating from Google: %f\n\n", j, bDB.title, bDB.authors, bDB.editor, bDB.coverLink, bDB.rating];
         str = [str stringByAppendingString:item];
     }
     

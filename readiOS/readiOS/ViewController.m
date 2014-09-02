@@ -28,8 +28,6 @@
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     [self initiatePickerViewWithTableNames];
-
-    //[self.customListButton setTitle:[self.pickerViewData objectAtIndex:1] forState:UIControlStateNormal];
     
     [self.customListButton setTitle:[[NSUserDefaults standardUserDefaults]
                                      stringForKey:@"customList"] forState:UIControlStateNormal];
@@ -213,8 +211,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
    
     //load ads here - improve this
     int rNumber1 = arc4random() % 100 + 1;
-    int rNumber2 = arc4random() % 100 + 1;
-    if ((rNumber1%20==0) && (rNumber2%20==1)) {
+    if (rNumber1%5==0) {
         [self loadInterstitial];
     }
     
