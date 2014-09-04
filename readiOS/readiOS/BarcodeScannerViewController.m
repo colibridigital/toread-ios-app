@@ -161,15 +161,27 @@
         {
             [_session stopRunning];
             
-            [self processBarcode:detectionString];
+            
+            @try {
+                [self processBarcode:detectionString];
+                
+                BarcodeScannerResultDetails *resultView = [[BarcodeScannerResultDetails alloc] initWithNibName:@"BarcodeScannerResultDetails" bundle:nil];
+                
+                [resultView setScanResult:self.results];
+                
+                [self presentViewController:resultView animated:YES completion:nil];
+                
+                
 
-            BarcodeScannerResultDetails *resultView = [[BarcodeScannerResultDetails alloc] initWithNibName:@"BarcodeScannerResultDetails" bundle:nil];
-            
-            [resultView setScanResult:self.results];
-            
-           [self presentViewController:resultView animated:YES completion:nil];
-            
-            break;
+            }
+            @catch (NSException *e) {
+                NSLog(@"Exception: %@", e);
+                //i can tell the user there s no internet connection
+            }
+            @finally {
+                break;
+            }
+        
         }
         
     }

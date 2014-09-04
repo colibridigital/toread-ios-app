@@ -197,15 +197,24 @@
 - (void)searchInBackground:(NSString *)urlString {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
         
-        NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
-                               [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=30", urlString]];
-        
-        
-        dispatch_sync(dispatch_get_main_queue(), ^(void) {
-            [self setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
-            [self.tableView reloadData];
+        @try {
             
-        });
+            NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
+                                   [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=30", urlString]];
+            
+            
+            dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                [self setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
+                [self.tableView reloadData];
+                
+            });
+        }
+        @catch (NSException *e) {
+            NSLog(@"Exception: %@", e);
+            [self showWithCustomView:@"No Internet Connection"];
+        }
+        
+        
     });
 }
 

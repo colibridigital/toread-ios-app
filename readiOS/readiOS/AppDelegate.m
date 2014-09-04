@@ -57,11 +57,7 @@
     
     [self createEditableCopyOfDatabaseIfNeeded];
     
-   // NSLog(@"IN THE DB SETUP");
-    
     if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
-        
-     //   NSLog(@"starting the setup");
  
         NSString *jsonResponse = [self performSingleAuthentication];
         [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
@@ -145,7 +141,7 @@
         
         if ([self connectedToInternet]) {
             
-           // NSLog(@"in here");
+            NSLog(@"i do it all the time??");
             
             [self doTheDatabaseSetup];
             

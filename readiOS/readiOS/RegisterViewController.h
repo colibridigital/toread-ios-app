@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "MBProgressHUD.h"
 
-@interface RegisterViewController : UIViewController
+@interface RegisterViewController : UIViewController<MBProgressHUDDelegate> {
+    MBProgressHUD *HUD;
+}
+
 @property (weak, nonatomic) IBOutlet UITextField *username;
 @property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UITextField *firstName;

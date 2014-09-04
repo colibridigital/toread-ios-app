@@ -42,14 +42,9 @@
         cell.textLabel.text = [NSString stringWithFormat:@"What I've Read"];
     } else if ([indexPath isEqual:[NSIndexPath indexPathForRow:0 inSection:1]]) {
         cell.textLabel.text = [NSString stringWithFormat:@"All My Reading Lists"];
-    }
-      /* else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:1]]) {
-        cell.textLabel.text = [NSString stringWithFormat:@"My Account"];
-    }*/ else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:2]]) {
+    } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:2]]) {
         cell.textLabel.text = [NSString stringWithFormat:@"Send List via Email"];
-    } /*else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:2]]){
-        cell.textLabel.text = [NSString stringWithFormat:@"Refresh Reading Lists"];
-    }*/
+    } 
     
     cell.backgroundColor = [UIColor blackColor];
     cell.textLabel.textColor = [UIColor grayColor];
@@ -100,16 +95,7 @@
         
         [self showPickerView]; 
         
-    } /*else {
-        
-        UIViewController *demoController = [[UIViewController alloc] init];
-        demoController.title = [NSString stringWithFormat:@"Demo #%ld-%ld", (long)indexPath.section, (long)indexPath.row];
-        
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-        NSArray *controllers = [NSArray arrayWithObject:demoController];
-        navigationController.viewControllers = controllers;
-        [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-    }*/
+    }
 }
 
 - (void) initiatePickerViewWithTableNames {

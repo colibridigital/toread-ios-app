@@ -102,20 +102,27 @@
     self.coverLink = stringURL;
     
   //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
-        
+    
+    @try {
         NSURL *url = [NSURL URLWithString:stringURL];
         NSData *data = [NSData dataWithContentsOfURL:url];
         
         
-       // dispatch_sync(dispatch_get_main_queue(), ^(void) {
-            UIImage *bookImage;
-            if (data != nil)
-                bookImage = [[UIImage alloc] initWithData:data];
-            
-            self.bookCover.image = bookImage;
-      //  });
-    //});
+        // dispatch_sync(dispatch_get_main_queue(), ^(void) {
+        UIImage *bookImage;
+        if (data != nil)
+            bookImage = [[UIImage alloc] initWithData:data];
+        
+        self.bookCover.image = bookImage;
+        //  });
+        //});
 
+    }
+    @catch (NSException *e) {
+        NSLog(@"exception thrown %@", e);
+    }
+   
+    
     
     self.bookTitle.text = [[[self.scanResult objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"title"];
     NSString* bookAuthors = @"";

@@ -232,18 +232,26 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 - (void)searchInBackground:(NSString *)urlString {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
         
+        
+        @try {
         NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
                                [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=30", urlString]];
-        
-        
+            
+            
         dispatch_sync(dispatch_get_main_queue(), ^(void) {
-            SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
-            
-            [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
-            
-            [self presentViewController:searchResController animated:NO completion:nil];
-            
-        });
+                SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
+                
+                [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
+                
+                [self presentViewController:searchResController animated:NO completion:nil];
+                
+            });
+        }
+        @catch (NSException * e) {
+            NSLog(@"Exception: %@", e);
+            [self showWithCustomView:@"No Internet Connection"];
+        }
+        
     });
 }
 
@@ -451,15 +459,20 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
                 
+                UIImage *bookImage;
                 
+                @try {
                 NSData *data = [NSData dataWithContentsOfURL:url];
-                UIImage *bookImage = [[UIImage alloc] initWithData:data];
+                bookImage = [[UIImage alloc] initWithData:data];
                 
                 dispatch_sync(dispatch_get_main_queue(), ^(void) {
                     
                     cell.bookImage.image = bookImage;
                 });
-                
+                }
+                @catch (NSException * e) {
+                    NSLog(@"Exception: %@", e);
+                }
                 
                 cell.ID = bDB.ID;
                 
@@ -469,10 +482,14 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
               //  NSLog(@"%@",docDir);
                 
               //  NSLog(@"saving png");
+                
                 NSString *imageName = [NSString stringWithFormat:@"suggestedBooks%ld.png",(long)cell.ID];
                 NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
                 NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
-                [data1 writeToFile:pngFilePath atomically:YES];
+                
+                if (data1 != nil) {
+                    [data1 writeToFile:pngFilePath atomically:YES];
+                }
                 
             });
             
@@ -504,12 +521,20 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
             NSURL *url = [NSURL URLWithString:bDB.coverLink];
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
-                NSData *data = [NSData dataWithContentsOfURL:url];
-                UIImage *bookImage = [[UIImage alloc] initWithData:data];
-                dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                UIImage *bookImage;
+                
+                @try {
+                    NSData *data = [NSData dataWithContentsOfURL:url];
+                    bookImage = [[UIImage alloc] initWithData:data];
                     
-                    cell.bookImage.image = bookImage;
-                });
+                    dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                        
+                        cell.bookImage.image = bookImage;
+                    });
+                }
+                @catch (NSException * e) {
+                    NSLog(@"Exception: %@", e);
+                }
                 
                 
                 cell.ID = bDB.ID;
@@ -523,7 +548,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
                 NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)cell.ID];
                 NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
                 NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
-                [data1 writeToFile:pngFilePath atomically:YES];
+                if (data1 != nil) {
+                    [data1 writeToFile:pngFilePath atomically:YES];
+                }
             });
             
         }
@@ -555,12 +582,21 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
             
             NSURL *url = [NSURL URLWithString:bDB.coverLink];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
-                NSData *data = [NSData dataWithContentsOfURL:url];
-                UIImage *bookImage = [[UIImage alloc] initWithData:data];
-                dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                UIImage *bookImage;
+                
+                @try {
+                    NSData *data = [NSData dataWithContentsOfURL:url];
+                    bookImage = [[UIImage alloc] initWithData:data];
                     
-                    cell.bookImage.image = bookImage;
-                });
+                    dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                        
+                        cell.bookImage.image = bookImage;
+                    });
+                }
+                @catch (NSException * e) {
+                    NSLog(@"Exception: %@", e);
+                }
+
                 
                 
                 cell.ID = bDB.ID;
@@ -574,7 +610,10 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
                 NSString *imageName = [NSString stringWithFormat:@"%@Books%ld.png",self.tableName, (long)cell.ID];
                 NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
                 NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
-                [data1 writeToFile:pngFilePath atomically:YES];
+                
+                if (data1 != nil) {
+                    [data1 writeToFile:pngFilePath atomically:YES];
+                }
                 
             });
         }
