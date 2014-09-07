@@ -119,10 +119,10 @@
         }
         else if(buttonIndex == 1)
         {
-            NSLog(@"You have clicked Yes to delete %lu", (long)self.indexPath.row);
+            NSLog(@"You have clicked Yes to delete %li", (long)self.indexPath.row);
             //delete from database
             [self.appDelegate deleteTableFromDatabase:[[self.tableNames objectAtIndex:self.indexPath.row] lowercaseString]];
-            NSLog(@"deleted tables");
+            NSLog(@"deleted tables %@", [[self.tableNames objectAtIndex:self.indexPath.row] lowercaseString]);
             [self.tableNames removeObjectAtIndex:self.indexPath.row];
             NSLog(@"count: %lu",(unsigned long)self.tableNames.count);
             [self.tableView deleteRowsAtIndexPaths:@[self.indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -147,6 +147,8 @@
         [self.av show];
         
         self.indexPath = indexPath;
+        
+        NSLog(@"indexPath %li", (long)self.indexPath.row);
         
     }
 }

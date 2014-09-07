@@ -122,7 +122,11 @@
         
         self.bDB = [[BooksDatabase alloc]initWithPrimaryKeyAllDetails:self.cellID database:database table:self.tableName];
         self.bookTitle.text = self.bDB.title;
-        self.bookAuthors.text = self.bDB.authors;
+        if ([self.bDB.authors isEqual:@""] || self.bDB.authors == NULL || [self.bDB.authors isEqualToString:@"(null)"]) {
+            self.bookAuthors.text = @"";
+        } else {
+            self.bookAuthors.text = self.bDB.authors;
+        }
         
         
         NSLog(@"rating: %f", self.bDB.rating);
@@ -195,10 +199,10 @@
         
         NSLog(@"dueDate %@", self.bDB.dueDate);
         
-        if (![self.bDB.dueDate isEqualToString:@""]) {
-            self.dueDate.text = self.bDB.dueDate;
-        } else {
+        if ([self.bDB.dueDate isEqualToString:@""] || [self.bDB.dueDate isEqualToString:@"(null)"] || (self.bDB.dueDate == NULL)) {
             self.dueDate.text = @"To Read By: ";
+        } else {
+            self.dueDate.text = self.bDB.dueDate;
         }
         
         sqlite3_close(database);

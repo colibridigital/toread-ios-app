@@ -19,6 +19,6 @@
 
 @property (strong, nonatomic) NSMutableArray *tableNames;
 @property(retain) UIAlertView *av;
-@property (weak, nonatomic) NSIndexPath *indexPath;
+@property (strong, nonatomic) NSIndexPath *indexPath;
 
 @end

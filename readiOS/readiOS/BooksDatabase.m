@@ -35,7 +35,7 @@ static sqlite3_stmt *init_statement = nil;
             self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
             //self.ID = sqlite3_column_int(init_statement,0);
             NSLog(@"DONE %@", self.coverLink);
-                 } else {
+        } else {
             self.coverLink = @"";
         }
         // reset the statement for future reuse
@@ -64,20 +64,25 @@ static sqlite3_stmt *init_statement = nil;
             
             NSLog(@"entering to save the details data");
             
-            self.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
-            NSLog(@"done %@", self.title);
-             self.authors = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)];
-             NSLog(@"done");
-             self.editor = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 2)];
-             NSLog(@"done");
-            self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 3)];
-            NSLog(@"DONE %@", self.coverLink);
-            self.dueDate = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 4)];
-            self.rating = sqlite3_column_double(init_statement, 5);
-            self.isbn = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 6)];
-            NSLog(@"done %@", self.isbn);
-            self.desc = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 7)];
-            NSLog(@"done %@", self.desc);
+            @try {
+                self.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
+                NSLog(@"done %@", self.title);
+                self.authors = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)];
+                NSLog(@"done %@", self.authors);
+                self.editor = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 2)];
+                NSLog(@"done %@", self.editor);
+                self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 3)];
+                NSLog(@"DONE %@", self.coverLink);
+                self.dueDate = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 4)];
+                self.rating = sqlite3_column_double(init_statement, 5);
+                self.isbn = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 6)];
+                NSLog(@"done %@", self.isbn);
+                self.desc = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 7)];
+                NSLog(@"done %@", self.desc);
+            }
+            @catch (NSException *e) {
+                NSLog(@"exception thrown %@", e);
+            }
             
         } else {
             self.title = @"";
@@ -94,7 +99,7 @@ static sqlite3_stmt *init_statement = nil;
     }
     
     return self;
-
+    
 }
 
 

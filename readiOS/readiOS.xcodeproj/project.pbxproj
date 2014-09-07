@@ -31,6 +31,7 @@
 		1556C2A61991666300756AEB /* tut2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C29F1991666300756AEB /* tut2.png */; };
 		1556C2A71991666300756AEB /* tut1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C2A01991666300756AEB /* tut1.png */; };
 		1556C2A81991666300756AEB /* tut0.png in Resources */ = {isa = PBXBuildFile; fileRef = 1556C2A11991666300756AEB /* tut0.png */; };
+		1557AB0719B8A13600A93119 /* tut7.png in Resources */ = {isa = PBXBuildFile; fileRef = 1557AB0619B8A13600A93119 /* tut7.png */; };
 		15591DE6197FE74A007DA93B /* ReadingListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 15591DE4197FE74A007DA93B /* ReadingListManager.m */; };
 		15591DE7197FE74A007DA93B /* ReadingListManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15591DE5197FE74A007DA93B /* ReadingListManager.xib */; };
 		15591DEC197FEFD8007DA93B /* ReadingListDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 15591DEA197FEFD8007DA93B /* ReadingListDetail.m */; };
@@ -151,6 +152,7 @@
 		1556C29F1991666300756AEB /* tut2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut2.png; sourceTree = "<group>"; };
 		1556C2A01991666300756AEB /* tut1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut1.png; sourceTree = "<group>"; };
 		1556C2A11991666300756AEB /* tut0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut0.png; sourceTree = "<group>"; };
+		1557AB0619B8A13600A93119 /* tut7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tut7.png; sourceTree = "<group>"; };
 		15591DE3197FE74A007DA93B /* ReadingListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingListManager.h; sourceTree = "<group>"; };
 		15591DE4197FE74A007DA93B /* ReadingListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingListManager.m; sourceTree = "<group>"; };
 		15591DE5197FE74A007DA93B /* ReadingListManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadingListManager.xib; sourceTree = "<group>"; };
@@ -550,6 +552,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1557AB0619B8A13600A93119 /* tut7.png */,
 				1556C29B1991666300756AEB /* tut6.png */,
 				1556C29C1991666300756AEB /* tut5.png */,
 				1556C29D1991666300756AEB /* tut4.png */,
@@ -776,6 +779,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1576E4C619B5FA4900FF8D63 /* README.txt in Resources */,
+				1557AB0719B8A13600A93119 /* tut7.png in Resources */,
 				15B08D23188B184900FE1C17 /* 1.jpg in Resources */,
 				15CC1C6F198ADBB60043F461 /* Tutorial_iPhone.storyboard in Resources */,
 				15B08D191878423F00FE1C17 /* two.jpg in Resources */,

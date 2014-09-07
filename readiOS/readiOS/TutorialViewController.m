@@ -35,8 +35,8 @@
     
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    _pageImages = @[@"tut0.png", @"tut1.png", @"tut2.png", @"tut3.png", @"tut4.png", @"tut5.png", @"tut6.png"];
-    _pageDescriptions = @[@"To get started, tap create new list, and select it from the menu:", @"Great.  Now lets find a book to add:", @"To add it to your list, tap the plus icon, and pick your list:", @"Perfect.  To find out more on the book, just tap on its cover:", @"You can even set a reminder to finish reading the book:", @"When you’re done reading the book or want to delete it, press and hold on it:", @"Finally, to see your reading history, tap in the side bar: "];
+    _pageImages = @[@"tut0.png", @"tut1.png", @"tut2.png", @"tut3.png", @"tut4.png", @"tut5.png", @"tut7.png", @"tut6.png"];
+    _pageDescriptions = @[@"To get started, tap create new list, and select it from the menu:", @"Great.  Now lets find a book to add:", @"To add it to your list, tap the plus icon, and pick your list:", @"Perfect.  To find out more on the book, just tap on its cover:", @"You can even set a reminder to finish reading the book:", @"When you’re done reading the book or want to delete it, press and hold on it:", @"Once arrived in the list manager deleting a reading list is easy.  Just swipe left on the list and tap delete.", @"Finally, to see your reading history, tap in the side bar: "];
     
     // Create page view controller
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialPageViewController"];

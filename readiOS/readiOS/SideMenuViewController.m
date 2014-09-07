@@ -41,7 +41,7 @@
     if ([indexPath isEqual:firstRowPath]) {
         cell.textLabel.text = [NSString stringWithFormat:@"What I've Read"];
     } else if ([indexPath isEqual:[NSIndexPath indexPathForRow:0 inSection:1]]) {
-        cell.textLabel.text = [NSString stringWithFormat:@"All My Reading Lists"];
+        cell.textLabel.text = [NSString stringWithFormat:@"Manage My Reading Lists"];
     } else if ([indexPath isEqual:[NSIndexPath indexPathForItem:0 inSection:2]]) {
         cell.textLabel.text = [NSString stringWithFormat:@"Send List via Email"];
     } 
