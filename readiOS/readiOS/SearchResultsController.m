@@ -29,11 +29,10 @@
     self.searchBar.delegate = self;
     
     int rNumber1 = arc4random() % 100 + 1;
-    int rNumber2 = arc4random() % 100 + 1;
     
-    NSLog(@"adddds in search, %i, %i", rNumber1, rNumber2);
+    NSLog(@"adddds in search, %i", rNumber1);
     
-    if ((rNumber1%5==0) || (rNumber2%2==0)) {
+    if ((rNumber1%5==0) || (rNumber1%2==0)) {
         [self loadIAdinterstitial];
     }
 

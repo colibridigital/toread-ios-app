@@ -32,7 +32,12 @@ static sqlite3_stmt *init_statement = nil;
         // For this query, we bind the primary key to the first (and only) placeholder in the statement
         sqlite3_bind_int(init_statement, 1, (int)ID);
         if (sqlite3_step(init_statement) == SQLITE_ROW) {
+            @try {
             self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
+            }
+            @catch (NSException* e) {
+                NSLog(@"exception %@", e);
+            }
             //self.ID = sqlite3_column_int(init_statement,0);
             NSLog(@"DONE %@", self.coverLink);
         } else {
@@ -67,25 +72,77 @@ static sqlite3_stmt *init_statement = nil;
             @try {
                 self.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
                 NSLog(@"done %@", self.title);
-                self.authors = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)];
-                NSLog(@"done %@", self.authors);
-                self.editor = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 2)];
-                NSLog(@"done %@", self.editor);
-                self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 3)];
-                NSLog(@"DONE %@", self.coverLink);
-                self.dueDate = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 4)];
-                self.rating = sqlite3_column_double(init_statement, 5);
-                self.isbn = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 6)];
-                NSLog(@"done %@", self.isbn);
-                self.desc = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 7)];
-                NSLog(@"done %@", self.desc);
             }
             @catch (NSException *e) {
                 NSLog(@"exception thrown %@", e);
             }
             
+            @try{
+                self.authors = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)];
+                NSLog(@"done %@", self.authors);
+            }
+            @catch (NSException *e) {
+                NSLog(@"exception thrown %@", e);
+            }
+            
+            @try{
+                self.editor = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 2)];
+                NSLog(@"done %@", self.editor);
+            }
+            @catch (NSException *e) {
+                NSLog(@"exception thrown %@", e);
+            }
+            
+            @try{
+                self.coverLink = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 3)];
+                NSLog(@"DONE %@", self.coverLink);
+                
+            }
+            @catch (NSException *e) {
+                NSLog(@"exception thrown %@", e);
+            }
+            
+            @try {
+                self.dueDate = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 4)];
+            }
+            
+            @catch (NSException *e) {
+                NSLog(@"exception thrown %@", e);
+            }
+            
+            @try{
+                
+                self.rating = sqlite3_column_double(init_statement, 5);
+            }
+            
+            @catch (NSException *e) {
+                NSLog(@"exception thrown %@", e);
+            }
+            
+            
+            @try{
+                self.isbn = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 6)];
+                NSLog(@"done %@", self.isbn);
+            }
+            
+            
+            @catch (NSException *e) {
+                NSLog(@"exception thrown %@", e);
+            }
+            
+            @try {
+                self.desc = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 7)];
+                NSLog(@"done %@", self.desc);
+            }
+            
+            @catch (NSException *e) {
+                NSLog(@"exception thrown %@", e);
+            }
+            
+            
+            
         } else {
-            self.title = @"";
+            
             self.authors = @"";
             self.editor = @"";
             self.coverLink = @"";

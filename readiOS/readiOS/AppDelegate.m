@@ -29,11 +29,12 @@
 - (UIStoryboard *)setStoryboard
 {
     UIStoryboard *mainStoryboard;
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    //when i ll do ipad
+   /* if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         
         mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPad"
                                                    bundle: nil];
-    } else {
+    } else {*/
         
         
         CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
@@ -48,7 +49,7 @@
             mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
                                                        bundle: nil];
         }
-    }
+    //}
     return mainStoryboard;
 }
 
@@ -522,7 +523,7 @@
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
-    NSURLResponse *response;
+   /* NSURLResponse *response;
     NSError *err;
     NSData *jsonResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
     
@@ -533,7 +534,7 @@
     NSDictionary* jsonResponseDict = [NSJSONSerialization
                                       JSONObjectWithData:jsonResponseData
                                       options:0
-                                      error:&error];
+                                      error:&error];*/
    
    //NSLog(@"syncing details %@", jsonResponseDict);
 }
@@ -831,7 +832,7 @@
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
              //   NSLog(@"in SQL");
-                int ID = sqlite3_column_int(statement, 0);
+               // int ID = sqlite3_column_int(statement, 0);
                // NSLog(@"ID is %i", ID);
                 
                // NSLog(@"DONE");
@@ -868,7 +869,7 @@
             while (sqlite3_step(statement) == SQLITE_ROW) {
                 
                // NSLog(@"in SQL");
-                int ID = sqlite3_column_int(statement, 0);
+                //int ID = sqlite3_column_int(statement, 0);
                // NSLog(@"ID is %i", ID);
                 
                 [tableNames addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)]];
