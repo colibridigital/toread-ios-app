@@ -96,14 +96,15 @@
         NSLog(@"Registering");
         responseMessage = [self.appDelegate registerUser:self.username.text password:self.password.text firstName:self.firstName.text lastName:self.lastName.text emailAddress:self.emailAddress.text ageRange:ageRange sex:sex occupation:occ];
     } else {
-        
+        [self showWithCustomView:@"No Internet Connection"];
     }
     
     if ([responseMessage isEqualToString:@"Username already exists"]) {
         self.userExistence.hidden = NO;
-    } else {
+    } else if ([responseMessage isEqualToString:@"New user created"]){
         
-        @try {
+        NSLog(@"response: %@", responseMessage);
+       
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
@@ -118,10 +119,7 @@
                                                                    instantiateViewControllerWithIdentifier: @"MainViewController"];
             
             [self.appDelegate setupMenu:mainViewController];
-        }
-        @catch (NSException *e){
-            NSLog(@"Exception thrown %@",e);
-        }
+       
     }
     
     

@@ -141,11 +141,12 @@
     else if(buttonIndex == 1)
     {
         NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
-        self.customListTitle = [[self.av textFieldAtIndex:0] text];
-        NSLog(@"%@", self.customListTitle);
         
-        [self.appDelegate createNewCustomListInTheDatabase:[[self.av textFieldAtIndex:0] text]];
-        [self.appDelegate addBookToTheDatabaseBookList:[self.customListTitle lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
+        self.customListTitle = [[self.av textFieldAtIndex:0] text];
+        NSString* listTitle = [self.customListTitle stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        NSLog(@"new list title: %@", listTitle);
+        [self.appDelegate createNewCustomListInTheDatabase:listTitle];
+        [self.appDelegate addBookToTheDatabaseBookList:[listTitle lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
         
         [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
 

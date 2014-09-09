@@ -85,8 +85,6 @@
         //NSLog(@"syncing with the server");
         [self getAllBooksFromServerAndCreateDatabase];
         
-        
-        
     }
     
     
@@ -816,6 +814,8 @@
     
     NSString* tableName = [name lowercaseString];
     
+    tableName = [tableName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
@@ -1201,6 +1201,8 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"books.sqlite"];
     
+    tableName = [tableName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+
    // NSLog(@"path %@", path);
     //Open the db. The db was prepared outside the application
     
@@ -1385,6 +1387,9 @@
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] == NULL || [[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] isEqualToString:@"(null)"]) {
+        [self registerOrLogin];
+    }
     /* if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
      NSLog(@"syncing with the server");
      NSString *jsonString = [self performSyncRequest];
