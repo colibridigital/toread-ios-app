@@ -140,6 +140,7 @@
         
         UIImage *bookImage = [UIImage imageWithContentsOfFile:pngFilePath];
         self.bookCover.image = bookImage;
+        
         _starRating.rating= self.bDB.rating;
         
        // NSString *ratingString = [NSString stringWithFormat:@"Rating: %.1f", self.bDB.rating];

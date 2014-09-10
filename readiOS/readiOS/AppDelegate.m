@@ -58,6 +58,10 @@
     
     [self createEditableCopyOfDatabaseIfNeeded];
     
+}
+
+- (void)authenticateAndSyncRegularly{
+
     if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
  
         NSString *jsonResponse = [self performSingleAuthentication];
@@ -119,7 +123,7 @@
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
     jsonString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     
-   // NSLog(@"response from the server with BOOKS %@", jsonString);
+    NSLog(@"response from the server with BOOKS %@", jsonString);
     
     [self createDatabaseEntries:responseData];
     
@@ -137,14 +141,13 @@
         [self registerOrLogin];
         
     } else {
+
+        /*if ([self connectedToInternet]) {
+
+            [self authenticateAndSyncRegularly];
+            
+        } else {*/
         
-        if ([self connectedToInternet]) {
-            
-            NSLog(@"i do it all the time??");
-            
-            [self doTheDatabaseSetup];
-            
-            
             UIStoryboard *mainStoryboard;
             
             mainStoryboard = [self setStoryboard];
@@ -155,7 +158,7 @@
             
             [self setupMenu:mainViewController];
             
-        }
+        //}
         
     }
     
@@ -521,7 +524,7 @@
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
-   /* NSURLResponse *response;
+    NSURLResponse *response;
     NSError *err;
     NSData *jsonResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
     
@@ -532,7 +535,7 @@
     NSDictionary* jsonResponseDict = [NSJSONSerialization
                                       JSONObjectWithData:jsonResponseData
                                       options:0
-                                      error:&error];*/
+                                      error:&error];
    
    //NSLog(@"syncing details %@", jsonResponseDict);
 }
@@ -1370,12 +1373,6 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
-       // NSLog(@"syncing with the server");
-        NSString *jsonString = [self performSyncRequest];
-      //  NSLog(@"%@", jsonString);
-        [self syncWithTheServer:jsonString];
-    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -1387,14 +1384,14 @@
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] == NULL || [[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] isEqualToString:@"(null)"]) {
-        [self registerOrLogin];
-    }
-    /* if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
-     NSLog(@"syncing with the server");
-     NSString *jsonString = [self performSyncRequest];
-     NSLog(@"%@", jsonString);
-     [self syncWithTheServer:jsonString];
+    if (([[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] == NULL || [[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] isEqualToString:@"(null)"]) && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
+            [self registerOrLogin];
+    }  else if (([[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] == NULL || [[[NSUserDefaults standardUserDefaults] objectForKey:@"auth_token"] isEqualToString:@"(null)"]) && ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial"]) {
+            [self displayTutorial];
+    } /*else if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
+        
+            NSLog(@"syncing with the server");
+            [self authenticateAndSyncRegularly];
      }*/
     
 }
@@ -1402,6 +1399,9 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    NSLog(@"syncing with the server");
+    [self authenticateAndSyncRegularly];
+    
 }
 
 @end

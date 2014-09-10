@@ -74,4 +74,6 @@
 
 - (int)getNumberOfBooksFromDB:(NSString*)tableName;
 
+-(void)authenticateAndSyncRegularly;
+
 @end

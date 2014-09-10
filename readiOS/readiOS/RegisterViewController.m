@@ -109,7 +109,8 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self.appDelegate doTheDatabaseSetup];
-            
+            [self.appDelegate authenticateAndSyncRegularly];
+        
             UIStoryboard *mainStoryboard;
             
             mainStoryboard = [self.appDelegate setStoryboard];

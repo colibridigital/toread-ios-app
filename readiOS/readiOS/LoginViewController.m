@@ -62,6 +62,7 @@
     if ([self.appDelegate connectedToInternet]) {
         NSLog(@"loging in");
         responseMessage = [self.appDelegate login:self.username.text password:self.password.text];
+         NSLog(@"response: %@", responseMessage);
     } else {
         
     }
@@ -70,6 +71,8 @@
         NSLog(@"can t login");
         self.wrongLoginMessage.hidden = NO;
     } else {
+        
+         NSLog(@"response: %@", responseMessage);
         
         @try {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
@@ -89,6 +92,7 @@
         }
         @catch (NSException *e){
             NSLog(@"Exception thrown is %@", e);
+            [self showWithCustomView:@"Couldn't login"];
         }
     }
     
