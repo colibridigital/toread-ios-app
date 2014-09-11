@@ -65,7 +65,13 @@
     if ([self connectedToInternet] && [[NSUserDefaults standardUserDefaults] boolForKey:@"hasAuthenticated"]) {
  
         NSString *jsonResponse = [self performSingleAuthentication];
-        [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
+        
+        if([self howManyDaysHavePast:[[NSUserDefaults standardUserDefaults] valueForKey:@"lastUpdated"] today:[NSDate date]]>=7) {
+            NSLog(@"i need to request suggested books again");
+            [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
+        } else {
+            NSLog(@"I do not need to request the suggested books again");
+        }
        // NSLog(@"syncing with the server");
         NSString *jsonString = [self performSyncRequest];
         //NSLog(@"%@", jsonString);
@@ -765,7 +771,27 @@
         }
         
     }
+        
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastUpdated"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSLog(@"DATE: %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"lastUpdated"]);
+
 }
+
+-(int)howManyDaysHavePast:(NSDate*)lastDate today:(NSDate*)today {
+    NSDate *startDate = lastDate;
+    NSDate *endDate = today;
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [gregorian components:NSDayCalendarUnit fromDate:startDate toDate:endDate options:0];
+    int days = [components day];
+    NSLog(@"days passed: %i", days);
+    
+    return days;
+}
+
+
 
 //open the db connection and retrieve minimal information for all objects
 - (void)initializeSuggestedBooksDatabase {
@@ -799,6 +825,20 @@
            //     NSLog(@"ID is %i", ID);
                 BooksDatabase *bDB = [[BooksDatabase alloc]initWithPrimaryKey:ID database:database table:tableName];
                 [suggestedBooks addObject:bDB];
+                
+                //remove old images if needed
+                if([self howManyDaysHavePast:[[NSUserDefaults standardUserDefaults] valueForKey:@"lastUpdated"] today:[NSDate date]]>=7)
+                {
+                    NSLog(@"I can remove the images and download new ones");
+                    NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                
+                    NSString *imageN = [NSString stringWithFormat:@"suggestedBooks%ld.png",(long)bDB.ID];
+                
+                    NSLog(@"imageNAme %@", imageN);
+                
+                    NSString* pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageN];
+                    [self removeImage:pngFilePath];
+                }
             }
         }
       //  NSLog(@"Number of SUGGESTED from the DB: %lu", (unsigned long)suggestedBooks.count);
@@ -811,6 +851,16 @@
         NSAssert1(0, @"Failed to open DB with message '%s' .", sqlite3_errmsg(database));
     }
     
+}
+
+- (void)removeImage:(NSString *)filePath
+{
+    NSError *error;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:filePath error:&error];
+    if (error){
+        NSLog(@"%@", error);
+    }
 }
 
 - (void)createNewCustomListInTheDatabase:(NSString *)name {
@@ -1402,6 +1452,12 @@
     NSLog(@"syncing with the server");
     [self authenticateAndSyncRegularly];
     
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"To read!" message:notification.alertBody delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    
+    [alert show];
 }
 
 @end

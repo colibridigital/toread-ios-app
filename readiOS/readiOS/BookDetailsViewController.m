@@ -418,7 +418,7 @@
 - (void)scheduleNotification {
     UILocalNotification *notification = [[UILocalNotification alloc]init];
     notification.fireDate = self.datePicker.date;
-    //notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+    //notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:15];
     notification.timeZone = [NSTimeZone defaultTimeZone];
     //make this customisable?
     notification.alertBody = [NSString stringWithFormat:@"Finish reading: %@", self.bookTitle.text];
@@ -434,6 +434,7 @@
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
     self.dueDate.text = [dateFormatter stringFromDate:[self.datePicker date]];
+    //cancel old notification
     self.bDB.dueDate = [dateFormatter stringFromDate:[self.datePicker date]];
     
     [self scheduleNotification];
