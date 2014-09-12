@@ -42,6 +42,39 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)requestDataAndShowMainView {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+        
+        
+        @try {
+            
+            
+            dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                
+                [self.appDelegate requestBooksAndCreateDatabaseEntries];
+                
+                UIStoryboard *mainStoryboard;
+                
+                mainStoryboard = [self.appDelegate setStoryboard];
+                
+                
+                ViewController *mainViewController = (ViewController*)[mainStoryboard
+                                                                       instantiateViewControllerWithIdentifier: @"MainViewController"];
+                
+                [self.appDelegate setupMenu:mainViewController];
+
+            });
+            
+            
+        }
+        @catch (NSException * e) {
+            NSLog(@"Exception: %@", e);
+            [self showWithCustomView:@"No Internet Connection"];
+        }
+        
+    });
+}
+
 /*
  #pragma mark - Navigation
  
@@ -64,7 +97,7 @@
         responseMessage = [self.appDelegate login:self.username.text password:self.password.text];
          NSLog(@"response: %@", responseMessage);
     } else {
-        
+        [self showWithCustomView:@"No Internet Connection"];
     }
     
     if ([responseMessage isEqualToString:@"Invalid username or password"]) {
@@ -74,28 +107,15 @@
         
          NSLog(@"response: %@", responseMessage);
         
-        @try {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [self.appDelegate requestBooksAndCreateDatabaseEntries];
-            
-            UIStoryboard *mainStoryboard;
-            
-            mainStoryboard = [self.appDelegate setStoryboard];
-            
-            
-            ViewController *mainViewController = (ViewController*)[mainStoryboard
-                                                                   instantiateViewControllerWithIdentifier: @"MainViewController"];
-            
-            [self.appDelegate setupMenu:mainViewController];
-        }
-        @catch (NSException *e){
-            NSLog(@"Exception thrown is %@", e);
-            [self showWithCustomView:@"Couldn't login"];
-        }
+        
+        [self showSimple];
+        [self requestDataAndShowMainView];
+        
     }
     
+    [self.view endEditing:YES];
     
 }
 
@@ -129,6 +149,19 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
     NSLog(@"textFieldDidBeginEditing");
     self.wrongLoginMessage.hidden = YES;
+}
+
+
+- (void)showSimple {
+	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+	HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+	
+	// Regiser for HUD callbacks so we can remove it from the window at the right time
+	HUD.delegate = self;
+	
+	// Show the HUD while the provided method executes in a new thread
+	[HUD showWhileExecuting:@selector(requestDataAndShowMainView) onTarget:self withObject:nil animated:YES];
 }
 
 - (void)showWithCustomView:(NSString*)message {

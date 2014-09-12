@@ -42,6 +42,39 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)registerNewUser {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+        
+        
+        @try {
+            
+            
+            dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                [self.appDelegate doTheDatabaseSetup];
+                [self.appDelegate authenticateAndSyncRegularly];
+    
+                UIStoryboard *mainStoryboard;
+    
+                mainStoryboard = [self.appDelegate setStoryboard];
+    
+    
+                ViewController *mainViewController = (ViewController*)[mainStoryboard
+                                                           instantiateViewControllerWithIdentifier: @"MainViewController"];
+    
+                [self.appDelegate setupMenu:mainViewController];
+            });
+            
+            
+        }
+        @catch (NSException * e) {
+            NSLog(@"Exception: %@", e);
+            [self showWithCustomView:@"No Internet Connection"];
+        }
+        
+    });
+
+}
+
 /*
  #pragma mark - Navigation
  
@@ -107,19 +140,9 @@
        
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [self.appDelegate doTheDatabaseSetup];
-            [self.appDelegate authenticateAndSyncRegularly];
         
-            UIStoryboard *mainStoryboard;
-            
-            mainStoryboard = [self.appDelegate setStoryboard];
-            
-            
-            ViewController *mainViewController = (ViewController*)[mainStoryboard
-                                                                   instantiateViewControllerWithIdentifier: @"MainViewController"];
-            
-            [self.appDelegate setupMenu:mainViewController];
+        [self showSimple];
+        [self registerNewUser];
        
     }
     
@@ -163,6 +186,19 @@
     }
     
     [super touchesBegan:touches withEvent:event];
+}
+
+- (void)showSimple {
+	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+	HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+	
+	// Regiser for HUD callbacks so we can remove it from the window at the right time
+	HUD.delegate = self;
+    HUD.color = [UIColor grayColor];
+    
+	// Show the HUD while the provided method executes in a new thread
+	[HUD showWhileExecuting:@selector(registerNewUser) onTarget:self withObject:nil animated:YES];
 }
 
 - (void)showWithCustomView:(NSString*)message {
