@@ -42,6 +42,7 @@
 @property (nonatomic) int uniqueID;
 @property(retain) UIAlertView *av;
 @property (nonatomic) NSString *customListTitle;
+@property (nonatomic) NSString *moveToListName;
 
 @property (strong, nonatomic) UIPickerView *pickerView;
 @property (strong, nonatomic) NSArray *pickerViewData;

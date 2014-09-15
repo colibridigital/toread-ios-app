@@ -93,7 +93,8 @@
     NSMutableArray *newTable = [NSMutableArray array];
     
     for (NSString* name in self.tableNames) {
-        if ([name rangeOfString:@"suggested"].location != NSNotFound || [name rangeOfString:@"read"].location != NSNotFound) {
+        if ([name rangeOfString:@"suggested"].location != NSNotFound || [name rangeOfString:@"read"].location != NSNotFound || [name rangeOfString:self.tableName].location != NSNotFound) {
+            NSLog(@" current table name %@", self.tableName);
             continue;
         } else{
             [newTable addObject:[[name stringByReplacingOccurrencesOfString:@"Books" withString:@""] capitalizedString]];
@@ -395,12 +396,73 @@
             NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
             NSLog(@"%@", pngFilePath);
             [self removeImage:pngFilePath];
+            
+            self.tableName = [NSString stringWithFormat:@"%@Books", [self.customListTitle lowercaseString] ];
 
+            [self initiatePickerViewWithTableNames];
             
             [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
             
         }
 
+    }
+    
+    if (self.av.tag == 4) {
+        if (buttonIndex == 0)
+        {
+            NSLog(@"You have clicked No");
+        }
+        else if(buttonIndex == 1)
+        {
+            NSLog(@"You have clicked Yes ");
+            
+            
+            
+            [self.appDelegate addBookToTheDatabaseBookList:[self.moveToListName lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating isbn:self.bDB.isbn desc:self.bDB.desc];
+            
+            
+            //save the image with a new name beforehand
+            
+            int ID = [self.appDelegate getNumberOfBooksFromDB:[self.moveToListName lowercaseString]];
+            
+            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            NSString *imageName1 = [NSString stringWithFormat:@"%@Books%ld.png",[self.moveToListName lowercaseString],(long)ID];
+            NSString* pngFilePath1 = [NSString stringWithFormat:@"%@/%@",docDir, imageName1];
+            
+            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(self.bookCover.image)];
+            
+            if (data1 != nil) {
+                
+                [data1 writeToFile:pngFilePath1 atomically:YES];
+                
+            } else {
+                NSLog(@"book cover object is nill");
+            }
+            
+            NSLog(@"new image name: %@ at path %@", imageName1, pngFilePath1);
+            
+            
+            [self.appDelegate deleteBooksToReadFromOriginalTable:self.tableName ID:self.cellID indexPath:self.indexPath.row];
+            
+            NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)self.cellID];
+            
+            NSLog(@"old imageName %@", imageName);
+            
+            NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+            //NSLog(@"%@", pngFilePath);
+            [self removeImage:pngFilePath];
+            
+            NSLog(@"moving book to the database");
+            
+            self.tableName = [NSString stringWithFormat:@"%@Books", [self.moveToListName lowercaseString]];
+            
+            [self initiatePickerViewWithTableNames];
+            
+            [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.moveToListName]];
+            
+        }
+        
     }
 }
 
@@ -526,57 +588,20 @@
     } else {
     
     NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
-    
-    [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating isbn:self.bDB.isbn desc:self.bDB.desc];
         
+        self.moveToListName = [self.pickerViewData objectAtIndex:row];
         
-    //save the image with a new name beforehand
+        NSString* message = [NSString stringWithFormat:@"Would you like to move the book to %@ list?", self.moveToListName];
         
-        int ID = [self.appDelegate getNumberOfBooksFromDB:[[self.pickerViewData objectAtIndex:row] lowercaseString]];
+        self.av = [[UIAlertView alloc] initWithTitle:@"Move to:" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        self.av.tag = 4;
         
-        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        
-        NSString *imageName1 = [NSString stringWithFormat:@"%@Books%ld.png",[[self.pickerViewData objectAtIndex:row ]lowercaseString],(long)ID];
-        NSString* pngFilePath1 = [NSString stringWithFormat:@"%@/%@",docDir, imageName1];
-        
-        NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(self.bookCover.image)];
-        
-        if (data1 != nil) {
-        
-            [data1 writeToFile:pngFilePath1 atomically:YES];
-            
-        } else {
-            NSLog(@"book cover object is nill");
-        }
-    
-        NSLog(@"new image name: %@ at path %@", imageName1, pngFilePath1);
-        
-    
-    [self.appDelegate deleteBooksToReadFromOriginalTable:self.tableName ID:self.cellID indexPath:self.indexPath.row];
-    
-    NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)self.cellID];
-    
-    NSLog(@"old imageName %@", imageName);
-    
-    NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
-    //NSLog(@"%@", pngFilePath);
-    [self removeImage:pngFilePath];
-    
-    NSLog(@"moving book to the database");
-        
-        //moving the image as well...
-        
+        [self.av show];
     }
     
-    if (![[self.pickerViewData objectAtIndex:row] isEqualToString:@"Create New List"]) {
+    [self initiatePickerViewWithTableNames];
     
-        [self showWithCustomView:[NSString stringWithFormat:@"Moved to : %@", [self.pickerViewData objectAtIndex:row]]];
-        
-        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:0];
-        [self.segmentedControl setEnabled:FALSE forSegmentAtIndex:2];
-    } else {
-        [self.segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
-    }
+    [self.segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
     
     [self.pickerView removeFromSuperview];
     

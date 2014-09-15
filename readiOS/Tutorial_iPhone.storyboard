@@ -188,6 +188,7 @@
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="568"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d87-QE-Xoi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

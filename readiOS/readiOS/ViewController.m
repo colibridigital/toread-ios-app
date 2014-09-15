@@ -855,6 +855,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     
   //  NSLog(@"in side menu here");
     [self.menuContainerViewController toggleLeftSideMenuCompletion:^{}];
+    [self.searchBar resignFirstResponder];
+    self.searchBar.text = nil;
     
 }
 
