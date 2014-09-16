@@ -10,6 +10,7 @@
 #import "BookCollectionViewCell.h"
 #import "EDStarRating.h"
 #import <sqlite3.h>
+#import "SearchResultsController.h"
 
 @interface BookDetailsViewController ()
 
@@ -60,6 +61,9 @@
     //i need to pass the table name
     [self initializeViewWithBookDetailsFromDB];
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    self.retrieveBooks = [[RetrieveBooks alloc] init];
+    
     [self initiatePickerViewWithTableNames];
     
     
@@ -297,6 +301,66 @@
     
 }
 
+- (void)showSimple:(NSString*)urlString {
+	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+	HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+	
+	// Regiser for HUD callbacks so we can remove it from the window at the right time
+	HUD.delegate = self;
+	
+	// Show the HUD while the provided method executes in a new thread
+	[HUD showWhileExecuting:@selector(searchInBackground:) onTarget:self withObject:urlString animated:YES];
+}
+
+- (IBAction)showBooks:(id)sender {
+    
+    if ([self.appDelegate connectedToInternet]) {
+        NSString* authors = self.bDB.authors;
+        NSString* urlString = [authors stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+        [self showSimple:urlString];
+        [self searchInBackground:urlString];
+    } else {
+        [self showWithCustomView:@"No Internet Connection"];
+    }
+    
+}
+
+- (void)searchInBackground:(NSString *)urlString {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+        
+        
+        @try {
+            NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
+                                   [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=30", urlString]];
+            
+            dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
+                
+                [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
+                searchResController.isShown = YES;
+               // NSLog(@"is shown value %@", searchResController.isShown);
+                
+                if (searchResController.tableData.count != 0) {
+                    
+                    [self presentViewController:searchResController animated:NO completion:nil];
+                    
+                } else {
+                    [self showWithCustomView:@"No Results Available"];
+                }
+                
+            });
+            
+        }
+        @catch (NSException * e) {
+            NSLog(@"Exception: %@", e);
+            [self showWithCustomView:@"No Internet Connection"];
+        }
+        
+    });
+}
+
+
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"Button Index =%ld",(long)buttonIndex);
@@ -415,8 +479,6 @@
         else if(buttonIndex == 1)
         {
             NSLog(@"You have clicked Yes ");
-            
-            
             
             [self.appDelegate addBookToTheDatabaseBookList:[self.moveToListName lowercaseString] bookTitle:self.bDB.title bookAuthors:self.bDB.authors publisher:self.bDB.editor coverLink:self.bDB.coverLink rating:self.bDB.rating isbn:self.bDB.isbn desc:self.bDB.desc];
             

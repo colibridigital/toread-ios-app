@@ -38,6 +38,7 @@
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 @property (nonatomic) BooksDatabase *bDB;
+@property (retain) RetrieveBooks *retrieveBooks;
 
 @property (nonatomic) int uniqueID;
 @property(retain) UIAlertView *av;
@@ -50,5 +51,6 @@
 
 - (IBAction)showCalendarPicker:(id)sender;
 - (IBAction)pickAction:(id)sender;
+- (IBAction)showBooks:(id)sender;
 
 @end

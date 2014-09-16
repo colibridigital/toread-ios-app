@@ -36,6 +36,12 @@
         [self loadIAdinterstitial];
     }
 
+    self.returnButton.hidden = YES;
+    
+    if (self.isShown) {
+        self.returnButton.hidden = NO;
+        self.homeButton.hidden = YES;
+    }
     
     self.tableView.backgroundColor = [UIColor blackColor];
     
