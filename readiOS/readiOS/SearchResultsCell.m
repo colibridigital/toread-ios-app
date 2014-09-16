@@ -123,11 +123,36 @@
         
         [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
         
+        NSLog(@"adding book to the database");
+        
+        //save cover here
+        
+        NSString* listTitle = [self.pickerViewData objectAtIndex:row] ;
+        
+        int ID = [self.appDelegate getNumberOfBooksFromDB:[listTitle lowercaseString]];
+        
+        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        
+        NSString *imageName1 = [NSString stringWithFormat:@"%@Books%ld.png",[listTitle lowercaseString],(long)ID];
+        NSString* pngFilePath1 = [NSString stringWithFormat:@"%@/%@",docDir, imageName1];
+        
+        NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(self.bookCover.image)];
+        
+        if (data1 != nil) {
+            
+            [data1 writeToFile:pngFilePath1 atomically:YES];
+            
+        } else {
+            NSLog(@"book cover object is nill");
+        }
+        
+        NSLog(@"new image name: %@ at path %@", imageName1, pngFilePath1);
+
+        
+        [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", [self.pickerViewData objectAtIndex:row]]];
     }
     
-    NSLog(@"adding book to the database");
-    
-    [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", [self.pickerViewData objectAtIndex:row]]];
+   
     
     [self.pickerView removeFromSuperview];
     
@@ -148,6 +173,28 @@
         [self.appDelegate createNewCustomListInTheDatabase:listTitle];
         [self.appDelegate addBookToTheDatabaseBookList:[listTitle lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
         
+        //save the cover here
+        
+        
+        int ID = [self.appDelegate getNumberOfBooksFromDB:[listTitle lowercaseString]];
+        
+        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        
+        NSString *imageName1 = [NSString stringWithFormat:@"%@Books%ld.png",[listTitle lowercaseString],(long)ID];
+        NSString* pngFilePath1 = [NSString stringWithFormat:@"%@/%@",docDir, imageName1];
+        
+        NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(self.bookCover.image)];
+        
+        if (data1 != nil) {
+            
+            [data1 writeToFile:pngFilePath1 atomically:YES];
+            
+        } else {
+            NSLog(@"book cover object is nill");
+        }
+        
+        NSLog(@"new image name: %@ at path %@", imageName1, pngFilePath1);
+        
         [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
 
     }
@@ -157,6 +204,7 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.pickerView removeFromSuperview];
+    
 }
 
 

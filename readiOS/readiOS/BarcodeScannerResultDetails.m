@@ -57,7 +57,11 @@
     NSLog(@"show view");
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [self initiatePickerViewWithTableNames];
-    [self initiateWithDetails];
+    if([self.appDelegate connectedToInternet]) {
+        [self initiateWithDetails];
+    } else {
+        [self showWithCustomView:@"No Internet Connection"];
+    }
     
     
     _starRating.backgroundColor  = [UIColor blackColor];

@@ -16,9 +16,21 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-
+        
         }
     return self;
+}
+
+-(id)init {
+    
+    self = [super init];
+    
+    UIImage *img = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"default_book_cover" ofType: @"jpg"]];
+    
+    self.bookImage = [[UIImageView alloc] initWithImage:img];
+    
+    return self;
+
 }
 
 /*

@@ -32,7 +32,7 @@
     
     NSLog(@"adddds in search, %i", rNumber1);
     
-    if ((rNumber1%5==0) || (rNumber1%2==0)) {
+    if (rNumber1%3==0) {
         [self loadIAdinterstitial];
     }
 
@@ -113,17 +113,22 @@
     cell.coverLink = stringURL;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
-        
-        NSURL *url = [NSURL URLWithString:stringURL];
-        NSData *data = [NSData dataWithContentsOfURL:url];
+       
         
         
         dispatch_sync(dispatch_get_main_queue(), ^(void) {
             UIImage *bookImage;
-            if (data != nil)
-                bookImage = [[UIImage alloc] initWithData:data];
             
-            cell.bookCover.image = bookImage;
+            NSURL *url = [NSURL URLWithString:stringURL];
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            
+            if (data != nil) {
+                
+                bookImage = [[UIImage alloc] initWithData:data];
+                
+                cell.bookCover.image = bookImage;
+            } 
+            
         });
     });
     
@@ -162,6 +167,7 @@
     
     cell.desc = [[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"description"];
     
+    [self.searchBar resignFirstResponder];
     
     return cell;
 }
@@ -203,8 +209,14 @@
             
             
             dispatch_sync(dispatch_get_main_queue(), ^(void) {
-                [self setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
-                [self.tableView reloadData];
+                
+                
+                if (!([self.tableData objectAtIndex:0] == nil)) {
+                    [self setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
+                    [self.tableView reloadData];
+                } else {
+                    [self showWithCustomView:@"No Results Available"];
+                }
                 
             });
         }
@@ -225,7 +237,7 @@
     
     NSLog(@"adddds in search, %i", rNumber1);
     
-    if ((rNumber1%5==1) || (rNumber1%2==1)) {
+    if (rNumber1%4==0) {
         [self loadIAdinterstitial];
     }
 
@@ -245,6 +257,7 @@
     
     //self.searchBar.text = nil;
 }
+
 
 - (void)showSimple:(NSString*)urlString {
 	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)

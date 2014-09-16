@@ -96,6 +96,7 @@
 		15CC1C6F198ADBB60043F461 /* Tutorial_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15CC1C6E198ADBB60043F461 /* Tutorial_iPhone.storyboard */; };
 		15CC1C73198AE14A0043F461 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC1C72198AE14A0043F461 /* TutorialViewController.m */; };
 		15CC1C77198AE6560043F461 /* TutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC1C76198AE6560043F461 /* TutorialPageViewController.m */; };
+		15CCA63719C76EAD008C7F47 /* default_book_cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15CCA63619C76EAD008C7F47 /* default_book_cover.jpg */; };
 		15CF4F03195A044B00BDF404 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15CF4F02195A044B00BDF404 /* AVFoundation.framework */; };
 		15CF4F06195A049A00BDF404 /* BarcodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CF4F05195A049A00BDF404 /* BarcodeScannerViewController.m */; };
 		15CFECE418FEC5560086207B /* home-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15CFECE318FEC5560086207B /* home-icon.png */; };
@@ -247,6 +248,7 @@
 		15CC1C72198AE14A0043F461 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
 		15CC1C75198AE6560043F461 /* TutorialPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPageViewController.h; sourceTree = "<group>"; };
 		15CC1C76198AE6560043F461 /* TutorialPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPageViewController.m; sourceTree = "<group>"; };
+		15CCA63619C76EAD008C7F47 /* default_book_cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_book_cover.jpg; sourceTree = "<group>"; };
 		15CF4F02195A044B00BDF404 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		15CF4F04195A049A00BDF404 /* BarcodeScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarcodeScannerViewController.h; sourceTree = "<group>"; };
 		15CF4F05195A049A00BDF404 /* BarcodeScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarcodeScannerViewController.m; sourceTree = "<group>"; };
@@ -550,6 +552,7 @@
 		15B08D1A1878424500FE1C17 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				15CCA63619C76EAD008C7F47 /* default_book_cover.jpg */,
 				1557AB0619B8A13600A93119 /* tut7.png */,
 				1556C29B1991666300756AEB /* tut6.png */,
 				1556C29C1991666300756AEB /* tut5.png */,
@@ -785,6 +788,7 @@
 				15B08D2F188B1D0A00FE1C17 /* logic.jpg in Resources */,
 				15B08D2D188B1D0A00FE1C17 /* design.jpg in Resources */,
 				15C2C84F19102028009C9361 /* ReadBooksViewController.xib in Resources */,
+				15CCA63719C76EAD008C7F47 /* default_book_cover.jpg in Resources */,
 				15928414195CAEB80069FA8B /* BarcodeScannerResultDetails.xib in Resources */,
 				159D8BC119585CA7002BC84A /* 37x-Checkmark@2x.png in Resources */,
 				15368BE21946758700E11AC0 /* star-highlighted-template.png in Resources */,

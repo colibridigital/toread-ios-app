@@ -210,7 +210,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
    
     //load ads here - improve this
     int rNumber1 = arc4random() % 100 + 1;
-    if (rNumber1%5==0) {
+    if (rNumber1%7==0) {
         [self loadInterstitial];
     }
     
@@ -237,15 +237,20 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         NSData* dataFromURL = [self.retrieveBooks getDataFromURLAsData:
                                [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=%@&maxResults=30", urlString]];
             
-            
-        dispatch_sync(dispatch_get_main_queue(), ^(void) {
-                SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
+                dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                    SearchResultsController *searchResController = [[SearchResultsController alloc]initWithNibName:@"SearchResultsController" bundle:nil];
                 
-                [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
+                    [searchResController setTableData:[self.retrieveBooks parseJson:[self.retrieveBooks getJsonFromData:dataFromURL]]];
+                    
+                    if (searchResController.tableData.count != 0) {
                 
-                [self presentViewController:searchResController animated:NO completion:nil];
+                        [self presentViewController:searchResController animated:NO completion:nil];
+                    } else {
+                        [self showWithCustomView:@"No Results Available"];
+                    }
                 
-            });
+                });
+           
         }
         @catch (NSException * e) {
             NSLog(@"Exception: %@", e);
@@ -421,6 +426,60 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     }
 }
 
+- (void)processBookCover:(BooksDatabase *)bDB tableTitle:(NSString *)tableTitle cell:(BookCollectionViewCell *)cell
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *imageName = [NSString stringWithFormat:@"%@Books%ld.png", tableTitle, (long)bDB.ID];
+    NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+    
+    if ([fileManager fileExistsAtPath:pngFilePath])
+    {
+        UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
+        cell.bookImage.image = bookImage;
+        cell.ID = bDB.ID;
+        
+    } else {
+        
+        
+        NSURL *url = [NSURL URLWithString:bDB.coverLink];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+            
+            @try {
+                
+                
+                dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                    
+                    NSData *data = [NSData dataWithContentsOfURL:url];
+                    if (data != nil || ![data isEqual:@"(null)"]) {
+                        UIImage *bookImage = [[UIImage alloc] initWithData:data];
+                        cell.bookImage.image = bookImage;
+                    }
+                });
+            }
+            @catch (NSException * e) {
+                NSLog(@"Exception: %@", e);
+            }
+            
+            cell.ID = bDB.ID;
+            
+            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            NSString *imageName = [NSString stringWithFormat:@"%@Books%ld.png",tableTitle, (long)cell.ID];
+            NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(cell.bookImage.image)];
+            
+            //here i need to check if is not the default one...
+            if (data1 != nil) {
+                [data1 writeToFile:pngFilePath atomically:YES];
+            }
+            
+        });
+        
+    }
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BookCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MY_CELL" forIndexPath:indexPath];
@@ -436,188 +495,33 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         
     }
     
-   // NSLog(@"showing book");
     
     if (collectionView == self.suggestedBooksView) {
-        BooksDatabase *bDB = [self.appDelegate.suggestedBooks objectAtIndex:indexPath.row];
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *imageName = [NSString stringWithFormat:@"suggestedBooks%ld.png",(long)bDB.ID];
-        NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
         
-        if ([fileManager fileExistsAtPath:pngFilePath])
-        {
-            UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
-            cell.bookImage.image = bookImage;
-            cell.ID = bDB.ID;
-            
-        } else {
-            
-            
-            NSURL *url = [NSURL URLWithString:bDB.coverLink];
-            
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
-                
-                UIImage *bookImage;
-                
-                @try {
-                NSData *data = [NSData dataWithContentsOfURL:url];
-                bookImage = [[UIImage alloc] initWithData:data];
-                
-                dispatch_sync(dispatch_get_main_queue(), ^(void) {
-                    
-                    cell.bookImage.image = bookImage;
-                });
-                }
-                @catch (NSException * e) {
-                    NSLog(@"Exception: %@", e);
-                }
-                
-                cell.ID = bDB.ID;
-                
-                NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                
-                // If you go to the folder below, you will find those pictures
-              //  NSLog(@"%@",docDir);
-                
-              //  NSLog(@"saving png");
-                
-                NSString *imageName = [NSString stringWithFormat:@"suggestedBooks%ld.png",(long)cell.ID];
-                NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
-                NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
-                
-                if (data1 != nil) {
-                    [data1 writeToFile:pngFilePath atomically:YES];
-                }
-                
-            });
-            
-        }
+       
+        
+        BooksDatabase *bDB = [self.appDelegate.suggestedBooks objectAtIndex:indexPath.row];
+        
+        NSString* tableTitle = @"suggested";
+        
+        
+        [self processBookCover:bDB tableTitle:tableTitle cell:cell];
         
     } else if (collectionView == self.favouriteCollectionView) {
         BooksDatabase *bDB = [self.appDelegate.favouriteBooks objectAtIndex:indexPath.row];
         
-        //if image is stored then show it if not and there is internet connection load it and store it
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)bDB.ID];
-        NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+        NSString* tableTitle = @"favourite";
         
-      //  NSLog(@"expected ImageName to show %@", imageName);
-        
-      //  NSLog(@"expected path for the imageName %@", pngFilePath);
-        
-        if ([fileManager fileExistsAtPath:pngFilePath])
-        {
-            UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
-            cell.bookImage.image = bookImage;
-            cell.ID = bDB.ID;
-          //  NSLog(@"loading from memory");
-            
-        } else {
-          //  NSLog(@"need to save new book");
-            
-            NSURL *url = [NSURL URLWithString:bDB.coverLink];
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
-                UIImage *bookImage;
-                
-                @try {
-                    NSData *data = [NSData dataWithContentsOfURL:url];
-                    bookImage = [[UIImage alloc] initWithData:data];
-                    
-                    dispatch_sync(dispatch_get_main_queue(), ^(void) {
-                        
-                        cell.bookImage.image = bookImage;
-                    });
-                }
-                @catch (NSException * e) {
-                    NSLog(@"Exception: %@", e);
-                }
-                
-                
-                cell.ID = bDB.ID;
-                
-                NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                
-                // If you go to the folder below, you will find those pictures
-             //   NSLog(@"%@",docDir);
-                
-             //   NSLog(@"saving png");
-                NSString *imageName = [NSString stringWithFormat:@"favouriteBooks%ld.png",(long)cell.ID];
-                NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
-                NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
-                if (data1 != nil) {
-                    [data1 writeToFile:pngFilePath atomically:YES];
-                }
-            });
-            
-        }
-        
-        
-      //  NSLog(@"favourite collection view book images %lu", (unsigned long)self.favouriteCollectionView.bookImages.count);
-        
-        //make this customizable pls
+        [self processBookCover:bDB tableTitle:tableTitle cell:cell];
+      
     } else if (collectionView == self.customCollectionView) {
+        
+         NSLog(@"showing book");
+        
         BooksDatabase *bDB = [self.appDelegate.customListBooks objectAtIndex:indexPath.row];
         
-        //if image is stored then show it if not and there is internet connection load it and store it
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *imageName = [NSString stringWithFormat:@"%@Books%ld.png",self.tableName,(long)bDB.ID];
-        
-        NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
-        
-      //  NSLog(@"%@", pngFilePath);
-        
-        
-        if ([fileManager fileExistsAtPath:pngFilePath])
-        {
-            UIImage *bookImage = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
-            cell.bookImage.image = bookImage;
-            cell.ID = bDB.ID;
-          //  NSLog(@"loading from memory custom");
-        } else {
-            
-            NSURL *url = [NSURL URLWithString:bDB.coverLink];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
-                UIImage *bookImage;
+        [self processBookCover:bDB tableTitle:self.tableName cell:cell];
                 
-                @try {
-                    NSData *data = [NSData dataWithContentsOfURL:url];
-                    bookImage = [[UIImage alloc] initWithData:data];
-                    
-                    dispatch_sync(dispatch_get_main_queue(), ^(void) {
-                        
-                        cell.bookImage.image = bookImage;
-                    });
-                }
-                @catch (NSException * e) {
-                    NSLog(@"Exception: %@", e);
-                }
-
-                
-                
-                cell.ID = bDB.ID;
-                
-                NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                
-                // If you go to the folder below, you will find those pictures
-             //   NSLog(@"%@",docDir);
-                
-             //   NSLog(@"saving png");
-                NSString *imageName = [NSString stringWithFormat:@"%@Books%ld.png",self.tableName, (long)cell.ID];
-                NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
-                NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
-                
-                if (data1 != nil) {
-                    [data1 writeToFile:pngFilePath atomically:YES];
-                }
-                
-            });
-        }
-        
     }
     return cell;
 }

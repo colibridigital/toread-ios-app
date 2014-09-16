@@ -160,14 +160,50 @@
     BooksDatabase *bDB = [self.books objectAtIndex:indexPath.row];
     //get the image from the already existent one as we have the ID...
     
-   // NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
     NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)bDB.ID];
     NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
     
-    cell.bookImage.image = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
+    if ([fileManager fileExistsAtPath:pngFilePath]) {
+        cell.bookImage.image = [[UIImage alloc] initWithContentsOfFile:pngFilePath];
+        cell.ID = bDB.ID;
+    } else {
+        NSURL *url = [NSURL URLWithString:bDB.coverLink];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+            UIImage *bookImage;
+            
+            @try {
+                NSData *data = [NSData dataWithContentsOfURL:url];
+                bookImage = [[UIImage alloc] initWithData:data];
+                
+                dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                    
+                    cell.bookImage.image = bookImage;
+                });
+            }
+            @catch (NSException * e) {
+                NSLog(@"Exception: %@", e);
+            }
+            
+            cell.ID = bDB.ID;
+            
+            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName, (long)cell.ID];
+            NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(bookImage)];
+            
+            if (data1 != nil) {
+                [data1 writeToFile:pngFilePath atomically:YES];
+            }
+            
+        });
+
+    }
     
-    cell.ID = bDB.ID;
+    
     
     return cell;
 }

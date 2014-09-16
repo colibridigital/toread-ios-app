@@ -107,6 +107,8 @@
     
     [self presentViewController:readingListDetail animated:NO completion:nil];
     
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -125,7 +127,7 @@
             NSLog(@"deleted tables %@", [[self.tableNames objectAtIndex:self.indexPath.row] lowercaseString]);
             [self.tableNames removeObjectAtIndex:self.indexPath.row];
             NSLog(@"count: %lu",(unsigned long)self.tableNames.count);
-            [self.tableView deleteRowsAtIndexPaths:@[self.indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView deleteRowsAtIndexPaths:@[self.indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             NSLog(@"should work now");
 
         }

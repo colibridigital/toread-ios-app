@@ -10,8 +10,8 @@
 #import "ViewController.h"
 
 @interface BookCollectionViewCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UILabel *bookLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *bookImage;
+@property (nonatomic) IBOutlet UILabel *bookLabel;
+@property (nonatomic) IBOutlet UIImageView *bookImage;
 
 @property (assign, nonatomic) NSInteger ID;
 
