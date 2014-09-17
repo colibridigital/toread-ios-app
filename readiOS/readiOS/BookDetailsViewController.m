@@ -547,7 +547,7 @@
 - (void)scheduleNotification {
     UILocalNotification *notification = [[UILocalNotification alloc]init];
     notification.fireDate = self.datePicker.date;
-    //notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:15];
+    //notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:20];
     notification.timeZone = [NSTimeZone defaultTimeZone];
     //make this customisable?
     notification.alertBody = [NSString stringWithFormat:@"Finish reading: %@", self.bookTitle.text];
@@ -557,14 +557,59 @@
     [[UIApplication sharedApplication]scheduleLocalNotification:notification];
 }
 
+-(void)cancelPreviousNotificationIfExist {
+    
+    NSLog(@"OLD DATEEEEE: %@", self.bDB.dueDate);
+    
+    if (self.bDB.dueDate != nil || ![self.bDB.dueDate isEqualToString:@"(null)"]) {
+        
+        UILocalNotification *notification = [[UILocalNotification alloc]init];
+        
+        // Prepare an NSDateFormatter to convert to and from the string representation
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        
+        // Parse the string representation of the date
+        NSDate *date = [dateFormatter dateFromString:self.bDB.dueDate];
+        
+        NSLog(@"OLD DATE: %@", date);
+        
+        notification.fireDate = date;
+       // notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:20];
+        notification.timeZone = [NSTimeZone defaultTimeZone];
+
+        notification.alertBody = [NSString stringWithFormat:@"Finish reading: %@", self.bookTitle.text];
+        notification.soundName = UILocalNotificationDefaultSoundName;
+        notification.alertAction= @"View";
+        
+        NSArray *arrayOfLocalNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications] ;
+        
+        for (UILocalNotification *localNotification in arrayOfLocalNotifications) {
+            
+            if ([localNotification.alertBody isEqualToString:notification.alertBody]) {
+                NSLog(@"the notification this is canceld is %@", localNotification.alertBody);
+                
+                [[UIApplication sharedApplication] cancelLocalNotification:localNotification] ; // delete the notification from the system
+                
+            }
+            
+        }
+    }
+}
+
 -(void) dueDateChanged:(UIDatePicker *)sender {
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
     self.dueDate.text = [dateFormatter stringFromDate:[self.datePicker date]];
-    //cancel old notification
+    
+    [self cancelPreviousNotificationIfExist];
+    
     self.bDB.dueDate = [dateFormatter stringFromDate:[self.datePicker date]];
+    
+     NSLog(@"NEW DATE: %@", self.bDB.dueDate);
     
     [self scheduleNotification];
     
