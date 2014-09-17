@@ -46,6 +46,7 @@
 @property (nonatomic) NSString *customListTitle;
 
 @property(retain) UIAlertView *av;
+@property (nonatomic) NSString *listToAdd;
 
 - (IBAction)pickAction:(id)sender;
 

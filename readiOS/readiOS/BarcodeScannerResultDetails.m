@@ -97,7 +97,7 @@
     _starRating.displayMode=EDStarRatingDisplayHalf;
     [_starRating  setNeedsDisplay];
     _starRating.tintColor = [UIColor yellowColor];
-
+    
 }
 
 -(void)initiateWithDetails {
@@ -105,7 +105,7 @@
     
     self.coverLink = stringURL;
     
-  //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+    //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
     
     @try {
         NSURL *url = [NSURL URLWithString:stringURL];
@@ -120,12 +120,12 @@
         self.bookCover.image = bookImage;
         //  });
         //});
-
+        
     }
     @catch (NSException *e) {
         NSLog(@"exception thrown %@", e);
     }
-   
+    
     
     
     self.bookTitle.text = [[[self.scanResult objectAtIndex:0] objectForKey:@"volumeInfo"] objectForKey:@"title"];
@@ -176,7 +176,7 @@
 - (void) initiatePickerViewWithTableNames {
     [self.appDelegate getAllDatabaseTableNames];
     self.tableNames = [self.appDelegate.tableNames mutableCopy];
-
+    
     [self.tableNames insertObject:@"Create New List" atIndex:1];
     
     NSMutableArray *newTable = [NSMutableArray array];
@@ -228,8 +228,8 @@
         
         [self showPickerView];
         
-       // [self dismissViewControllerAnimated:YES completion:nil];
-
+        // [self dismissViewControllerAnimated:YES completion:nil];
+        
     }
     else {
         //toggle the correct view to be visible
@@ -271,21 +271,27 @@
         
         self.av = [[UIAlertView alloc] initWithTitle:@"Create New List" message:@"Would you like to create a new list called?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
         
+        self.av.tag = 1;
+        
         [self.av setAlertViewStyle:UIAlertViewStylePlainTextInput];
         
         [self.av show];
         
         
     } else {
-        NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
-        [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
+        self.listToAdd = [self.pickerViewData objectAtIndex:row];
+        
+        NSString* message = [NSString stringWithFormat:@"Would you like to add a new book to the %@ list?", self.listToAdd];
+        
+        self.av = [[UIAlertView alloc] initWithTitle:@"Add New Book" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        
+        self.av.tag = 2;
+        
+        [self.av show];
+
         
     }
-    
-    NSLog(@"adding book to the database");
-    
-    [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", [self.pickerViewData objectAtIndex:row]]];
     
     [self.pickerView removeFromSuperview];
     [self.segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
@@ -293,21 +299,37 @@
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0)
-    {
-        NSLog(@"You have clicked No");
-    }
-    else if(buttonIndex == 1)
-    {
-        NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
-        self.customListTitle = [[self.av textFieldAtIndex:0] text];
-        NSLog(@"%@", self.customListTitle);
+    
+    if (self.av.tag == 1) {
+        if (buttonIndex == 0)
+        {
+            NSLog(@"You have clicked No");
+        }
+        else if(buttonIndex == 1)
+        {
+            NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
+            self.customListTitle = [[self.av textFieldAtIndex:0] text];
+            NSLog(@"%@", self.customListTitle);
+            
+            [self.appDelegate createNewCustomListInTheDatabase:[[self.av textFieldAtIndex:0] text]];
+            [self.appDelegate addBookToTheDatabaseBookList:[self.customListTitle lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
+            
+            [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
+            
+        }
+    } else if (self.av.tag == 2) {
         
-        [self.appDelegate createNewCustomListInTheDatabase:[[self.av textFieldAtIndex:0] text]];
-        [self.appDelegate addBookToTheDatabaseBookList:[self.customListTitle lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
-        
-        [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
-        
+        if (buttonIndex == 0)
+        {
+            NSLog(@"You have clicked No");
+        }
+        else if(buttonIndex == 1)
+        {
+            
+            [self.appDelegate addBookToTheDatabaseBookList:[self.listToAdd lowercaseString] bookTitle:self.bookTitle.text bookAuthors:self.bookAuthors.text publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
+            
+            [self showWithCustomView:[NSString stringWithFormat:@"Added to: %@", self.listToAdd]];
+        }
     }
     
 }
