@@ -318,8 +318,13 @@
     if ([self.appDelegate connectedToInternet]) {
         NSString* authors = self.bDB.authors;
         NSString* urlString = [authors stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-        [self showSimple:urlString];
-        [self searchInBackground:urlString];
+        NSArray* subStrings = [urlString componentsSeparatedByString:@";"];
+        if ([subStrings objectAtIndex:0] != nil) {
+            [self showSimple:[subStrings objectAtIndex:0]];
+            [self searchInBackground:[subStrings objectAtIndex:0]];
+        } else {
+            [self showWithCustomView:@"No Results Available"];
+        }
     } else {
         [self showWithCustomView:@"No Internet Connection"];
     }

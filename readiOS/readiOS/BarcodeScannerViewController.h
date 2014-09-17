@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "RetrieveBooks.h"
+#import "MBProgressHUD.h"
 
-@interface BarcodeScannerViewController : UIViewController
+@interface BarcodeScannerViewController : UIViewController<MBProgressHUDDelegate> {
+    MBProgressHUD *HUD;
+}
 @property (retain) RetrieveBooks *retrieveBooks;
 @property (strong, nonatomic) NSArray *results;
 

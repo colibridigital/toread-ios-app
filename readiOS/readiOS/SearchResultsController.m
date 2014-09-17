@@ -121,12 +121,11 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
        
         
+        NSURL *url = [NSURL URLWithString:stringURL];
+        NSData *data = [NSData dataWithContentsOfURL:url];
         
         dispatch_sync(dispatch_get_main_queue(), ^(void) {
             UIImage *bookImage;
-            
-            NSURL *url = [NSURL URLWithString:stringURL];
-            NSData *data = [NSData dataWithContentsOfURL:url];
             
             if (data != nil) {
                 

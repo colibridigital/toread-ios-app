@@ -165,18 +165,22 @@
             @try {
                 [self processBarcode:detectionString];
                 
-                BarcodeScannerResultDetails *resultView = [[BarcodeScannerResultDetails alloc] initWithNibName:@"BarcodeScannerResultDetails" bundle:nil];
+                if (self.results.count != 0) {
                 
-                [resultView setScanResult:self.results];
+                    BarcodeScannerResultDetails *resultView = [[BarcodeScannerResultDetails alloc] initWithNibName:@"BarcodeScannerResultDetails" bundle:nil];
                 
-                [self presentViewController:resultView animated:YES completion:nil];
+                    [resultView setScanResult:self.results];
                 
-                
+                    [self presentViewController:resultView animated:YES completion:nil];
+                } else {
+                    [self showWithCustomView:@"No Results Available"];
 
+                }
+                
             }
             @catch (NSException *e) {
                 NSLog(@"Exception: %@", e);
-                //i can tell the user there s no internet connection
+                [self showWithCustomView:@"No Internet Connection"];
             }
             @finally {
                 break;
@@ -188,6 +192,27 @@
     
     _highlightView.frame = highlightViewRect;
     }
+
+- (void)showWithCustomView:(NSString*)message {
+	
+	HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+	
+	// The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
+	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
+	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark@2x.png"]];
+	
+	// Set custom view mode
+	HUD.mode = MBProgressHUDModeCustomView;
+	
+	HUD.delegate = self;
+    //modify this according to the needs
+	HUD.labelText = message;
+	
+	[HUD show:YES];
+	[HUD hide:YES afterDelay:1.5];
+}
+
 
 -(void)processBarcode:(NSString*)detectionString {
     
