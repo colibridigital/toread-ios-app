@@ -8,7 +8,7 @@
 
 #import "SearchResultsCell.h"
 
-@implementation SearchResultsCell 
+@implementation SearchResultsCell
 - (void)awakeFromNib
 {
     // Initialization code
@@ -38,7 +38,7 @@
     [self.pickerView selectRow:0 inComponent:0 animated:NO];
     
     [self.contentView addSubview:self.pickerView];
-
+    
     
 }
 
@@ -113,92 +113,117 @@
         
         self.av = [[UIAlertView alloc] initWithTitle:@"Create New List" message:@"Would you like to create a new list called?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
         
+        self.av.tag = 1;
+        
         [self.av setAlertViewStyle:UIAlertViewStylePlainTextInput];
         
         [self.av show];
-     
+        
         
     } else {
-        NSLog(@"changed to %@", [self.pickerViewData objectAtIndex:row]);
         
-        [self.appDelegate addBookToTheDatabaseBookList:[[self.pickerViewData objectAtIndex:row] lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
+        self.listToAdd = [self.pickerViewData objectAtIndex:row];
         
-        NSLog(@"adding book to the database");
+        NSString* message = [NSString stringWithFormat:@"Would you like to add a new book to the %@ list?", self.listToAdd];
         
-        //save cover here
+        self.av = [[UIAlertView alloc] initWithTitle:@"Add New Book" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
         
-        NSString* listTitle = [self.pickerViewData objectAtIndex:row] ;
+        self.av.tag = 2;
         
-        int ID = [self.appDelegate getNumberOfBooksFromDB:[listTitle lowercaseString]];
+        [self.av show];
         
-        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         
-        NSString *imageName1 = [NSString stringWithFormat:@"%@Books%ld.png",[listTitle lowercaseString],(long)ID];
-        NSString* pngFilePath1 = [NSString stringWithFormat:@"%@/%@",docDir, imageName1];
-        
-        NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(self.bookCover.image)];
-        
-        if (data1 != nil) {
-            
-            [data1 writeToFile:pngFilePath1 atomically:YES];
-            
-        } else {
-            NSLog(@"book cover object is nill");
-        }
-        
-        NSLog(@"new image name: %@ at path %@", imageName1, pngFilePath1);
-
-        
-        [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", [self.pickerViewData objectAtIndex:row]]];
     }
     
-   
+    
     
     [self.pickerView removeFromSuperview];
     
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0)
-    {
-        NSLog(@"You have clicked No");
-    }
-    else if(buttonIndex == 1)
-    {
-        NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
+    
+    if (self.av.tag == 1) {
         
-        self.customListTitle = [[self.av textFieldAtIndex:0] text];
-        NSString* listTitle = [self.customListTitle stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-        NSLog(@"new list title: %@", listTitle);
-        [self.appDelegate createNewCustomListInTheDatabase:listTitle];
-        [self.appDelegate addBookToTheDatabaseBookList:[listTitle lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
-        
-        //save the cover here
-        
-        
-        int ID = [self.appDelegate getNumberOfBooksFromDB:[listTitle lowercaseString]];
-        
-        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        
-        NSString *imageName1 = [NSString stringWithFormat:@"%@Books%ld.png",[listTitle lowercaseString],(long)ID];
-        NSString* pngFilePath1 = [NSString stringWithFormat:@"%@/%@",docDir, imageName1];
-        
-        NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(self.bookCover.image)];
-        
-        if (data1 != nil) {
-            
-            [data1 writeToFile:pngFilePath1 atomically:YES];
-            
-        } else {
-            NSLog(@"book cover object is nill");
+        if (buttonIndex == 0)
+        {
+            NSLog(@"You have clicked No");
         }
-        
-        NSLog(@"new image name: %@ at path %@", imageName1, pngFilePath1);
-        
-        [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
-
+        else if(buttonIndex == 1)
+        {
+            NSLog(@"You have clicked Yes with listName %@", [[self.av textFieldAtIndex:0] text]);
+            
+            self.customListTitle = [[self.av textFieldAtIndex:0] text];
+            NSString* listTitle = [self.customListTitle stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+            NSLog(@"new list title: %@", listTitle);
+            [self.appDelegate createNewCustomListInTheDatabase:listTitle];
+            [self.appDelegate addBookToTheDatabaseBookList:[listTitle lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
+            
+            //save the cover here
+            
+            
+            int ID = [self.appDelegate getNumberOfBooksFromDB:[listTitle lowercaseString]];
+            
+            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            NSString *imageName1 = [NSString stringWithFormat:@"%@Books%ld.png",[listTitle lowercaseString],(long)ID];
+            NSString* pngFilePath1 = [NSString stringWithFormat:@"%@/%@",docDir, imageName1];
+            
+            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(self.bookCover.image)];
+            
+            if (data1 != nil) {
+                
+                [data1 writeToFile:pngFilePath1 atomically:YES];
+                
+            } else {
+                NSLog(@"book cover object is nill");
+            }
+            
+            NSLog(@"new image name: %@ at path %@", imageName1, pngFilePath1);
+            
+            [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.customListTitle]];
+            
+        }
+    } else if (self. av.tag == 2) {
+        if (buttonIndex == 0)
+        {
+            NSLog(@"You have clicked No");
+        }
+        else if(buttonIndex == 1)
+        {
+            
+            NSLog(@"changed to %@", self.listToAdd);
+            
+            [self.appDelegate addBookToTheDatabaseBookList:[self.listToAdd lowercaseString] bookTitle:self.title bookAuthors:self.authors publisher:self.editor coverLink:self.coverLink rating:self.rating isbn:self.isbn desc:self.desc];
+            
+            NSLog(@"adding book to the database");
+            
+            //save cover here
+            
+            int ID = [self.appDelegate getNumberOfBooksFromDB:[self.listToAdd lowercaseString]];
+            
+            NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            NSString *imageName1 = [NSString stringWithFormat:@"%@Books%ld.png",[self.listToAdd lowercaseString],(long)ID];
+            NSString* pngFilePath1 = [NSString stringWithFormat:@"%@/%@",docDir, imageName1];
+            
+            NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(self.bookCover.image)];
+            
+            if (data1 != nil) {
+                
+                [data1 writeToFile:pngFilePath1 atomically:YES];
+                
+            } else {
+                NSLog(@"book cover object is nill");
+            }
+            
+            NSLog(@"new image name: %@ at path %@", imageName1, pngFilePath1);
+            
+            
+            [self showWithCustomView:[NSString stringWithFormat:@"Added to : %@", self.listToAdd]];
+        }
     }
-
+    
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

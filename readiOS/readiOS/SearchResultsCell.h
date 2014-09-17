@@ -39,6 +39,7 @@
 @property (nonatomic, retain) NSString *desc;
 @property (nonatomic) double rating;
 @property (nonatomic) NSString *customListTitle;
+@property (nonatomic) NSString *listToAdd;
 
 @property(retain) UIAlertView *av;
 

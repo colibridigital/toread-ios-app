@@ -87,18 +87,23 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 - (void)loadInterstitial{
     // Create a new GADInterstitial each time.  A GADInterstitial will only show one request in its
     // lifetime. The property will release the old one and set the new one.
+     NSLog(@"google ads");
     self.interstitial = [[GADInterstitial alloc] init];
     self.interstitial.delegate = self;
     
     self.interstitial.adUnitID = kSampleAdUnitID;
     [self.interstitial loadRequest:[self request]];
+    //[timer invalidate];
+    
 }
 
--(void)loadIAdinterstitial {
+-(void)loadIAdinterstitial{
     NSLog(@"apple ads");
         [ViewController prepareInterstitialAds];
         self.interstitialPresentationPolicy = ADInterstitialPresentationPolicyAutomatic;
         [self requestInterstitialAdPresentation];
+    //[timer invalidate];
+   
 }
 
 -(void)interstitialAd:(ADInterstitialAd *)interstitialAd didFailWithError:(NSError *)error {
@@ -210,11 +215,14 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
    
     //load ads here - improve this
     int rNumber1 = arc4random() % 100 + 1;
-    if (rNumber1%7==0) {
+    if (rNumber1%5==1) {
+    //[NSTimer scheduledTimerWithTimeInterval:13 target:self selector:@selector(loadInterstitial:) userInfo:nil repeats:YES];
         [self loadInterstitial];
     }
     
+    
     if (rNumber1%3==0) {
+    //[NSTimer scheduledTimerWithTimeInterval:18 target:self selector:@selector(loadIAdinterstitial:) userInfo:nil repeats:YES];
         [self loadIAdinterstitial];
     }
 
