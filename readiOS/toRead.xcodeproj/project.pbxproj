@@ -188,14 +188,14 @@
 		15ABDB581909344E00C1FE32 /* BooksDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksDatabase.h; sourceTree = "<group>"; };
 		15ABDB591909344E00C1FE32 /* BooksDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksDatabase.m; sourceTree = "<group>"; };
 		15AD9F86191917A20020E2C3 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
-		15B08CCD18783CD000FE1C17 /* readiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = readiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		15B08CCD18783CD000FE1C17 /* toRead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toRead.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15B08CD018783CD000FE1C17 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		15B08CD218783CD000FE1C17 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		15B08CD418783CD000FE1C17 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		15B08CD818783CD000FE1C17 /* readiOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "readiOS-Info.plist"; sourceTree = "<group>"; };
+		15B08CD818783CD000FE1C17 /* toRead-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "toRead-Info.plist"; sourceTree = "<group>"; };
 		15B08CDA18783CD000FE1C17 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		15B08CDC18783CD000FE1C17 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		15B08CDE18783CD000FE1C17 /* readiOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "readiOS-Prefix.pch"; sourceTree = "<group>"; };
+		15B08CDE18783CD000FE1C17 /* toRead-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "toRead-Prefix.pch"; sourceTree = "<group>"; };
 		15B08CDF18783CD000FE1C17 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		15B08CE018783CD000FE1C17 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		15B08CE318783CD000FE1C17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
@@ -203,9 +203,9 @@
 		15B08CE818783CD000FE1C17 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		15B08CE918783CD000FE1C17 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		15B08CEB18783CD000FE1C17 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		15B08CF118783CD000FE1C17 /* readiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = readiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		15B08CF118783CD000FE1C17 /* toReadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = toReadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15B08CF218783CD000FE1C17 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		15B08CFA18783CD000FE1C17 /* readiOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "readiOSTests-Info.plist"; sourceTree = "<group>"; };
+		15B08CFA18783CD000FE1C17 /* toReadTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "toReadTests-Info.plist"; sourceTree = "<group>"; };
 		15B08CFC18783CD000FE1C17 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		15B08CFE18783CD000FE1C17 /* readiOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = readiOSTests.m; sourceTree = "<group>"; };
 		15B08D0918783E7900FE1C17 /* BookCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCollectionViewCell.h; sourceTree = "<group>"; };
@@ -435,8 +435,8 @@
 		15B08CCE18783CD000FE1C17 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				15B08CCD18783CD000FE1C17 /* readiOS.app */,
-				15B08CF118783CD000FE1C17 /* readiOSTests.xctest */,
+				15B08CCD18783CD000FE1C17 /* toRead.app */,
+				15B08CF118783CD000FE1C17 /* toReadTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -490,13 +490,13 @@
 				15B08D0818783E0200FE1C17 /* BookCollectionViewCell */,
 				15B08CDF18783CD000FE1C17 /* AppDelegate.h */,
 				15B08CE018783CD000FE1C17 /* AppDelegate.m */,
-				15B08CE218783CD000FE1C17 /* Main_iPhone.storyboard */,
 				15B08CE518783CD000FE1C17 /* Main_iPad.storyboard */,
 				15B08CE818783CD000FE1C17 /* ViewController.h */,
 				15B08CE918783CD000FE1C17 /* ViewController.m */,
 				15B08CEB18783CD000FE1C17 /* Images.xcassets */,
 				15B08CD718783CD000FE1C17 /* Supporting Files */,
 				155A448E195C21E3004A139D /* Main_iPhone3.storyboard */,
+				15B08CE218783CD000FE1C17 /* Main_iPhone.storyboard */,
 			);
 			path = readiOS;
 			sourceTree = "<group>";
@@ -504,10 +504,10 @@
 		15B08CD718783CD000FE1C17 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				15B08CD818783CD000FE1C17 /* readiOS-Info.plist */,
+				15B08CD818783CD000FE1C17 /* toRead-Info.plist */,
 				15B08CD918783CD000FE1C17 /* InfoPlist.strings */,
 				15B08CDC18783CD000FE1C17 /* main.m */,
-				15B08CDE18783CD000FE1C17 /* readiOS-Prefix.pch */,
+				15B08CDE18783CD000FE1C17 /* toRead-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -524,7 +524,7 @@
 		15B08CF918783CD000FE1C17 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				15B08CFA18783CD000FE1C17 /* readiOSTests-Info.plist */,
+				15B08CFA18783CD000FE1C17 /* toReadTests-Info.plist */,
 				15B08CFB18783CD000FE1C17 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -697,9 +697,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		15B08CCC18783CD000FE1C17 /* readiOS */ = {
+		15B08CCC18783CD000FE1C17 /* toRead */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 15B08D0218783CD000FE1C17 /* Build configuration list for PBXNativeTarget "readiOS" */;
+			buildConfigurationList = 15B08D0218783CD000FE1C17 /* Build configuration list for PBXNativeTarget "toRead" */;
 			buildPhases = (
 				15B08CC918783CD000FE1C17 /* Sources */,
 				15B08CCA18783CD000FE1C17 /* Frameworks */,
@@ -709,14 +709,14 @@
 			);
 			dependencies = (
 			);
-			name = readiOS;
+			name = toRead;
 			productName = readiOS;
-			productReference = 15B08CCD18783CD000FE1C17 /* readiOS.app */;
+			productReference = 15B08CCD18783CD000FE1C17 /* toRead.app */;
 			productType = "com.apple.product-type.application";
 		};
-		15B08CF018783CD000FE1C17 /* readiOSTests */ = {
+		15B08CF018783CD000FE1C17 /* toReadTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 15B08D0518783CD000FE1C17 /* Build configuration list for PBXNativeTarget "readiOSTests" */;
+			buildConfigurationList = 15B08D0518783CD000FE1C17 /* Build configuration list for PBXNativeTarget "toReadTests" */;
 			buildPhases = (
 				15B08CED18783CD000FE1C17 /* Sources */,
 				15B08CEE18783CD000FE1C17 /* Frameworks */,
@@ -727,9 +727,9 @@
 			dependencies = (
 				15B08CF718783CD000FE1C17 /* PBXTargetDependency */,
 			);
-			name = readiOSTests;
+			name = toReadTests;
 			productName = readiOSTests;
-			productReference = 15B08CF118783CD000FE1C17 /* readiOSTests.xctest */;
+			productReference = 15B08CF118783CD000FE1C17 /* toReadTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -754,7 +754,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 15B08CC818783CD000FE1C17 /* Build configuration list for PBXProject "readiOS" */;
+			buildConfigurationList = 15B08CC818783CD000FE1C17 /* Build configuration list for PBXProject "toRead" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -767,8 +767,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				15B08CCC18783CD000FE1C17 /* readiOS */,
-				15B08CF018783CD000FE1C17 /* readiOSTests */,
+				15B08CCC18783CD000FE1C17 /* toRead */,
+				15B08CF018783CD000FE1C17 /* toReadTests */,
 			);
 		};
 /* End PBXProject section */
@@ -895,7 +895,7 @@
 /* Begin PBXTargetDependency section */
 		15B08CF718783CD000FE1C17 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 15B08CCC18783CD000FE1C17 /* readiOS */;
+			target = 15B08CCC18783CD000FE1C17 /* toRead */;
 			targetProxy = 15B08CF618783CD000FE1C17 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -952,6 +952,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -968,7 +969,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -991,6 +992,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1001,7 +1003,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
@@ -1016,15 +1018,15 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "readiOS/readiOS-Prefix.pch";
-				INFOPLIST_FILE = "readiOS/readiOS-Info.plist";
+				GCC_PREFIX_HEADER = "readiOS/toRead-Prefix.pch";
+				INFOPLIST_FILE = "readiOS/toRead-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/aif/Desktop/GoogleMobileAdsSdkiOS-6.10.0",
 					"$(PROJECT_DIR)/readiOS",
 				);
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = toRead;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1039,15 +1041,15 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "readiOS/readiOS-Prefix.pch";
-				INFOPLIST_FILE = "readiOS/readiOS-Info.plist";
+				GCC_PREFIX_HEADER = "readiOS/toRead-Prefix.pch";
+				INFOPLIST_FILE = "readiOS/toRead-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/aif/Desktop/GoogleMobileAdsSdkiOS-6.10.0",
 					"$(PROJECT_DIR)/readiOS",
 				);
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = toRead;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1069,8 +1071,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "readiOSTests/readiOSTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "readiOSTests/toReadTests-Info.plist";
+				PRODUCT_NAME = toReadTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1087,8 +1089,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "readiOS/readiOS-Prefix.pch";
-				INFOPLIST_FILE = "readiOSTests/readiOSTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "readiOSTests/toReadTests-Info.plist";
+				PRODUCT_NAME = toReadTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1097,7 +1099,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		15B08CC818783CD000FE1C17 /* Build configuration list for PBXProject "readiOS" */ = {
+		15B08CC818783CD000FE1C17 /* Build configuration list for PBXProject "toRead" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				15B08D0018783CD000FE1C17 /* Debug */,
@@ -1106,7 +1108,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		15B08D0218783CD000FE1C17 /* Build configuration list for PBXNativeTarget "readiOS" */ = {
+		15B08D0218783CD000FE1C17 /* Build configuration list for PBXNativeTarget "toRead" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				15B08D0318783CD000FE1C17 /* Debug */,
@@ -1115,7 +1117,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		15B08D0518783CD000FE1C17 /* Build configuration list for PBXNativeTarget "readiOSTests" */ = {
+		15B08D0518783CD000FE1C17 /* Build configuration list for PBXNativeTarget "toReadTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				15B08D0618783CD000FE1C17 /* Debug */,

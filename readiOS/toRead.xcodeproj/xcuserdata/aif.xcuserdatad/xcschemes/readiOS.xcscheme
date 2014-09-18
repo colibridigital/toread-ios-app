@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "15B08CCC18783CD000FE1C17"
                BuildableName = "readiOS.app"
-               BlueprintName = "readiOS"
-               ReferencedContainer = "container:readiOS.xcodeproj">
+               BlueprintName = "toRead"
+               ReferencedContainer = "container:toRead.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "15B08CF018783CD000FE1C17"
                BuildableName = "readiOSTests.xctest"
-               BlueprintName = "readiOSTests"
-               ReferencedContainer = "container:readiOS.xcodeproj">
+               BlueprintName = "toReadTests"
+               ReferencedContainer = "container:toRead.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "15B08CCC18783CD000FE1C17"
             BuildableName = "readiOS.app"
-            BlueprintName = "readiOS"
-            ReferencedContainer = "container:readiOS.xcodeproj">
+            BlueprintName = "toRead"
+            ReferencedContainer = "container:toRead.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "15B08CCC18783CD000FE1C17"
             BuildableName = "readiOS.app"
-            BlueprintName = "readiOS"
-            ReferencedContainer = "container:readiOS.xcodeproj">
+            BlueprintName = "toRead"
+            ReferencedContainer = "container:toRead.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "15B08CCC18783CD000FE1C17"
             BuildableName = "readiOS.app"
-            BlueprintName = "readiOS"
-            ReferencedContainer = "container:readiOS.xcodeproj">
+            BlueprintName = "toRead"
+            ReferencedContainer = "container:toRead.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

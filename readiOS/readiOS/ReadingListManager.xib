@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A361c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -16,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleAspectFit" showsHorizontalScrollIndicator="NO" indicatorStyle="white" bouncesZoom="NO" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="95" sectionHeaderHeight="16" sectionFooterHeight="16" translatesAutoresizingMaskIntoConstraints="NO" id="lt1-xS-dCm">
-                    <rect key="frame" x="0.0" y="65" width="320" height="415"/>
+                    <rect key="frame" x="0.0" y="63" width="320" height="417"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -28,7 +28,7 @@
                     </connections>
                 </tableView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Reading Lists" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjw-BA-o2U">
-                    <rect key="frame" x="0.0" y="21" width="320" height="44"/>
+                    <rect key="frame" x="0.0" y="19" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
@@ -38,8 +38,8 @@
                     <rect key="frame" x="0.0" y="27" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="30" id="iTL-TG-fK5"/>
-                        <constraint firstAttribute="height" constant="30" id="yis-89-mld"/>
+                        <constraint firstAttribute="height" constant="30" id="W2m-FR-XNJ"/>
+                        <constraint firstAttribute="width" constant="30" id="oYT-v2-3aP"/>
                     </constraints>
                     <state key="normal" backgroundImage="back.png">
                         <color key="titleColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -50,18 +50,18 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="lt1-xS-dCm" secondAttribute="bottom" id="1Xx-QL-EDg"/>
-                <constraint firstItem="hjw-BA-o2U" firstAttribute="top" secondItem="adJ-i4-NVJ" secondAttribute="top" constant="21" id="Miz-wj-aLB"/>
-                <constraint firstItem="lt1-xS-dCm" firstAttribute="top" secondItem="pAL-Ne-ssY" secondAttribute="bottom" constant="8" symbolic="YES" id="TJ2-LR-k3L"/>
-                <constraint firstItem="pAL-Ne-ssY" firstAttribute="top" secondItem="adJ-i4-NVJ" secondAttribute="top" constant="27" id="cVj-Q7-H1d"/>
-                <constraint firstItem="lt1-xS-dCm" firstAttribute="leading" secondItem="pAL-Ne-ssY" secondAttribute="leading" id="iHe-xE-fcQ"/>
-                <constraint firstItem="lt1-xS-dCm" firstAttribute="top" secondItem="hjw-BA-o2U" secondAttribute="bottom" id="lfn-za-Tmj"/>
-                <constraint firstAttribute="trailing" secondItem="hjw-BA-o2U" secondAttribute="trailing" id="nc0-yz-Lfn"/>
-                <constraint firstItem="lt1-xS-dCm" firstAttribute="leading" secondItem="adJ-i4-NVJ" secondAttribute="leading" id="p4o-sj-4vX"/>
-                <constraint firstItem="hjw-BA-o2U" firstAttribute="trailing" secondItem="lt1-xS-dCm" secondAttribute="trailing" id="t8X-Gh-YqI"/>
-                <constraint firstItem="pAL-Ne-ssY" firstAttribute="leading" secondItem="hjw-BA-o2U" secondAttribute="leading" id="wIU-ES-qUu"/>
+                <constraint firstItem="hjw-BA-o2U" firstAttribute="trailing" secondItem="lt1-xS-dCm" secondAttribute="trailing" id="4uk-Vr-Qjl"/>
+                <constraint firstItem="pAL-Ne-ssY" firstAttribute="top" secondItem="adJ-i4-NVJ" secondAttribute="top" constant="27" id="5F9-Q3-ZCB"/>
+                <constraint firstItem="pAL-Ne-ssY" firstAttribute="leading" secondItem="lt1-xS-dCm" secondAttribute="leading" id="5oU-dq-Ow6"/>
+                <constraint firstItem="hjw-BA-o2U" firstAttribute="leading" secondItem="pAL-Ne-ssY" secondAttribute="leading" id="7g8-vM-0S1"/>
+                <constraint firstItem="lt1-xS-dCm" firstAttribute="top" secondItem="pAL-Ne-ssY" secondAttribute="bottom" constant="6" id="NUL-fR-UE5"/>
+                <constraint firstItem="lt1-xS-dCm" firstAttribute="top" secondItem="hjw-BA-o2U" secondAttribute="bottom" id="Odf-bk-4Ia"/>
+                <constraint firstAttribute="trailing" secondItem="lt1-xS-dCm" secondAttribute="trailing" id="QbC-Cf-i7E"/>
+                <constraint firstItem="lt1-xS-dCm" firstAttribute="leading" secondItem="adJ-i4-NVJ" secondAttribute="leading" id="iO4-sU-TcN"/>
+                <constraint firstItem="hjw-BA-o2U" firstAttribute="top" secondItem="adJ-i4-NVJ" secondAttribute="top" constant="19" id="pPP-b5-fgp"/>
+                <constraint firstAttribute="bottom" secondItem="lt1-xS-dCm" secondAttribute="bottom" id="yZb-iG-yBW"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
         </view>

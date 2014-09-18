@@ -215,7 +215,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
    
     //load ads here - improve this
     int rNumber1 = arc4random() % 100 + 1;
-    if (rNumber1%5==1) {
+    if (rNumber1%5==3) {
     //[NSTimer scheduledTimerWithTimeInterval:13 target:self selector:@selector(loadInterstitial:) userInfo:nil repeats:YES];
         [self loadInterstitial];
     }
