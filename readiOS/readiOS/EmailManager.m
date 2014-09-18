@@ -67,7 +67,7 @@
     
     NSLog(@"string :%@", str);
     
-    [str writeToFile:self.filePath atomically:TRUE encoding:NSUTF8StringEncoding error:NULL];
+    [str writeToFile:self.filePath atomically:TRUE encoding:NSUnicodeStringEncoding error:NULL];
     
     //need to delete the file once is sent
 }
