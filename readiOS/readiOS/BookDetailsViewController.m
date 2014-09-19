@@ -509,20 +509,21 @@
             
             NSLog(@"new image name: %@ at path %@", imageName1, pngFilePath1);
             
-            
             [self.appDelegate deleteBooksToReadFromOriginalTable:self.tableName ID:self.cellID indexPath:self.indexPath.row];
             
             NSString *imageName = [NSString stringWithFormat:@"%@%ld.png",self.tableName,(long)self.cellID];
             
             NSLog(@"old imageName %@", imageName);
             
-            NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
-            //NSLog(@"%@", pngFilePath);
+            //NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+            NSString* pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+            NSLog(@"%@", pngFilePath);
             [self removeImage:pngFilePath];
             
             NSLog(@"moving book to the database");
             
             self.tableName = [NSString stringWithFormat:@"%@Books", [self.moveToListName lowercaseString]];
+            self.cellID = ID;
             
             [self initiatePickerViewWithTableNames];
             

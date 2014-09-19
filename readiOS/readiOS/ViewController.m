@@ -99,6 +99,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 
 -(void)loadIAdinterstitial{
     NSLog(@"apple ads");
+    
         [ViewController prepareInterstitialAds];
         self.interstitialPresentationPolicy = ADInterstitialPresentationPolicyAutomatic;
         [self requestInterstitialAdPresentation];
@@ -165,7 +166,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 {
     [super viewDidLoad];
     
-   // NSLog(@"load view");
+    NSLog(@"load view");
+    
+    self.randAdCounter = 1;
     
     [self.favouriteCollectionView registerNibAndCell];
     [self.customCollectionView registerNibAndCell];
@@ -212,20 +215,17 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     [self.appDelegate loadFavouriteDatabase];
     [self.appDelegate initializeSuggestedBooksDatabase];
     
-   
-    //load ads here - improve this
-    int rNumber1 = arc4random() % 100 + 1;
-    if (rNumber1%5==3) {
-    //[NSTimer scheduledTimerWithTimeInterval:13 target:self selector:@selector(loadInterstitial:) userInfo:nil repeats:YES];
+    NSLog(@"counter %i", self.randAdCounter);
+    
+    if (self.randAdCounter % 5 == 0) {
         [self loadInterstitial];
-    }
-    
-    
-    if (rNumber1%3==0) {
-    //[NSTimer scheduledTimerWithTimeInterval:18 target:self selector:@selector(loadIAdinterstitial:) userInfo:nil repeats:YES];
+    } else if (self.randAdCounter % 7 == 0) {
         [self loadIAdinterstitial];
     }
-
+    
+    self.randAdCounter++;
+    
+    //int rNumber1 = arc4random() % 100 + 1;
     
     [self.favouriteCollectionView reloadData];
     [self.suggestedBooksView reloadData];
@@ -506,8 +506,6 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     
     if (collectionView == self.suggestedBooksView) {
         
-       
-        
         BooksDatabase *bDB = [self.appDelegate.suggestedBooks objectAtIndex:indexPath.row];
         
         NSString* tableTitle = @"suggested";
@@ -768,6 +766,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
   //  NSLog(@"in side menu here");
     [self.menuContainerViewController toggleLeftSideMenuCompletion:^{}];
     [self.searchBar resignFirstResponder];
+    [self.pickerView removeFromSuperview];
+    [self.pickerView resignFirstResponder];
     self.searchBar.text = nil;
     
 }

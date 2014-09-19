@@ -61,6 +61,7 @@
 @property (strong, nonatomic) NSString* tableName;
 @property (strong, nonatomic) NSString* collName;
 @property (nonatomic) int uniqueID;
+@property (nonatomic) int randAdCounter;
 - (IBAction)showQRReader:(id)sender;
 
 - (IBAction)showMenu:(id)sender;
