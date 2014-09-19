@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>54BC29FC-D1D5-4994-9916-0A29775564B8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>toRead</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>68E1853C-1FCD-4C63-9869-A1A679DC695D</key>
+		<string>https://bitbucket.org/colibriltd/toread-clientios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>readiOS/toRead.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>68E1853C-1FCD-4C63-9869-A1A679DC695D</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/colibriltd/toread-clientios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>68E1853C-1FCD-4C63-9869-A1A679DC695D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>68E1853C-1FCD-4C63-9869-A1A679DC695D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>toread-clientios</string>
+		</dict>
+	</array>
+</dict>
+</plist>

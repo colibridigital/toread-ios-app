@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "15B08CCC18783CD000FE1C17"
-               BuildableName = "readiOS.app"
+               BuildableName = "toRead.app"
                BlueprintName = "toRead"
                ReferencedContainer = "container:toRead.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "15B08CF018783CD000FE1C17"
-               BuildableName = "readiOSTests.xctest"
+               BuildableName = "toReadTests.xctest"
                BlueprintName = "toReadTests"
                ReferencedContainer = "container:toRead.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "15B08CCC18783CD000FE1C17"
-            BuildableName = "readiOS.app"
+            BuildableName = "toRead.app"
             BlueprintName = "toRead"
             ReferencedContainer = "container:toRead.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "15B08CCC18783CD000FE1C17"
-            BuildableName = "readiOS.app"
+            BuildableName = "toRead.app"
             BlueprintName = "toRead"
             ReferencedContainer = "container:toRead.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "15B08CCC18783CD000FE1C17"
-            BuildableName = "readiOS.app"
+            BuildableName = "toRead.app"
             BlueprintName = "toRead"
             ReferencedContainer = "container:toRead.xcodeproj">
          </BuildableReference>

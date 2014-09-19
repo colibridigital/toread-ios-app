@@ -59,11 +59,6 @@
 		15B08CE718783CD000FE1C17 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B08CE518783CD000FE1C17 /* Main_iPad.storyboard */; };
 		15B08CEA18783CD000FE1C17 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B08CE918783CD000FE1C17 /* ViewController.m */; };
 		15B08CEC18783CD000FE1C17 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15B08CEB18783CD000FE1C17 /* Images.xcassets */; };
-		15B08CF318783CD000FE1C17 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CF218783CD000FE1C17 /* XCTest.framework */; };
-		15B08CF418783CD000FE1C17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD018783CD000FE1C17 /* Foundation.framework */; };
-		15B08CF518783CD000FE1C17 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B08CD418783CD000FE1C17 /* UIKit.framework */; };
-		15B08CFD18783CD000FE1C17 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 15B08CFB18783CD000FE1C17 /* InfoPlist.strings */; };
-		15B08CFF18783CD000FE1C17 /* readiOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B08CFE18783CD000FE1C17 /* readiOSTests.m */; };
 		15B08D0B18783E7900FE1C17 /* BookCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B08D0A18783E7900FE1C17 /* BookCollectionViewCell.m */; };
 		15B08D0D18783F7700FE1C17 /* BookCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15B08D0C18783F7700FE1C17 /* BookCollectionViewCell.xib */; };
 		15B08D111878408200FE1C17 /* BookCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15B08D101878408200FE1C17 /* BookCollectionView.m */; };
@@ -110,16 +105,6 @@
 		15EF459D18FBEE6700A77569 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EF459C18FBEE6700A77569 /* QuartzCore.framework */; };
 		15EF45A818FBF1ED00A77569 /* SideMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15EF45A618FBF1ED00A77569 /* SideMenuViewController.xib */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		15B08CF618783CD000FE1C17 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 15B08CC518783CD000FE1C17 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 15B08CCC18783CD000FE1C17;
-			remoteInfo = readiOS;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1501B3F618EC4C13007DD020 /* maths1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = maths1.jpg; sourceTree = "<group>"; };
@@ -203,7 +188,6 @@
 		15B08CE818783CD000FE1C17 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		15B08CE918783CD000FE1C17 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		15B08CEB18783CD000FE1C17 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		15B08CF118783CD000FE1C17 /* toReadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = toReadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15B08CF218783CD000FE1C17 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		15B08CFA18783CD000FE1C17 /* toReadTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "toReadTests-Info.plist"; sourceTree = "<group>"; };
 		15B08CFC18783CD000FE1C17 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -287,16 +271,6 @@
 				1576E4C519B5FA4900FF8D63 /* libGoogleAdMobAds.a in Frameworks */,
 				15B08CD518783CD000FE1C17 /* UIKit.framework in Frameworks */,
 				15B08CD118783CD000FE1C17 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		15B08CEE18783CD000FE1C17 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				15B08CF318783CD000FE1C17 /* XCTest.framework in Frameworks */,
-				15B08CF518783CD000FE1C17 /* UIKit.framework in Frameworks */,
-				15B08CF418783CD000FE1C17 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,7 +410,6 @@
 			isa = PBXGroup;
 			children = (
 				15B08CCD18783CD000FE1C17 /* toRead.app */,
-				15B08CF118783CD000FE1C17 /* toReadTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -714,24 +687,6 @@
 			productReference = 15B08CCD18783CD000FE1C17 /* toRead.app */;
 			productType = "com.apple.product-type.application";
 		};
-		15B08CF018783CD000FE1C17 /* toReadTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 15B08D0518783CD000FE1C17 /* Build configuration list for PBXNativeTarget "toReadTests" */;
-			buildPhases = (
-				15B08CED18783CD000FE1C17 /* Sources */,
-				15B08CEE18783CD000FE1C17 /* Frameworks */,
-				15B08CEF18783CD000FE1C17 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				15B08CF718783CD000FE1C17 /* PBXTargetDependency */,
-			);
-			name = toReadTests;
-			productName = readiOSTests;
-			productReference = 15B08CF118783CD000FE1C17 /* toReadTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -749,9 +704,6 @@
 							};
 						};
 					};
-					15B08CF018783CD000FE1C17 = {
-						TestTargetID = 15B08CCC18783CD000FE1C17;
-					};
 				};
 			};
 			buildConfigurationList = 15B08CC818783CD000FE1C17 /* Build configuration list for PBXProject "toRead" */;
@@ -768,7 +720,6 @@
 			projectRoot = "";
 			targets = (
 				15B08CCC18783CD000FE1C17 /* toRead */,
-				15B08CF018783CD000FE1C17 /* toReadTests */,
 			);
 		};
 /* End PBXProject section */
@@ -835,14 +786,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		15B08CEF18783CD000FE1C17 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				15B08CFD18783CD000FE1C17 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -882,23 +825,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		15B08CED18783CD000FE1C17 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				15B08CFF18783CD000FE1C17 /* readiOSTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		15B08CF718783CD000FE1C17 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 15B08CCC18783CD000FE1C17 /* toRead */;
-			targetProxy = 15B08CF618783CD000FE1C17 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		15B08CD918783CD000FE1C17 /* InfoPlist.strings */ = {
@@ -1056,46 +983,6 @@
 			};
 			name = Release;
 		};
-		15B08D0618783CD000FE1C17 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/readiOS.app/readiOS";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "readiOS/readiOS-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "readiOSTests/toReadTests-Info.plist";
-				PRODUCT_NAME = toReadTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		15B08D0718783CD000FE1C17 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/readiOS.app/readiOS";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "readiOS/readiOS-Prefix.pch";
-				INFOPLIST_FILE = "readiOSTests/toReadTests-Info.plist";
-				PRODUCT_NAME = toReadTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1113,15 +1000,6 @@
 			buildConfigurations = (
 				15B08D0318783CD000FE1C17 /* Debug */,
 				15B08D0418783CD000FE1C17 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		15B08D0518783CD000FE1C17 /* Build configuration list for PBXNativeTarget "toReadTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				15B08D0618783CD000FE1C17 /* Debug */,
-				15B08D0718783CD000FE1C17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
