@@ -134,6 +134,8 @@
     
     if ([responseMessage isEqualToString:@"Username already exists"]) {
         self.userExistence.hidden = NO;
+    }else if (responseMessage == NULL){
+        [self showWithCustomView:@"Something went wrong."];
     } else if ([responseMessage isEqualToString:@"New user created"]){
         
         NSLog(@"response: %@", responseMessage);

@@ -501,7 +501,12 @@
             
             if (data1 != nil) {
                 
-                [data1 writeToFile:pngFilePath1 atomically:YES];
+                NSError* error = nil;
+                UIImage *img = [UIImage imageWithData:data1];
+                
+                [UIImagePNGRepresentation(img) writeToFile:pngFilePath1 options:NSDataWritingAtomic error:&error];
+                
+               // [data1 writeToFile:pngFilePath1 atomically:YES];
                 
             } else {
                 NSLog(@"book cover object is nill");
@@ -515,15 +520,19 @@
             
             NSLog(@"old imageName %@", imageName);
             
-            //NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
-            NSString* pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
+            NSString* pngFilePath = [docDir stringByAppendingPathComponent:imageName];
+            //NSString* pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, imageName];
             NSLog(@"%@", pngFilePath);
             [self removeImage:pngFilePath];
             
             NSLog(@"moving book to the database");
             
             self.tableName = [NSString stringWithFormat:@"%@Books", [self.moveToListName lowercaseString]];
+            
             self.cellID = ID;
+
+            
+            //NSLog(@"id of the book %i", self.cellID);
             
             [self initiatePickerViewWithTableNames];
             
@@ -540,7 +549,7 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     [fileManager removeItemAtPath:filePath error:&error];
     if (error){
-        NSLog(@"%@", error);
+        NSLog(@"ERROR %@", error);
     }
 }
 

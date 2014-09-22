@@ -31,7 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *calendarPicker;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 
-@property (assign, nonatomic) NSInteger cellID;
+@property (nonatomic) NSInteger cellID;
 @property (weak, nonatomic) IBOutlet EDStarRating *starRating;
 //@property (weak, nonatomic) IBOutlet UILabel *starRatingLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;

@@ -103,8 +103,10 @@
     if ([responseMessage isEqualToString:@"Invalid username or password"]) {
         NSLog(@"can t login");
         self.wrongLoginMessage.hidden = NO;
+    } else if ([responseMessage isEqualToString: @"Server Down"]){
+        [self showWithCustomView:@"Something went wrong."];
     } else {
-        
+    
          NSLog(@"response: %@", responseMessage);
         
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial"];

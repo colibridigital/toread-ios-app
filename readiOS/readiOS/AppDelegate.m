@@ -74,7 +74,7 @@
         }
        // NSLog(@"syncing with the server");
         NSString *jsonString = [self performSyncRequest];
-        //NSLog(@"%@", jsonString);
+        NSLog(@"response: %@", jsonString);
         [self syncWithTheServer:jsonString];
         
     }
@@ -215,7 +215,7 @@
     
     isLogin = true;
     
-    NSString* responseMessage;
+    NSString* responseMessage = @"";
     
     NSMutableDictionary *json= [[NSMutableDictionary alloc] init];
     
@@ -272,11 +272,16 @@
     NSError *err;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
     
-   // NSLog(@"%@", jsonString);
+    int responseCode = [(NSHTTPURLResponse*)response statusCode];
+    NSLog(@"responseCode %i", responseCode);
     
-    responseMessage = [self parseResponse:responseData];
+    if (responseCode != 0) {
+        responseMessage = [self parseResponse:responseData];
+    } else {
+        responseMessage = @"Server Down";
+    }
     
-    if (![responseMessage isEqualToString:@"Invalid username or password"] || ![responseMessage isEqualToString:@"(null)"]) {
+    if (![responseMessage isEqualToString:@"Invalid username or password"] || ![responseMessage isEqualToString:@"(null)"] || ![responseMessage isEqualToString:@"Server Down"]) {
        // NSLog(@"i can authenticate now");
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -355,13 +360,26 @@
     
    // NSLog(@"%@", jsonString);
     
-    responseMessage = [self parseResponse:responseData];
+    if (responseData != nil && responseData != NULL) {
+        
+        NSLog(@"in here");
+        
+        @try{
+            responseMessage = [self parseResponse:responseData];
+        }
+        @catch (NSException * e) {
+            NSLog(@"say the server is downnnnnn");
+        }
+    } else {
+        NSLog(@"say the server is down");
+    }
+    
+  
     
     if (![responseMessage isEqualToString:@"Username already exists"] || ![responseMessage isEqualToString:@"(null)"]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    
     
     return responseMessage;
     
@@ -437,7 +455,7 @@
     
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-   // NSLog(@"%@", jsonString);
+    NSLog(@"%@", jsonString);
     
     return jsonString;
 }
@@ -536,6 +554,8 @@
     
     NSError *error;
     
+    
+    NSLog(@"syncing response: %@", response);
    // NSLog(@"%@", [[NSString alloc] initWithData:jsonResponseData encoding:NSUTF8StringEncoding]);
     
     NSDictionary* jsonResponseDict = [NSJSONSerialization
@@ -543,7 +563,7 @@
                                       options:0
                                       error:&error];
    
-   //NSLog(@"syncing details %@", jsonResponseDict);
+   NSLog(@"syncing details %@", jsonResponseDict);
 }
 
 - (void)createDatabaseEntries:(NSData*)jsonResponseData {
@@ -646,7 +666,7 @@
     responseMessage = [jsonResponseDict objectForKey:@"message"];
     
     // NSString *userName = [jsonResponseDict objectForKey:@"user_name"];
-    if (!isLogin && ![responseMessage isEqualToString:@"Username already exists"]) {
+    if (!isLogin && ![responseMessage isEqualToString:@"Username already exists"] ) {
         NSString *authToken = [[jsonResponseDict objectForKey:@"device"] objectForKey:@"auth_token"];
         NSString *deviceID = [[jsonResponseDict objectForKey:@"device"] objectForKey:@"tr_device_id"];
         
@@ -1423,6 +1443,8 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    NSLog(@"syncing with the server");
+    [self authenticateAndSyncRegularly];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -1449,8 +1471,8 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    NSLog(@"syncing with the server");
-    [self authenticateAndSyncRegularly];
+    //NSLog(@"syncing with the server");
+    //[self authenticateAndSyncRegularly];
     
 }
 
