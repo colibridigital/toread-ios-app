@@ -29,7 +29,7 @@
 @property (strong, nonatomic) UIPickerView *pickerView;
 @property (strong, nonatomic) NSArray *pickerViewData;
 @property (strong, nonatomic) NSMutableArray *tableNames;
-
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *authors;

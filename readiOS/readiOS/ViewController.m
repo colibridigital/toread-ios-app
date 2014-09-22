@@ -217,9 +217,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     
     NSLog(@"counter %i", self.randAdCounter);
     
-    if (self.randAdCounter % 5 == 0) {
+    if (self.randAdCounter % 7 == 0) {
         [self loadInterstitial];
-    } else if (self.randAdCounter % 7 == 0) {
+    } else if (self.randAdCounter % 17 == 0) {
         [self loadIAdinterstitial];
     }
     

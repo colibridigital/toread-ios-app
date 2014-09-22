@@ -107,6 +107,8 @@
         cell = [nib objectAtIndex:0];
     }
     
+    cell.searchBar = self.searchBar;
+    
     cell.backgroundColor = [UIColor blackColor];
     
     cell.bookTitle.text = [[[self.tableData objectAtIndex:indexPath.row] objectForKey:@"volumeInfo"] objectForKey:@"title"];
@@ -260,7 +262,6 @@
     
     [self.searchBar resignFirstResponder];
     
-    //self.searchBar.text = nil;
 }
 
 

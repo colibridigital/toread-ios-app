@@ -229,6 +229,8 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.pickerView removeFromSuperview];
+
+    [self.searchBar resignFirstResponder];
     
 }
 

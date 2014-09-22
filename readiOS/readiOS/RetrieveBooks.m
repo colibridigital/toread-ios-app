@@ -58,11 +58,16 @@
     
     NSError *error;
     
+    NSDictionary* object = nil;
+    
     // Construct a Array around the Data from the response
-    NSDictionary* object = [NSJSONSerialization
+    if (urlData != nil) {
+        
+        object = [NSJSONSerialization
                        JSONObjectWithData:urlData
                        options:0
                        error:&error];
+    }
     
     return object;
 }
@@ -72,17 +77,23 @@
     
     NSLog(@"parse json");
     
-    NSArray *items = [json objectForKey:@"items"];
+    NSArray *items = nil;
     
-    for (int i=0; i < [items count]; i++) {
-        NSLog(@"Item %.2i - Title  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"title"]);
-        NSLog(@"Item %.2i - Authors  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"authors"]);
-        NSLog(@"Item %.2i - Publisher  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"publisher"]);
-        NSLog(@"Item %.2i - Image Link  - %@", i+1, [[[items[i] objectForKey:@"volumeInfo"] objectForKey:@"imageLinks"] objectForKey:@"thumbnail"]);
-        NSLog(@"Item %.2i - Rating  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"averageRating"]);
-        NSLog(@"Item %.2i - ISBN - %@", i+1, [[[items[i] objectForKey:@"volumeInfo"] objectForKey:@"industryIdentifiers"][0] objectForKey:@"identifier"]);
-        NSLog(@"Item %.2i - Description  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"description"]);
+    if (json != nil) {
+    
+    
+        items = [json objectForKey:@"items"];
+    
+        for (int i=0; i < [items count]; i++) {
+            NSLog(@"Item %.2i - Title  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"title"]);
+            NSLog(@"Item %.2i - Authors  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"authors"]);
+            NSLog(@"Item %.2i - Publisher  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"publisher"]);
+            NSLog(@"Item %.2i - Image Link  - %@", i+1, [[[items[i] objectForKey:@"volumeInfo"] objectForKey:@"imageLinks"] objectForKey:@"thumbnail"]);
+            NSLog(@"Item %.2i - Rating  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"averageRating"]);
+            NSLog(@"Item %.2i - ISBN - %@", i+1, [[[items[i] objectForKey:@"volumeInfo"] objectForKey:@"industryIdentifiers"][0] objectForKey:@"identifier"]);
+            NSLog(@"Item %.2i - Description  - %@", i+1, [[items[i] objectForKey:@"volumeInfo"] objectForKey:@"description"]);
         
+        }
     }
     
     return items;
