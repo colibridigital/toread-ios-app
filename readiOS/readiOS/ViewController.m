@@ -384,6 +384,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         }
     }
   //  NSLog(@"getting cell %@", indexPath);
+    [self.searchBar resignFirstResponder];
     
     
 }

@@ -66,7 +66,9 @@
  
         NSString *jsonResponse = [self performSingleAuthentication];
         
-        if([self howManyDaysHavePast:[[NSUserDefaults standardUserDefaults] valueForKey:@"lastUpdated"] today:[NSDate date]]>=7) {
+        NSLog(@"current DATE: %@", [NSDate date]);
+        
+        if([self howManyDaysHavePast:[[NSUserDefaults standardUserDefaults] valueForKey:@"lastUpdated"] today:[NSDate date]]>=7 || [self howManyDaysHavePast:[[NSUserDefaults standardUserDefaults] valueForKey:@"lastUpdated"] today:[NSDate date]]==0) {
             NSLog(@"i need to request suggested books again");
             [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
         } else {
@@ -90,8 +92,11 @@
         //NSLog(@"starting the setup");
         
         NSString *jsonResponse = [self performSingleAuthentication];
-        
-        [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
+        if([self howManyDaysHavePast:[[NSUserDefaults standardUserDefaults] valueForKey:@"lastUpdated"] today:[NSDate date]]>=7 || [self howManyDaysHavePast:[[NSUserDefaults standardUserDefaults] valueForKey:@"lastUpdated"] today:[NSDate date]]==0) {
+            [self requestSuggestedBooksAndAddThemToTheDatabase:jsonResponse];
+        } else {
+            NSLog(@"I do not need to request the suggested books again");
+        }
         //NSLog(@"syncing with the server");
         [self getAllBooksFromServerAndCreateDatabase];
         
@@ -379,6 +384,10 @@
     if (![responseMessage isEqualToString:@"Username already exists"] || ![responseMessage isEqualToString:@"(null)"]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasAuthenticated"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastUpdated"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
     }
     
     return responseMessage;
@@ -803,8 +812,8 @@
     NSDate *startDate = lastDate;
     NSDate *endDate = today;
     
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *components = [gregorian components:NSDayCalendarUnit fromDate:startDate toDate:endDate options:0];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *components = [gregorian components:NSCalendarUnitDay fromDate:startDate toDate:endDate options:0];
     int days = [components day];
     NSLog(@"days passed: %i", days);
     

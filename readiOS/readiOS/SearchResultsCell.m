@@ -70,7 +70,7 @@
     
     NSLog(@"original tableNames data: %lu", (unsigned long)self.appDelegate.tableNames.count);
     
-    [self.tableNames insertObject:@"Create New List" atIndex:1];
+    [self.tableNames insertObject:@"Create New List" atIndex:0];
     
     NSMutableArray *newTable = [NSMutableArray array];
     
